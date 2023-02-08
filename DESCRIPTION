@@ -13,3 +13,5 @@ Imports:
     data.table,
     dplyr,
     tibble
+URL: https://github.com/timmarchand/dtagger
+BugReports: https://github.com/timmarchand/dtagger/issues

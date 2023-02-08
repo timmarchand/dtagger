@@ -3,6 +3,7 @@
 export(d_grepl)
 export(d_grepl_case)
 export(d_sub)
+export(dtag_hesitation)
 export(dtag_possessives)
 export(quick_conc)
 import(data.table)
