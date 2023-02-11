@@ -17,11 +17,13 @@ negative_tags <- c("NN", "AWL", "PIN", "TTR", "JJ", "TIME", "PLACE", "RB")
 
 ALL_corpora <-  path %>%
   fs::dir_info(recurse = TRUE) %>%
+  # target only folders with $$
+  filter(str_detect(path, "\\$\\$")) %>%
   # pull the path column
   pull(path) %>%
-  map_df(~readtext::readtext(.x, docvarsfrom = "filepaths")) %>%
+  map_df(~readtext::readtext(.x, docvarsfrom = "filepaths", dvsep = "\\$\\$")) %>%
   # create corpus var from filepath and add wc (word count)
-  transmute(corpus = str_extract(docvar4, "(?<=texts/)[^/]+"),
+  transmute(corpus = str_extract(docvar2, "(?<=texts/)[^/]+"),
             doc_id = str_remove(doc_id, "\\.txt$"),
             text)
 
