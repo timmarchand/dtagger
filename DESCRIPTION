@@ -2,8 +2,7 @@ Package: dtagger
 Title: Suite of Functions to Tag Text for Multidimensional Analysis
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+    person("Tim", "Marchand", , "timmarchand@gmail.com", role = c("aut", "cre"))
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -15,7 +14,8 @@ Imports:
     tibble,
     purrr,
     udpipe,
-    stringr
+    stringr,
+    magrittr
 URL: https://github.com/timmarchand/dtagger
 BugReports: https://github.com/timmarchand/dtagger/issues
 Depends: 

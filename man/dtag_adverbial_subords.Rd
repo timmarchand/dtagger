@@ -7,13 +7,13 @@
 dtag_adverbial_subords(x)
 }
 \arguments{
-\item{x}{A character vector of strings that have been tokenized and tagged with ST tags}
+\item{x}{A character vector of strings that have been tokenized and tagged with ST tags.}
 }
 \value{
 A character vector with adverbial subordinating conjunctions <OSUB> tags added.
 }
 \description{
-This function tags adverbial subordinating conjunctions in text.
+This function tags adverbial subordinating conjunctions in text that has been previously ST- tagged and tokenized.
 }
 \examples{
 dtag_adverbial_subords(c("Since_RB",  "he_PRP" , "left_VBD"))

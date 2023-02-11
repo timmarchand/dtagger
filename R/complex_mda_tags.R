@@ -1,103 +1,6 @@
 #' @title complexTagging
-#' @param x character vector of ST tagged text, tokenized.
-#'
-#'
-#'
-#' @describeIn complexTagging tag conjuncts
-dtag_conjuncts <- function(x){
-conjuncts1 <- conjuncts2 <- conjuncts3 <- conjuncts4 <- conjuncts5 <- NULL
-conjuncts6 <- conjuncts7 <- conjuncts8 <- conjuncts9 <- conjuncts10 <- NULL
-null1 <- null2 <- null3 <- null4 <- null5 <- null6 <- null7  <- NULL
-null8 <- null8a <- null9<- null9a <- null10 <- null10a <- null10b   <- NULL
-
- x <- data.table(x)
-
-  x[, conjuncts1 := d_grepl(x, "\\belse_|\\baltogether_|\\brather_") &
-      str_detect(shift(x, type="lag", n=1), "_\\W")]
-  x[, null1 := d_grepl(shift(x, type = "lag", n=1), "\\belse_|\\baltogether_|\\brather_") &
-      str_detect(x, "_\\W")]
-
-  x[, conjuncts2 := d_grepl(x, "\\balternatively_|\\bconsequently_|\\bconversely_|\\beg_|\\be\\.g\\._|\\bfurthermore_|\\bhence_|\\bhowever_|\\bi\\.e\\._|\\binstead_|\\blikewise_|\\bmoreover_|\\bnamely_|\\bnevertheless_|\\bnonetheless_|\\bnotwithstanding_|\\botherwise_|\\bsimilarly_|\\btherefore_|\\bthus_|\\bviz\\.") &
-      str_detect(shift(x, type="lag", n=1), "_\\W")]
-  x[, null2 := d_grepl(shift(x, type = "lag", n=1), "\\balternatively_|\\bconsequently_|\\bconversely_|\\beg_|\\be\\.g\\._|\\bfurthermore_|\\bhence_|\\bhowever_|\\bi\\.e\\._|\\binstead_|\\blikewise_|\\bmoreover_|\\bnamely_|\\bnevertheless_|\\bnonetheless_|\\bnotwithstanding_|\\botherwise_|\\bsimilarly_|\\btherefore_|\\bthus_|\\bviz\\.") &
-      str_detect(x, "_\\W")]
-
-  x[, conjuncts3 := d_grepl(x, "\\bin_") &
-      d_grepl(shift(x, type="lead", n=1), "\\bcomparison_|\\bcontrast_|\\bparticular_|\\baddition_|\\bconclusion_|\\bconsequence_|\\bsum_|\\bsummary_")]
-  x[, null3 := d_grepl(shift(x, type= "lag", n=1), "\\bin_") &
-      d_grepl(x, "\\bcomparison_|\\bcontrast_|\\bparticular_|\\baddition_|\\bconclusion_|\\bconsequence_|\\bsum_|\\bsummary_")]
-
-  x[, conjuncts4 := d_grepl(x, "\\bfor_") &
-      d_grepl(shift(x, type="lead", n=1), "\\bexample_|\\binstance_")]
-  x[, null4 := d_grepl(shift(x, type= "lag", n=1), "\\bfor_") &
-      d_grepl(x, "\\bexample_|\\binstance_")]
-
-  x[, conjuncts5 := d_grepl(x, "\\binstead_") &
-      d_grepl(shift(x, type="lead", n=1), "\\bof_")]
-  x[, null5 := d_grepl(shift(x, type= "lag", n=1), "\\binstead_") &
-      d_grepl(x, "\\bof_")]
-
-  x[, conjuncts6 := d_grepl(x, "\\bby_") &
-      d_grepl(shift(x, type="lead", n=1), "\\bcontrast_|\\bcomparison_")]
-  x[, null6 := d_grepl(shift(x, type = "lag", n=1), "\\bby_") &
-      d_grepl(x, "\\bcontrast_|\\bcomparison_")]
-
-  x[, conjuncts7 := d_grepl(x, "\\bin_") &
-      d_grepl(shift(x, type="lead", n=1), "\\bany_") &
-      d_grepl(shift(x, type="lead", n=2), "\\bevent_|\\bcase_")]
-  x[, null7 := d_grepl(shift(x, type = "lag", n=1), "\\bin_") &
-      d_grepl(x, "\\bany_") &
-      d_grepl(shift(x, type="lead", n=1), "\\bevent_|\\bcase_")]
-
-  x[, conjuncts8 := d_grepl(x, "\\bin_") &
-      d_grepl(shift(x, type="lead", n=1), "\\bother_") &
-      d_grepl(shift(x, type="lead", n=2), "\\bwords_")]
-  x[, null8 := d_grepl(shift(x, type = "lag", n=1), "\\bin_") &
-      d_grepl(x, "\\bother_") &
-      d_grepl(shift(x, type="lead", n=1), "\\bwords_")]
-  x[, null8a := d_grepl(shift(x, type = "lag", n=2), "\\bin_") &
-      d_grepl(shift(x, type="lag", n=1), "\\bother_") &
-      d_grepl(x, "\\bwords_")]
-
-  x[, conjuncts9 := d_grepl(x, "\\bas_") &
-      d_grepl(shift(x, type="lead", n=1), "\\ba_") &
-      d_grepl(shift(x, type="lead", n=2), "\\bresult_|\\bconsequence_")]
-  x[, null9 := d_grepl(shift(x, type = "lag", n=1), "\\bas_") &
-      d_grepl(x, "\\ba_") &
-      d_grepl(shift(x, type="lead", n=1), "\\bresult_|\\bconsequence_")]
-  x[, null9a := d_grepl(shift(x, type = "lag", n=2), "\\bas_") &
-      d_grepl(shift(x, type = "lag", n=1), "\\ba_") &
-      d_grepl(x, "\\bresult_|\\bconsequence_")]
-
-  x[, conjuncts10 := d_grepl(x, "\\bon_") &
-      d_grepl(shift(x, type = "lead", n=1), "\\bthe_") &
-      d_grepl(shift(x, type = "lead", n=2), "\\bother_") &
-      d_grepl(shift(x, type = "lead", n=3), "\\bhand_")]
-  x[, null10 := d_grepl(shift(x, type = "lag", n=1), "\\bon_") &
-      d_grepl(x, "\\bthe_") &
-      d_grepl(shift(x, type = "lead", n=1), "\\bother_") &
-      d_grepl(shift(x, type = "lead", n=2), "\\bhand_")]
-  x[, null10a := d_grepl(shift(x, type = "lag", n=2), "\\bon_") &
-      d_grepl(shift(x, type = "lag", n=1), "\\bthe_") &
-      d_grepl(x, "\\bother_") &
-      d_grepl(shift(x, type = "lead", n=1), "\\bhand_")]
-  x[, null10b := d_grepl(shift(x, type = "lag", n=3), "\\bon_") &
-      d_grepl(shift(x, type = "lag", n=2), "\\bthe_") &
-      d_grepl(shift(x, type = "lag", n=1), "\\bother_") &
-      d_grepl(x, "\\bhand_")]
-
-  x[conjuncts1 == TRUE | conjuncts2 == TRUE | conjuncts3 == TRUE | conjuncts4 == TRUE |
-    conjuncts5 == TRUE | conjuncts6 == TRUE | conjuncts7 == TRUE | conjuncts8 == TRUE |
-    conjuncts9 == TRUE | conjuncts10 == TRUE,
-    x := d_sub(x, "$", " <CONJ>")]
-  x[null1 == TRUE | null2 == TRUE | null3 == TRUE | null4 == TRUE | null4 == TRUE |
-    null5 == TRUE | null6 == TRUE | null7 == TRUE | null8 == TRUE | null8a == TRUE |
-    null9 == TRUE | null9a == TRUE | null10 == TRUE | null10a == TRUE | null10b == TRUE,
-    x := d_sub(x, "_\\w+", "_NULL")]
-
-  return(x$x)
-  }
-
+#' @param x Character vector of _ST tagged text, tokenized.
+#' @return Character vector of tokenized text with <MDA> tags appended
 #' @describeIn complexTagging tag predicative adjectives
 
 dtag_pred_adj <- function(x){
@@ -658,24 +561,24 @@ that_obj1 <- NULL
 
 #' @describeIn complexTagging tag WH Relative Clauses on Subject Position
 dtag_wh_subj <- function(x){
- that_subj1 <- that_subj2 <- that_subj3 <- NULL
+ what_subj1 <- what_subj2 <- what_subj3 <- NULL
 
   x <- data.table(x)
-  x[, that_subj1 := !d_grepl(shift(x, type="lag", n=3), "\\bask_|\\basks_|\\basked_|\\basking_|\\btell_|\\btells_|\\btold_|\\btelling_") &
+  x[, what_subj1 := !d_grepl(shift(x, type="lag", n=3), "\\bask_|\\basks_|\\basked_|\\basking_|\\btell_|\\btells_|\\btold_|\\btelling_") &
       d_grepl(shift(x, type="lag", n=1), "_N") &
       d_grepl(x, "\\bthat_") &
       (d_grepl(shift(x, type="lead", n=1), "_DT|_QUAN|_CD|\\bit_|_JJ|_NNS|_NNP|_PRPS|\\bi_|\\bwe_|\\bhe_|\\bshe_|\\bthey_") |
          (d_grepl(shift(x, type="lead", n=1), "_N") &
             d_grepl(shift(x, type="lead", n=2), "_POS")))]
 
-  x[, that_subj2 := !d_grepl(shift(x, type="lag", n=3), "\\bask_|\\basks_|\\basked_|\\basking_|\\btell_|\\btells_|\\btold_|\\btelling_") &
+  x[, what_subj2 := !d_grepl(shift(x, type="lag", n=3), "\\bask_|\\basks_|\\basked_|\\basking_|\\btell_|\\btells_|\\btold_|\\btelling_") &
       d_grepl(shift(x, type="lag", n=1), "_N") &
       d_grepl(x, "\\bthat_") &
       d_grepl(shift(x, type="lead", n=1), "_RB|_XX0") &
       (d_grepl(shift(x, type="lead", n=2), "_MD|_V") |
        d_grepl(shift(x, type="lead", n=2), str_flatten(sh[c("do" , "have" , "be")], "|")))]
 
-  x[, that_subj3 := !d_grepl(shift(x, type="lag", n=3), "\\bask_|\\basks_|\\basked_|\\basking_|\\btell_|\\btells_|\\btold_|\\btelling_") &
+  x[, what_subj3 := !d_grepl(shift(x, type="lag", n=3), "\\bask_|\\basks_|\\basked_|\\basking_|\\btell_|\\btells_|\\btold_|\\btelling_") &
       d_grepl(shift(x, type="lag", n=1), "_N") &
       d_grepl(x, "\\bthat_") &
       d_grepl(shift(x, type="lead", n=1), "_RB|_XX0") &
@@ -683,7 +586,7 @@ dtag_wh_subj <- function(x){
       (d_grepl(shift(x, type="lead", n=3), "_MD|_V") |
       d_grepl(shift(x, type="lead", n=3), str_flatten(sh[c("do" , "have" , "be")], "|")))]
 
-  x[that_subj1 == TRUE | that_subj2 == TRUE | that_subj3 == TRUE,
+  x[what_subj1 == TRUE | what_subj2 == TRUE | what_subj3 == TRUE,
     x := d_sub(x, "$", " <WHSUB>")]
 
   return(x$x)
