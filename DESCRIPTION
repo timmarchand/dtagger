@@ -12,6 +12,12 @@ RoxygenNote: 7.1.2
 Imports: 
     data.table,
     dplyr,
-    tibble
+    tibble,
+    purrr,
+    udpipe,
+    stringr
 URL: https://github.com/timmarchand/dtagger
 BugReports: https://github.com/timmarchand/dtagger/issues
+Depends: 
+    R (>= 2.10)
+LazyData: true
