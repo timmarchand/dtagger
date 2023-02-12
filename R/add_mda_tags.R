@@ -1,16 +1,18 @@
-#' @title Add MDA Tags
+#' @title Add <MDA> Tags
 #'
-#' @description Adds MDA tags to a given text. The text must already include ST tags and tokenized.
+#' @description Adds <MDA> tags to a given text. The text must already include _ST tags and tokenized.
 #'
 #' @param x character string
-#' @param hesitation logical. If \code{TRUE}, hesitation markers are extracted from the text
+#' @param mda_hesitation logical. If \code{TRUE}, hesitation markers are extracted from the text.
+#' Experimental feature - should hesitation markers be excluded before tagging?
+#' Regex for the hesitation markers is the same as the default for \code{dtag_hesitation}, but can be set using the regex argument.
 #' @param progress logical. If \code{TRUE}, a progress message is printed
 #' @import data.table
 #' @import tibble
 #' @import dplyr
 #' @import purrr
 #' @import stringr
-#' @return character string
+#' @return character string with <MDA> tags added
 #'
 #' @examples
 #' text <- c("I_PPSS", "have_VB", "a_DET", "dog_NN")
@@ -18,20 +20,20 @@
 #'
 #' @export
 #'
-add_mda_tags <- function(x, hesitation = TRUE, progress = FALSE){
+add_mda_tags <- function(x, mda_hesitation = TRUE, progress = FALSE,...){
 if(progress){message("\nAdding MDA tags to ", x)}
- # # tag and extract hesitation markers
-if(hesitation){
- hesitations_extracted <-
-   dtag_hesitation(x) %>%
+ # # tag and extract mda_hesitation markers
+if(mda_hesitation){
+ mda_hesitations_extracted <-
+   dtag_hesitation(x,...) %>%
     enframe() %>%
-    group_split(hesitation = str_detect(value, "HSTN")) %>%
-    map(~select(.x, -hesitation))
+    group_split(mda_hesitation = str_detect(value, "HSTN")) %>%
+    map(~select(.x, -mda_hesitation))
 
-x <- hesitations_extracted[[1]] %>% deframe
-nms <- hesitations_extracted[[1]] %>% pull(name)
+x <- mda_hesitations_extracted[[1]] %>% deframe
+nms <- mda_hesitations_extracted[[1]] %>% pull(name)
 
-if(length(hesitations_extracted) < 2){hesitations_extracted[2] <- list(c())}
+if(length(mda_hesitations_extracted) < 2){mda_hesitations_extracted[2] <- list(c())}
 }
 
 
@@ -107,11 +109,11 @@ result <-
    remove_duplicated_tags()
 
 
-if(hesitation){
+if(mda_hesitation){
    result <- result %>%
      enframe() %>%
      mutate(name = nms) %>% # replace name with original index position
-   bind_rows(hesitations_extracted[[2]]) %>%
+   bind_rows(mda_hesitations_extracted[[2]]) %>%
    arrange(name) %>%
    pull(value) }
 

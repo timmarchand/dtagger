@@ -1,6 +1,6 @@
 #' @importFrom  utils globalVariables
 
-globs <-c(".", "docvar4", "doc_id", "text", "st_tags", "log_midpipe",
+globs <-c(".", "docvar2", "doc_id", "text", "st_tags", "log_midpipe",
 "mda_tags", "tagged_text", "separate", "corpus", "feature", "biber_base",
 "biber_mean", "biber_sd", "dimension", "detail", "zscore", "dscore",
 "pivot_wider", "Other", "unnest", "wordcount", "pred_1", "pred_2",

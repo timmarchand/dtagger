@@ -2,22 +2,24 @@
 % Please edit documentation in R/add_mda_tags.R
 \name{add_mda_tags}
 \alias{add_mda_tags}
-\title{Add MDA Tags}
+\title{Add <MDA> Tags}
 \usage{
-add_mda_tags(x, hesitation = TRUE, progress = FALSE)
+add_mda_tags(x, mda_hesitation = TRUE, progress = FALSE, ...)
 }
 \arguments{
 \item{x}{character string}
 
-\item{hesitation}{logical. If \code{TRUE}, hesitation markers are extracted from the text}
+\item{mda_hesitation}{logical. If \code{TRUE}, hesitation markers are extracted from the text.
+Experimental feature - should hesitation markers be excluded before tagging?
+Regex for the hesitation markers is the same as the default for \code{dtag_hesitation}, but can be set using the regex argument.}
 
 \item{progress}{logical. If \code{TRUE}, a progress message is printed}
 }
 \value{
-character string
+character string with <MDA> tags added
 }
 \description{
-Adds MDA tags to a given text. The text must already include ST tags and tokenized.
+Adds <MDA> tags to a given text. The text must already include _ST tags and tokenized.
 }
 \examples{
 text <- c("I_PPSS", "have_VB", "a_DET", "dog_NN")
