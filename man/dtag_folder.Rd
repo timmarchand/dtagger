@@ -4,18 +4,31 @@
 \alias{dtag_folder}
 \title{dtag_folder}
 \usage{
-dtag_folder(path, n = NULL)
+dtag_folder(path, n = NULL, ST = FALSE)
 }
 \arguments{
-\item{path}{A character string denoting the folder containing the text files.}
+\item{path}{A character string denoting the folder containing the target folders (at any level).}
 
 \item{n}{An optional argument denoting the maximum number of text files to be analyzed.}
+
+\item{ST}{Logical argument denoting whether the text files have _ST tags included already.}
 }
 \value{
 A list of dataframes containing the tagged texts, individual and corpus-level scores for each dimension of the text, and word counts.
 }
 \description{
-This function takes in a path and an optional argument for the number of texts to be analyzed. It then reads the text files in the folder, adds stylistic and multidimensional analysis tags, and returns a list of dataframes containing the tagged texts, individual and corpus-level scores for each dimension of the text, and word counts.
+Tag a folder of plain text files with <MDA> tags
+}
+\details{
+This function takes in a path and an optional argument for the number of texts to be analyzed.
+It then reads the text files in the folder, adds Stanford _ST  and multidimensional analysis <MDA> tags,
+and returns a list of tibbles containing the tagged texts, individual and corpus-level scores
+for each dimension of the text, and word counts.
+
+The target texts to be tagged should be placed in folders with $$ prefixed on the folder name. The function will then
+read in any text files from the target folders, and retrieve the folder names as the "corpus" variable.
+
+If the texts have already been tagged with Stanford _ST tags, choose the option \code{ST = TRUE}.
 }
 \examples{
 \dontrun{
