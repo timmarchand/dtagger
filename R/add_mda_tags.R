@@ -5,8 +5,9 @@
 #' @param x character string
 #' @param mda_hesitation logical. If \code{TRUE}, hesitation markers are extracted from the text.
 #' Experimental feature - should hesitation markers be excluded before tagging?
-#' Regex for the hesitation markers is the same as the default for \code{dtag_hesitation}, but can be set using the regex argument.
+#' Regex for the hesitation markers is the same as the default for \code{dtag_hesitation}, but can be set using the regex argument. See \code{\link{dtag_hesitation}} for details.
 #' @param progress logical. If \code{TRUE}, a progress message is printed
+#' @param ... Additional arguments to pass on.
 #' @import data.table
 #' @import tibble
 #' @import dplyr

@@ -11,9 +11,11 @@ add_mda_tags(x, mda_hesitation = TRUE, progress = FALSE, ...)
 
 \item{mda_hesitation}{logical. If \code{TRUE}, hesitation markers are extracted from the text.
 Experimental feature - should hesitation markers be excluded before tagging?
-Regex for the hesitation markers is the same as the default for \code{dtag_hesitation}, but can be set using the regex argument.}
+Regex for the hesitation markers is the same as the default for \code{dtag_hesitation}, but can be set using the regex argument. See \code{\link{dtag_hesitation}} for details.}
 
 \item{progress}{logical. If \code{TRUE}, a progress message is printed}
+
+\item{...}{Additional arguments to pass on.}
 }
 \value{
 character string with <MDA> tags added

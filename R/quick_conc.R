@@ -16,7 +16,9 @@
 #' x <- c("The", "cat", "sat", "on", "the", "mat")
 #' index <- c("cat", "sat")
 #' quick_conc(x, index, n = 2)
-#' x <- "The dog barked loudly, alerting the neighbors of potential danger. A nearby park seemed like the perfect spot for the dog and it quickly made its way there."
+#' x <- "The dog barked loudly, alerting the neighbors of potential danger.
+#' A nearby park seemed like the perfect spot for the dog and
+#' it quickly made its way there."
 #' quick_conc(x, index = "dog", n = 3, tokenize = TRUE, separated = TRUE)
 #' quick_conc(x, index = c(4,8,12), tokenize = TRUE)
 #'

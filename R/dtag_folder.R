@@ -9,9 +9,12 @@
 #' read in any text files from the target folders, and retrieve the folder names as the "corpus" variable.
 #'
 #' If the texts have already been tagged with Stanford _ST tags, choose the option \code{ST = TRUE}.
+#'
+#' Otherwise, the function add_st_tags() will run over the texts, for which it is necessary to have a udpipe model loaded.See \code{\link{add_st_tags}} for details.
 #' @param path A character string denoting the folder containing the target folders (at any level).
 #' @param n An optional argument denoting the maximum number of text files to be analyzed.
 #' @param ST Logical argument denoting whether the text files have _ST tags included already.
+#' @param ... Additional arguments to passed on.
 #' @return A list of dataframes containing the tagged texts, individual and corpus-level scores for each dimension of the text, and word counts.
 #' @importFrom fs dir_info
 #' @importFrom readtext readtext
@@ -20,7 +23,7 @@
 #' @examples
 #' \dontrun{
 #' dtag_folder("path_to_folder")}
-dtag_folder <- function(path, n = NULL, ST = FALSE){
+dtag_folder <- function(path, n = NULL, ST = FALSE, ...){
 
 
 tags_to_count <- c("<AMP>", "<ANDC>", "<BEMA>", "<CAUS>", "<CONT>", "<DEMP>",
@@ -60,12 +63,12 @@ if(ST == TRUE){ALL <- ALL_corpora %>%
 if(ST == FALSE){
 ALL <- ALL_corpora %>%
   mutate(st_tags = map(text,
-                       ~add_st_tags(.x, hesitation = FALSE),
+                       ~add_st_tags(.x, st_hesitation = FALSE),
                        .progress = "(1/4) Tagging ST tags")) }
 
 ALL <- ALL %>%
   mutate(mda_tags = map(st_tags,
-                        ~add_mda_tags(.x, hesitation = TRUE),
+                        ~add_mda_tags(.x, mda_hesitation = TRUE),
                         .progress = "(2/4) Tagging MDA tags")) %>%
   log_midpipe(message("(3/4) Compiling the tagged text")) %>%
   mutate(tagged_text = map(mda_tags, ~str_flatten(.x, " ")) %>%

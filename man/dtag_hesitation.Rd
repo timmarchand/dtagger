@@ -9,7 +9,7 @@ dtag_hesitation(x, regex = "\\\\berm?\\\\b|\\\\bum\\\\b")
 \arguments{
 \item{x}{A character vector.}
 
-\item{regex}{A regular expression (default \\berm?\\b|\\bum\\b).}
+\item{regex}{A regular expression (default \\berm?\\b|\\bum\\b). The regex expression is case insensitive by default.}
 }
 \value{
 A character vector with hesitation tags.

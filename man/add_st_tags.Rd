@@ -12,9 +12,11 @@ add_st_tags(x, mdl = udmodel, st_hesitation = FALSE, tokenized = FALSE, ...)
 \item{mdl}{A model object of class \code{udpipe_model}.}
 
 \item{st_hesitation}{Logical. Experimental feature - should hesitation markers be excluded before tagging? Set to TRUE to exclude.
-Regex for the hesitation markers are the same as the default for \code{dtag_hesitation}, but can be set using the regex argument.}
+Regex for the hesitation markers are the same as the default for \code{dtag_hesitation}, but can be set using the regex argument. See \code{\link{dtag_hesitation}} for details.}
 
 \item{tokenized}{Logical. Set to TRUE in case text has already been tokenized.}
+
+\item{...}{Additional arguments to pass on.}
 }
 \value{
 A character vector containing the tagged text.

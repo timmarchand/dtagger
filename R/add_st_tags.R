@@ -7,8 +7,9 @@
 #' @param x A character vector containing the text to be tagged.
 #' @param mdl A model object of class \code{udpipe_model}.
 #' @param st_hesitation Logical. Experimental feature - should hesitation markers be excluded before tagging? Set to TRUE to exclude.
-#' Regex for the hesitation markers are the same as the default for \code{dtag_hesitation}, but can be set using the regex argument.
+#' Regex for the hesitation markers are the same as the default for \code{dtag_hesitation}, but can be set using the regex argument. See \code{\link{dtag_hesitation}} for details.
 #' @param tokenized Logical. Set to TRUE in case text has already been tokenized.
+#' @param ... Additional arguments to pass on.
 #' @return A character vector containing the tagged text.
 #'
 #' @export
@@ -19,7 +20,6 @@
 add_st_tags <- function(x, mdl = udmodel, st_hesitation = FALSE, tokenized = FALSE, ...){
   # check to see if udpipe is loaded, load as required
    stopifnot("Udpipe model not loaded. Initialise first with init_udpipe_model()" = exists("udmodel"))
-
 
   # correction for missing spaces after commas and full stops
 

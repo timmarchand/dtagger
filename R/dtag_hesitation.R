@@ -2,7 +2,7 @@
 #' @title Add hesitation markers
 #' @description Add hesitation marker <HSTN> to a vector of tokenized strings
 #' @param x A character vector.
-#' @param regex A regular expression (default \\berm?\\b|\\bum\\b).
+#' @param regex A regular expression (default \\berm?\\b|\\bum\\b). The regex expression is case insensitive by default.
 #' @return A character vector with hesitation tags.
 #' @export
 #'

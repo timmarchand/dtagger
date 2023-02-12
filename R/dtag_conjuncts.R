@@ -1,23 +1,22 @@
 #' @title Tag conjuncts
 #'
-#' @description This function tags conjuncts in text that has been previously ST- tagged and tokenized.
-#' @details The function adds the <CONJ> tag to the relevant token. In case of conjuncts that are part of a mulit-word expression (e.g. in_IN addition_NN), the function adds the <CONJ> tag to the first token, and a _NULL tag to the second (e.g. "in_IN <CONJ>" , "addition_NULL").
+#' @description This function tags conjuncts in text that has been previously _ST tagged and tokenized.
+#' @details The function adds the <CONJ> tag to the relevant token.
 #'
-#' @param x A character vector of strings that have been tokenized and tagged with ST tags.
+#' In case of conjuncts that are part of a multi-word expression (e.g. in_IN addition_NN), the function adds the <CONJ> tag to the first token, and a _NULL tag to the second (e.g. "in_IN <CONJ>" , "addition_NULL").
+#'
+#' @param x A character vector of strings that have been tokenized and tagged with _ST tags.
 #'
 #' @return A character vector with adverbial subordinating conjunctions <CONJ> tags added.
 #'
 #' @examples
-#' \dontrun{ x <- c("In_IN", "addition_NN", ",_,", "the_DT", "project_NN", "went_VBD", "way_NN", "over_RB", "budget_NN", "._.")
+#' \dontrun{ x <- c("In_IN", "addition_NN", ",_,", "the_DT", "project_NN",
+#' "went_VBD", "way_NN", "over_RB", "budget_NN", "._.")
 #' dtag_conjuncts(x)
 #' }
 #'
 #' @export
 dtag_conjuncts <- function(x){
-conjuncts1 <- conjuncts2 <- conjuncts3 <- conjuncts4 <- conjuncts5 <- NULL
-conjuncts6 <- conjuncts7 <- conjuncts8 <- conjuncts9 <- conjuncts10 <- NULL
-null1 <- null2 <- null3 <- null4 <- null5 <- null6 <- null7  <- NULL
-null8 <- null8a <- null9<- null9a <- null10 <- null10a <- null10b   <- NULL
 
  x <- data.table(x)
 

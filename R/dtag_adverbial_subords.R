@@ -1,8 +1,8 @@
 #' Tag Adverbial Subordinating Conjunctions
 #'
-#' This function tags adverbial subordinating conjunctions in text that has been previously ST- tagged and tokenized.
+#' This function tags adverbial subordinating conjunctions in text that has been previously _ST tagged and tokenized.
 #'
-#' @param x A character vector of strings that have been tokenized and tagged with ST tags.
+#' @param x A character vector of strings that have been tokenized and tagged with _ST tags.
 #'
 #' @return A character vector with adverbial subordinating conjunctions <OSUB> tags added.
 #'

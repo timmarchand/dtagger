@@ -4,7 +4,7 @@
 \alias{dtag_folder}
 \title{dtag_folder}
 \usage{
-dtag_folder(path, n = NULL, ST = FALSE)
+dtag_folder(path, n = NULL, ST = FALSE, ...)
 }
 \arguments{
 \item{path}{A character string denoting the folder containing the target folders (at any level).}
@@ -12,6 +12,8 @@ dtag_folder(path, n = NULL, ST = FALSE)
 \item{n}{An optional argument denoting the maximum number of text files to be analyzed.}
 
 \item{ST}{Logical argument denoting whether the text files have _ST tags included already.}
+
+\item{...}{Additional arguments to passed on.}
 }
 \value{
 A list of dataframes containing the tagged texts, individual and corpus-level scores for each dimension of the text, and word counts.
@@ -29,6 +31,8 @@ The target texts to be tagged should be placed in folders with $$ prefixed on th
 read in any text files from the target folders, and retrieve the folder names as the "corpus" variable.
 
 If the texts have already been tagged with Stanford _ST tags, choose the option \code{ST = TRUE}.
+
+Otherwise, the function add_st_tags() will run over the texts, for which it is necessary to have a udpipe model loaded.See \code{\link{add_st_tags}} for details.
 }
 \examples{
 \dontrun{
