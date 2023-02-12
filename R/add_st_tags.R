@@ -15,9 +15,24 @@
 #' @export
 #'
 #' @importFrom  udpipe udpipe_annotate
-
+#' @examples
+#' \dontrun{
+#' # Example text:
+#' text <- "This is an example sentence to be tagged"
+#' # Example speech, tokenized:
+#' speech <- c("I","don't", "know" ,  "erm" ,",", "whether" , "to" ,
+#' "include" ,"hesitation" , "markers", ".")
+#' # Initiate udpipe model
+#' init_udpipe_model()
+#' # Tag text
+#' add_st_tags(text)
+#' # Tag speech
+#' add_st_tags(speech, st_hesitation = TRUE, tokenized = TRUE)}
 
 add_st_tags <- function(x, mdl = udmodel, st_hesitation = FALSE, tokenized = FALSE, ...){
+
+    if(tokenized){x <- d_flatten_text(x)}
+
   # check to see if udpipe is loaded, load as required
    stopifnot("Udpipe model not loaded. Initialise first with init_udpipe_model()" = exists("udmodel"))
 
@@ -29,7 +44,11 @@ add_st_tags <- function(x, mdl = udmodel, st_hesitation = FALSE, tokenized = FAL
               str_split("\\s|(?=[?!,.])") %>%
               map(~str_subset(.x, ".+")) %>%
               pluck(1)
- # # tag and extract st_hesitation markers
+ #
+
+
+
+ # tag and extract st_hesitation markers
 if(st_hesitation){
 
  st_hesitations_extracted <-
@@ -44,10 +63,7 @@ nms <- st_hesitations_extracted[[1]] %>% pull(name)
 if(length(st_hesitations_extracted) < 2){st_hesitations_extracted[2] <- list(c())}
 }
 
-if(tokenized){
-  x <- str_flatten(x, " ") %>%
-    map_chr(~str_replace_all(.x, "\\s([.,;:!?])", "\\1"))
-}
+
 
   st_tagged <- udpipe::udpipe_annotate({{mdl}}, x, parser = "none") %>%
     as_tibble() %>%

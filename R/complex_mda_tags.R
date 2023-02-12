@@ -1,8 +1,39 @@
-#' @title complexTagging
-#' @param x Character vector of _ST tagged text, tokenized.
-#' @return Character vector of tokenized text with <MDA> tags appended
-#' @describeIn complexTagging tag predicative adjectives
-
+#' @title Complex MDA Tags
+#' @description Append complex <MDA> tags to a tokenized vector of _ST tagged strings.
+#' @details This group of dtag functions are best applied after the Basic  MDA tags as they may rely on them.
+#' The functions match various case insensitive regex patterns and append the relevant
+#' <MDA> tag to the end of the respective token in the vector.
+#' @param x character vector of _ST tagged text, tokenized.
+#' @return x character vector with <MDA> tags appended.
+#' @examples
+#' \dontrun{
+#' # Generate some text
+#' text <- "This example is short and sweet. This means that not all the complex
+#' tags will have been included, which is why this is really only a guide. It should
+#' be used with that in mind. Otherwise, I think you will be disappointed."
+#' # Load udpipe model into the global environment for _ST tagging
+#' init_udpipe_model()
+#' # Add Stanford tags to text
+#' text <- add_st_tags(text)
+#' # dtag_passives
+#' dtag_passives(text)
+#' # dtag_that_del
+#' dtag_that_del(text)
+#' # dtag_demonstratives
+#' dtag_demonstratives(text)
+#' # dtag_dem_pronouns
+#' dtag_dem_pronouns(text)
+#' # dtag_sentence_rels
+#' dtag_sentence_rels(text)
+#' # dtag_emphatics
+#' dtag_emphatics(text)
+#' #dtag_be_main
+#' dtag_be_main(text)
+#' #dtag_perfect_asp
+#' dtag_perfect_asp(text)
+#' # #dtag_pred_adj
+#' dtag_pred_adj(text)}
+#' @describeIn Complex tag predicative adjectives
 dtag_pred_adj <- function(x){
   pred_1 <-  pred_2 <-  pred_3 <-  pred_4 <-  pred_5 <- NULL
   x <- data.table(x)
@@ -33,7 +64,7 @@ dtag_pred_adj <- function(x){
   return(x$x)
 }
 
-#' @describeIn complexTagging tag emphatics
+#' @describeIn Complex tag emphatics
 dtag_emphatics <- function(x){
 emphatics1  <- emphatics2  <- emphatics3  <- null3 <- NULL
   x <- data.table(x)
@@ -62,7 +93,7 @@ emphatics1  <- emphatics2  <- emphatics3  <- null3 <- NULL
 
 
 
-#' @describeIn complexTagging tag phrasal "and" coordination
+#' @describeIn Complex tag phrasal "and" coordination
 dtag_phrasal_coord <- function(x){
 
 phrasal_coord1 <- phrasal_coord2 <- phrasal_coord3 <- phrasal_coord4 <- NULL
@@ -81,7 +112,7 @@ phrasal_coord1 <- phrasal_coord2 <- phrasal_coord3 <- phrasal_coord4 <- NULL
 }
 
 
-#' @describeIn complexTagging tag pro-verb do
+#' @describeIn Complex tag pro-verb do
 dtag_pro_do <- function(x){
 
   pro_do <- NULL
@@ -101,7 +132,7 @@ dtag_pro_do <- function(x){
 }
 
 
-#' @describeIn complexTagging tag WH questions
+#' @describeIn Complex tag WH questions
 dtag_wh_questions <- function(x){
 wh_questions <- NULL
 
@@ -116,7 +147,7 @@ wh_questions <- NULL
   return(x$x)
 }
 
-#' @describeIn complexTagging tag sentence relatives
+#' @describeIn Complex tag sentence relatives
 dtag_sentence_rels <- function(x){
 
   sentence_rels <- NULL
@@ -131,7 +162,7 @@ dtag_sentence_rels <- function(x){
 }
 
 
-#' @describeIn complexTagging tag perfect aspects
+#' @describeIn Complex tag perfect aspects
 dtag_perfect_asp <- function(x){
 
   perfect_asp1 <- perfect_asp2 <- perfect_asp3 <- perfect_asp4 <- NULL
@@ -163,7 +194,7 @@ dtag_perfect_asp <- function(x){
   return(x$x)
 }
 
-#' @describeIn complexTagging tag passives
+#' @describeIn Complex tag passives
 dtag_passives <- function(x, by = TRUE){
 passives1 <- passives2 <- passives3 <- passives4 <- passives5 <- NULL
 bypassives1 <- bypassives2 <- bypassives3 <-  NULL
@@ -210,7 +241,7 @@ bypassives1 <- bypassives2 <- bypassives3 <-  NULL
   return(x$x)
 }
 
-#' @describeIn complexTagging tag passives with by
+#' @describeIn Complex tag passives with by
 dtag_passives_by <- function(x){
 
     if(any(str_detect(x, "<PASS>")) == FALSE) stop('No PASSIVE tags found. Try running dtag_passives() first.\nThe default setting will tag BY- passives as well')
@@ -233,7 +264,7 @@ dtag_passives_by <- function(x){
   return(x$x)
 }
 
-#' @describeIn complexTagging tag be as main verb
+#' @describeIn Complex tag be as main verb
 dtag_be_main <- function(x){
 
   be_main1 <- be_main2 <- NULL
@@ -257,7 +288,7 @@ dtag_be_main <- function(x){
     return(x$x)
   }
 
-#' @describeIn complexTagging tag WH clauses
+#' @describeIn Complex tag WH clauses
 dtag_wh_clauses <- function(x){
   wh_clauses <- NULL
 
@@ -272,7 +303,7 @@ dtag_wh_clauses <- function(x){
     return(x$x)
 }
 
-#' @describeIn complexTagging pied piper relative clauses
+#' @describeIn Complex pied piper relative clauses
 dtag_pp_rel_clauses <- function(x){
   pp_rel_clauses <- NULL
   x <- data.table(x)
@@ -284,7 +315,7 @@ dtag_pp_rel_clauses <- function(x){
 }
 
 
-#' @describeIn complexTagging tag stranded Prepositions
+#' @describeIn Complex tag stranded Prepositions
 dtag_str_prepositions <- function(x){
   str_prepositions <- NULL
    x <- data.table(x)
@@ -297,7 +328,7 @@ dtag_str_prepositions <- function(x){
     return(x$x)
   }
 
-#' @describeIn complexTagging tag Split Infinitive
+#' @describeIn Complex tag Split Infinitive
 dtag_split_infinitives <- function(x){
 
   split_infin1 <- split_infin2 <- NULL
@@ -319,7 +350,7 @@ dtag_split_infinitives <- function(x){
 }
 
 
-#' @describeIn complexTagging tag Split Auxiliaries
+#' @describeIn Complex tag Split Auxiliaries
 dtag_split_auxiliaries <- function(x){
 
   split_aux1 <- NULL
@@ -336,7 +367,7 @@ dtag_split_auxiliaries <- function(x){
 }
 
 
-#' @describeIn complexTagging tag Synthetic Negation
+#' @describeIn Complex tag Synthetic Negation
 dtag_syn_negation <- function(x){
 
   syn_neg1 <- syn_neg2 <- syn_neg3 <- NULL
@@ -352,7 +383,7 @@ dtag_syn_negation <- function(x){
 }
 
 
-#' @describeIn complexTagging tag Time Adverbials
+#' @describeIn Complex tag Time Adverbials
 dtag_time_adverbials <- function(x){
 time_adv1 <- time_adv2 <- NULL
 
@@ -366,7 +397,7 @@ time_adv1 <- time_adv2 <- NULL
 }
 
 
-#' @describeIn complexTagging tag Place Adverbials
+#' @describeIn Complex tag Place Adverbials
 dtag_place_adverbials <- function(x){
 place_adverbials <- NULL
 
@@ -379,7 +410,7 @@ place_adverbials <- NULL
   return(x$x)
 }
 
-#' @describeIn complexTagging tag 'that' verb complements
+#' @describeIn Complex tag 'that' verb complements
 dtag_that_vc <- function(x){
  that_vc1 <- that_vc2 <- that_vc2 <- that_vc2 <- that_vc2 <- NULL
 
@@ -422,7 +453,7 @@ dtag_that_vc <- function(x){
   return(x$x)
 }
 
-#' @describeIn complexTagging tag 'that' adjective complements
+#' @describeIn Complex tag 'that' adjective complements
 
 dtag_that_ac <- function(x){
   that_ac <- NULL
@@ -436,7 +467,7 @@ dtag_that_ac <- function(x){
   return(x$x)
 }
 
-#' @describeIn complexTagging tag Present Participial Clauses
+#' @describeIn Complex tag Present Participial Clauses
 dtag_pres_part <- function(x){
 presp1 <- NULL
 
@@ -459,7 +490,7 @@ presp1 <- NULL
   return(x$x)
 }
 
-#' @describeIn complexTagging tag Past Participial Clauses
+#' @describeIn Complex tag Past Participial Clauses
 dtag_past_part <- function(x){
 pastp1 <- NULL
 
@@ -475,7 +506,7 @@ pastp1 <- NULL
   return(x$x)
 }
 
-#' @describeIn complexTagging tag Past Participial WHIZ Deletion Relatives
+#' @describeIn Complex tag Past Participial WHIZ Deletion Relatives
 dtag_past_whiz <- function(x){
  past_whiz1 <- NULL
 
@@ -492,7 +523,7 @@ dtag_past_whiz <- function(x){
   return(x$x)
 }
 
-#' @describeIn complexTagging tag Present Participial WHIZ Deletion Relatives
+#' @describeIn Complex tag Present Participial WHIZ Deletion Relatives
 dtag_pres_whiz <- function(x){
  pres_whiz1 <- NULL
 
@@ -507,7 +538,7 @@ dtag_pres_whiz <- function(x){
 
 
 
-#' @describeIn complexTagging tag "that" Relative Clauses on Subject Position
+#' @describeIn Complex tag "that" Relative Clauses on Subject Position
 dtag_that_subj <- function(x){
   that_sub1 <- that_sub2 <- that_sub3 <- NULL
 
@@ -540,7 +571,7 @@ dtag_that_subj <- function(x){
 }
 
 
-#' @describeIn complexTagging tag "that" Relative Clauses on Object Position
+#' @describeIn Complex tag "that" Relative Clauses on Object Position
 dtag_that_obj <- function(x){
 that_obj1 <- NULL
 
@@ -559,7 +590,7 @@ that_obj1 <- NULL
 }
 
 
-#' @describeIn complexTagging tag WH Relative Clauses on Subject Position
+#' @describeIn Complex tag WH Relative Clauses on Subject Position
 dtag_wh_subj <- function(x){
  what_subj1 <- what_subj2 <- what_subj3 <- NULL
 
@@ -593,7 +624,7 @@ dtag_wh_subj <- function(x){
 }
 
 
-#' @describeIn complexTagging tag WH Relative Clauses on Object Position
+#' @describeIn Complex tag WH Relative Clauses on Object Position
 dtag_wh_obj <- function(x){
 wh_obj1 <- NULL
 
@@ -609,7 +640,7 @@ wh_obj1 <- NULL
   return(x$x)
 }
 
-#' @describeIn complexTagging tag Hedges
+#' @describeIn Complex tag Hedges
 dtag_hedges <- function(x){
 hedges1 <- hedges2 <- hedges3 <- hedges4 <- hedges5 <- NULL
 null2 <- null3 <- null4 <- null4a <- null5 <- NULL
@@ -656,7 +687,7 @@ null2 <- null3 <- null4 <- null4a <- null5 <- NULL
 
 }
 
-#' @describeIn complexTagging tag Discourse Particles
+#' @describeIn Complex tag Discourse Particles
 dtag_disc_part<- function(x){
  disc_part <- NULL
 
@@ -669,7 +700,7 @@ dtag_disc_part<- function(x){
   return(x$x)
 }
 
-#' @describeIn complexTagging tag Demonstrative Pronouns
+#' @describeIn Complex tag Demonstrative Pronouns
 dtag_dem_pronouns <- function(x){
  dem_pronouns1 <- dem_pronouns2 <- NULL
 
@@ -689,7 +720,7 @@ dtag_dem_pronouns <- function(x){
   return(x$x)
 }
 
-#' @describeIn complexTagging tag Demonstratives
+#' @describeIn Complex tag Demonstratives
 dtag_demonstratives <- function(x){
  demonstratives <- NULL
 
@@ -702,7 +733,7 @@ dtag_demonstratives <- function(x){
   return(x$x)
 }
 
-#' @describeIn complexTagging tag Subordinator-That Deletion
+#' @describeIn Complex tag Subordinator-That Deletion
 dtag_that_del <- function(x){
   that_del1 <- that_del2 <- that_del3 <- that_del4 <- NULL
 
@@ -739,7 +770,7 @@ dtag_that_del <- function(x){
 }
 
 
-#' @describeIn complexTagging tag Independent Clause Coordination
+#' @describeIn Complex tag Independent Clause Coordination
 dtag_indep_cc <- function(x){
   andc1 <- andc2 <- andc3 <- andc4 <- NULL
 

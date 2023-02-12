@@ -29,3 +29,17 @@ This function adds Stanford Tags _ST to a vector of text. The function works by 
 and then annotating the tokenized text using \code{udpipe::udpipe_annotate}.
 Requires a udpipe_model to be present, so if an error occurs, try running \code{init_udpipe_model()} first.
 }
+\examples{
+\dontrun{
+# Example text:
+text <- "This is an example sentence to be tagged"
+# Example speech, tokenized:
+speech <- c("I","don't", "know" ,  "erm" ,",", "whether" , "to" ,
+"include" ,"hesitation" , "markers", ".")
+# Initiate udpipe model
+init_udpipe_model()
+# Tag text
+add_st_tags(text)
+# Tag speech
+add_st_tags(speech, st_hesitation = TRUE, tokenized = TRUE)}
+}

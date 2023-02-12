@@ -24,7 +24,19 @@ character string with <MDA> tags added
 Adds <MDA> tags to a given text. The text must already include _ST tags and tokenized.
 }
 \examples{
+\dontrun{
+# Simple example:
 text <- c("I_PPSS", "have_VB", "a_DET", "dog_NN")
 add_mda_tags(text)
-
+# More detailed example:
+# Generate some text
+text <- "This example is short and sweet. This means that not all the complex
+tags will have been included, which is why this is really only a guide. It should
+be used with that in mind. Otherwise, I think you will be disappointed."
+# Load udpipe model into the global environment for _ST tagging
+init_udpipe_model()
+# Add Stanford tags to text
+text <- add_st_tags(text)
+# Add <MDA> tags
+add_mda_tags(text)}
 }
