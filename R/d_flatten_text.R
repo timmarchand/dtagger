@@ -2,7 +2,7 @@
 #'
 #' This function takes a vector of strings and flattens them into a single text.
 #' @details A wrapper for stringr::str_flatten() with the additional function of
-#' removing floating spaces between a set of punctuation marks [.,;:!?] and tokens.
+#' removing floating spaces between a set of punctuation marks (.,;:!?) and tokens.
 #' @param x A character vector.
 #'
 #' @return A character vector where the elements are a single string.

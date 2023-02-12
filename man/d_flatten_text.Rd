@@ -17,7 +17,7 @@ This function takes a vector of strings and flattens them into a single text.
 }
 \details{
 A wrapper for stringr::str_flatten() with the additional function of
-removing floating spaces between a set of punctuation marks \link{.,;:!?} and tokens.
+removing floating spaces between a set of punctuation marks (.,;:!?) and tokens.
 }
 \examples{
 text <- c("This" , "is" , "," , "or" , "at" , "least" , "should" , "be" , "," ,

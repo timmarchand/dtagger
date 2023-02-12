@@ -9,7 +9,7 @@
 #' \dontrun{
 #' # Generate some text
 #' text <- "This example is short and sweet. This means that not all the complex
-#' tags will have been included, which is why this is really only a guide. It should
+#' tags will have been included, which is why this is really only a guide and it should
 #' be used with that in mind. Otherwise, I think you will be disappointed."
 #' # Load udpipe model into the global environment for _ST tagging
 #' init_udpipe_model()
@@ -33,7 +33,8 @@
 #' dtag_perfect_asp(text)
 #' # #dtag_pred_adj
 #' dtag_pred_adj(text)}
-#' @describeIn Complex tag predicative adjectives
+
+#' @describeIn Complex MDA Tags tag predicative adjectives
 dtag_pred_adj <- function(x){
   pred_1 <-  pred_2 <-  pred_3 <-  pred_4 <-  pred_5 <- NULL
   x <- data.table(x)
@@ -64,7 +65,7 @@ dtag_pred_adj <- function(x){
   return(x$x)
 }
 
-#' @describeIn Complex tag emphatics
+#' @describeIn Complex MDA Tags tag emphatics
 dtag_emphatics <- function(x){
 emphatics1  <- emphatics2  <- emphatics3  <- null3 <- NULL
   x <- data.table(x)
@@ -93,7 +94,7 @@ emphatics1  <- emphatics2  <- emphatics3  <- null3 <- NULL
 
 
 
-#' @describeIn Complex tag phrasal "and" coordination
+#' @describeIn Complex MDA Tags tag phrasal "and" coordination
 dtag_phrasal_coord <- function(x){
 
 phrasal_coord1 <- phrasal_coord2 <- phrasal_coord3 <- phrasal_coord4 <- NULL
@@ -112,7 +113,7 @@ phrasal_coord1 <- phrasal_coord2 <- phrasal_coord3 <- phrasal_coord4 <- NULL
 }
 
 
-#' @describeIn Complex tag pro-verb do
+#' @describeIn Complex MDA Tags tag pro-verb do
 dtag_pro_do <- function(x){
 
   pro_do <- NULL
@@ -132,7 +133,7 @@ dtag_pro_do <- function(x){
 }
 
 
-#' @describeIn Complex tag WH questions
+#' @describeIn Complex MDA Tags tag WH questions
 dtag_wh_questions <- function(x){
 wh_questions <- NULL
 
@@ -147,7 +148,7 @@ wh_questions <- NULL
   return(x$x)
 }
 
-#' @describeIn Complex tag sentence relatives
+#' @describeIn Complex MDA Tags tag sentence relatives
 dtag_sentence_rels <- function(x){
 
   sentence_rels <- NULL
@@ -162,7 +163,7 @@ dtag_sentence_rels <- function(x){
 }
 
 
-#' @describeIn Complex tag perfect aspects
+#' @describeIn Complex MDA Tags tag perfect aspects
 dtag_perfect_asp <- function(x){
 
   perfect_asp1 <- perfect_asp2 <- perfect_asp3 <- perfect_asp4 <- NULL
@@ -194,7 +195,8 @@ dtag_perfect_asp <- function(x){
   return(x$x)
 }
 
-#' @describeIn Complex tag passives
+#' @describeIn Complex MDA Tags tag passives
+utils::globalVariables(c("by"))
 dtag_passives <- function(x, by = TRUE){
 passives1 <- passives2 <- passives3 <- passives4 <- passives5 <- NULL
 bypassives1 <- bypassives2 <- bypassives3 <-  NULL
@@ -241,7 +243,7 @@ bypassives1 <- bypassives2 <- bypassives3 <-  NULL
   return(x$x)
 }
 
-#' @describeIn Complex tag passives with by
+#' @describeIn Complex MDA Tags tag passives with by
 dtag_passives_by <- function(x){
 
     if(any(str_detect(x, "<PASS>")) == FALSE) stop('No PASSIVE tags found. Try running dtag_passives() first.\nThe default setting will tag BY- passives as well')
@@ -264,7 +266,7 @@ dtag_passives_by <- function(x){
   return(x$x)
 }
 
-#' @describeIn Complex tag be as main verb
+#' @describeIn Complex MDA Tags tag be as main verb
 dtag_be_main <- function(x){
 
   be_main1 <- be_main2 <- NULL
@@ -288,7 +290,7 @@ dtag_be_main <- function(x){
     return(x$x)
   }
 
-#' @describeIn Complex tag WH clauses
+#' @describeIn Complex MDA Tags tag WH clauses
 dtag_wh_clauses <- function(x){
   wh_clauses <- NULL
 
@@ -303,7 +305,7 @@ dtag_wh_clauses <- function(x){
     return(x$x)
 }
 
-#' @describeIn Complex pied piper relative clauses
+#' @describeIn Complex MDA Tags pied piper relative clauses
 dtag_pp_rel_clauses <- function(x){
   pp_rel_clauses <- NULL
   x <- data.table(x)
@@ -315,7 +317,7 @@ dtag_pp_rel_clauses <- function(x){
 }
 
 
-#' @describeIn Complex tag stranded Prepositions
+#' @describeIn Complex MDA Tags tag stranded Prepositions
 dtag_str_prepositions <- function(x){
   str_prepositions <- NULL
    x <- data.table(x)
@@ -328,7 +330,7 @@ dtag_str_prepositions <- function(x){
     return(x$x)
   }
 
-#' @describeIn Complex tag Split Infinitive
+#' @describeIn Complex MDA Tags tag Split Infinitive
 dtag_split_infinitives <- function(x){
 
   split_infin1 <- split_infin2 <- NULL
@@ -350,7 +352,7 @@ dtag_split_infinitives <- function(x){
 }
 
 
-#' @describeIn Complex tag Split Auxiliaries
+#' @describeIn Complex MDA Tags tag Split Auxiliaries
 dtag_split_auxiliaries <- function(x){
 
   split_aux1 <- NULL
@@ -367,7 +369,7 @@ dtag_split_auxiliaries <- function(x){
 }
 
 
-#' @describeIn Complex tag Synthetic Negation
+#' @describeIn Complex MDA Tags tag Synthetic Negation
 dtag_syn_negation <- function(x){
 
   syn_neg1 <- syn_neg2 <- syn_neg3 <- NULL
@@ -383,7 +385,7 @@ dtag_syn_negation <- function(x){
 }
 
 
-#' @describeIn Complex tag Time Adverbials
+#' @describeIn Complex MDA Tags tag Time Adverbials
 dtag_time_adverbials <- function(x){
 time_adv1 <- time_adv2 <- NULL
 
@@ -397,7 +399,7 @@ time_adv1 <- time_adv2 <- NULL
 }
 
 
-#' @describeIn Complex tag Place Adverbials
+#' @describeIn Complex MDA Tags tag Place Adverbials
 dtag_place_adverbials <- function(x){
 place_adverbials <- NULL
 
@@ -410,7 +412,7 @@ place_adverbials <- NULL
   return(x$x)
 }
 
-#' @describeIn Complex tag 'that' verb complements
+#' @describeIn Complex MDA Tags tag 'that' verb complements
 dtag_that_vc <- function(x){
  that_vc1 <- that_vc2 <- that_vc2 <- that_vc2 <- that_vc2 <- NULL
 
@@ -453,7 +455,7 @@ dtag_that_vc <- function(x){
   return(x$x)
 }
 
-#' @describeIn Complex tag 'that' adjective complements
+#' @describeIn Complex MDA Tags tag 'that' adjective complements
 
 dtag_that_ac <- function(x){
   that_ac <- NULL
@@ -467,7 +469,7 @@ dtag_that_ac <- function(x){
   return(x$x)
 }
 
-#' @describeIn Complex tag Present Participial Clauses
+#' @describeIn Complex MDA Tags tag Present Participial Clauses
 dtag_pres_part <- function(x){
 presp1 <- NULL
 
@@ -490,7 +492,7 @@ presp1 <- NULL
   return(x$x)
 }
 
-#' @describeIn Complex tag Past Participial Clauses
+#' @describeIn Complex MDA Tags tag Past Participial Clauses
 dtag_past_part <- function(x){
 pastp1 <- NULL
 
@@ -506,7 +508,7 @@ pastp1 <- NULL
   return(x$x)
 }
 
-#' @describeIn Complex tag Past Participial WHIZ Deletion Relatives
+#' @describeIn Complex MDA Tags tag Past Participial WHIZ Deletion Relatives
 dtag_past_whiz <- function(x){
  past_whiz1 <- NULL
 
@@ -523,7 +525,7 @@ dtag_past_whiz <- function(x){
   return(x$x)
 }
 
-#' @describeIn Complex tag Present Participial WHIZ Deletion Relatives
+#' @describeIn Complex MDA Tags tag Present Participial WHIZ Deletion Relatives
 dtag_pres_whiz <- function(x){
  pres_whiz1 <- NULL
 
@@ -538,7 +540,7 @@ dtag_pres_whiz <- function(x){
 
 
 
-#' @describeIn Complex tag "that" Relative Clauses on Subject Position
+#' @describeIn Complex MDA Tags tag "that" Relative Clauses on Subject Position
 dtag_that_subj <- function(x){
   that_sub1 <- that_sub2 <- that_sub3 <- NULL
 
@@ -571,7 +573,7 @@ dtag_that_subj <- function(x){
 }
 
 
-#' @describeIn Complex tag "that" Relative Clauses on Object Position
+#' @describeIn Complex MDA Tags tag "that" Relative Clauses on Object Position
 dtag_that_obj <- function(x){
 that_obj1 <- NULL
 
@@ -590,7 +592,7 @@ that_obj1 <- NULL
 }
 
 
-#' @describeIn Complex tag WH Relative Clauses on Subject Position
+#' @describeIn Complex MDA Tags tag WH Relative Clauses on Subject Position
 dtag_wh_subj <- function(x){
  what_subj1 <- what_subj2 <- what_subj3 <- NULL
 
@@ -624,7 +626,7 @@ dtag_wh_subj <- function(x){
 }
 
 
-#' @describeIn Complex tag WH Relative Clauses on Object Position
+#' @describeIn Complex MDA Tags tag WH Relative Clauses on Object Position
 dtag_wh_obj <- function(x){
 wh_obj1 <- NULL
 
@@ -640,7 +642,7 @@ wh_obj1 <- NULL
   return(x$x)
 }
 
-#' @describeIn Complex tag Hedges
+#' @describeIn Complex MDA Tags tag Hedges
 dtag_hedges <- function(x){
 hedges1 <- hedges2 <- hedges3 <- hedges4 <- hedges5 <- NULL
 null2 <- null3 <- null4 <- null4a <- null5 <- NULL
@@ -687,7 +689,7 @@ null2 <- null3 <- null4 <- null4a <- null5 <- NULL
 
 }
 
-#' @describeIn Complex tag Discourse Particles
+#' @describeIn Complex MDA Tags tag Discourse Particles
 dtag_disc_part<- function(x){
  disc_part <- NULL
 
@@ -700,7 +702,7 @@ dtag_disc_part<- function(x){
   return(x$x)
 }
 
-#' @describeIn Complex tag Demonstrative Pronouns
+#' @describeIn Complex MDA Tags tag Demonstrative Pronouns
 dtag_dem_pronouns <- function(x){
  dem_pronouns1 <- dem_pronouns2 <- NULL
 
@@ -720,7 +722,7 @@ dtag_dem_pronouns <- function(x){
   return(x$x)
 }
 
-#' @describeIn Complex tag Demonstratives
+#' @describeIn Complex MDA Tags tag Demonstratives
 dtag_demonstratives <- function(x){
  demonstratives <- NULL
 
@@ -733,7 +735,7 @@ dtag_demonstratives <- function(x){
   return(x$x)
 }
 
-#' @describeIn Complex tag Subordinator-That Deletion
+#' @describeIn Complex MDA Tags tag Subordinator-That Deletion
 dtag_that_del <- function(x){
   that_del1 <- that_del2 <- that_del3 <- that_del4 <- NULL
 
@@ -770,7 +772,7 @@ dtag_that_del <- function(x){
 }
 
 
-#' @describeIn Complex tag Independent Clause Coordination
+#' @describeIn Complex MDA Tags tag Independent Clause Coordination
 dtag_indep_cc <- function(x){
   andc1 <- andc2 <- andc3 <- andc4 <- NULL
 

@@ -8,7 +8,6 @@
 \alias{dtag_wh_questions}
 \alias{dtag_sentence_rels}
 \alias{dtag_perfect_asp}
-\alias{dtag_passives}
 \alias{dtag_passives_by}
 \alias{dtag_be_main}
 \alias{dtag_wh_clauses}
@@ -50,8 +49,6 @@ dtag_wh_questions(x)
 dtag_sentence_rels(x)
 
 dtag_perfect_asp(x)
-
-dtag_passives(x, by = TRUE)
 
 dtag_passives_by(x)
 
@@ -121,80 +118,78 @@ The functions match various case insensitive regex patterns and append the relev
 }
 \section{Functions}{
 \itemize{
-\item \code{dtag_pred_adj}: tag predicative adjectives
+\item \code{dtag_pred_adj}: MDA Tags tag predicative adjectives
 
-\item \code{dtag_emphatics}: tag emphatics
+\item \code{dtag_emphatics}: MDA Tags tag emphatics
 
-\item \code{dtag_phrasal_coord}: tag phrasal "and" coordination
+\item \code{dtag_phrasal_coord}: MDA Tags tag phrasal "and" coordination
 
-\item \code{dtag_pro_do}: tag pro-verb do
+\item \code{dtag_pro_do}: MDA Tags tag pro-verb do
 
-\item \code{dtag_wh_questions}: tag WH questions
+\item \code{dtag_wh_questions}: MDA Tags tag WH questions
 
-\item \code{dtag_sentence_rels}: tag sentence relatives
+\item \code{dtag_sentence_rels}: MDA Tags tag sentence relatives
 
-\item \code{dtag_perfect_asp}: tag perfect aspects
+\item \code{dtag_perfect_asp}: MDA Tags tag perfect aspects
 
-\item \code{dtag_passives}: tag passives
+\item \code{dtag_passives_by}: MDA Tags tag passives with by
 
-\item \code{dtag_passives_by}: tag passives with by
+\item \code{dtag_be_main}: MDA Tags tag be as main verb
 
-\item \code{dtag_be_main}: tag be as main verb
+\item \code{dtag_wh_clauses}: MDA Tags tag WH clauses
 
-\item \code{dtag_wh_clauses}: tag WH clauses
+\item \code{dtag_pp_rel_clauses}: MDA Tags pied piper relative clauses
 
-\item \code{dtag_pp_rel_clauses}: pied piper relative clauses
+\item \code{dtag_str_prepositions}: MDA Tags tag stranded Prepositions
 
-\item \code{dtag_str_prepositions}: tag stranded Prepositions
+\item \code{dtag_split_infinitives}: MDA Tags tag Split Infinitive
 
-\item \code{dtag_split_infinitives}: tag Split Infinitive
+\item \code{dtag_split_auxiliaries}: MDA Tags tag Split Auxiliaries
 
-\item \code{dtag_split_auxiliaries}: tag Split Auxiliaries
+\item \code{dtag_syn_negation}: MDA Tags tag Synthetic Negation
 
-\item \code{dtag_syn_negation}: tag Synthetic Negation
+\item \code{dtag_time_adverbials}: MDA Tags tag Time Adverbials
 
-\item \code{dtag_time_adverbials}: tag Time Adverbials
+\item \code{dtag_place_adverbials}: MDA Tags tag Place Adverbials
 
-\item \code{dtag_place_adverbials}: tag Place Adverbials
+\item \code{dtag_that_vc}: MDA Tags tag 'that' verb complements
 
-\item \code{dtag_that_vc}: tag 'that' verb complements
+\item \code{dtag_that_ac}: MDA Tags tag 'that' adjective complements
 
-\item \code{dtag_that_ac}: tag 'that' adjective complements
+\item \code{dtag_pres_part}: MDA Tags tag Present Participial Clauses
 
-\item \code{dtag_pres_part}: tag Present Participial Clauses
+\item \code{dtag_past_part}: MDA Tags tag Past Participial Clauses
 
-\item \code{dtag_past_part}: tag Past Participial Clauses
+\item \code{dtag_past_whiz}: MDA Tags tag Past Participial WHIZ Deletion Relatives
 
-\item \code{dtag_past_whiz}: tag Past Participial WHIZ Deletion Relatives
+\item \code{dtag_pres_whiz}: MDA Tags tag Present Participial WHIZ Deletion Relatives
 
-\item \code{dtag_pres_whiz}: tag Present Participial WHIZ Deletion Relatives
+\item \code{dtag_that_subj}: MDA Tags tag "that" Relative Clauses on Subject Position
 
-\item \code{dtag_that_subj}: tag "that" Relative Clauses on Subject Position
+\item \code{dtag_that_obj}: MDA Tags tag "that" Relative Clauses on Object Position
 
-\item \code{dtag_that_obj}: tag "that" Relative Clauses on Object Position
+\item \code{dtag_wh_subj}: MDA Tags tag WH Relative Clauses on Subject Position
 
-\item \code{dtag_wh_subj}: tag WH Relative Clauses on Subject Position
+\item \code{dtag_wh_obj}: MDA Tags tag WH Relative Clauses on Object Position
 
-\item \code{dtag_wh_obj}: tag WH Relative Clauses on Object Position
+\item \code{dtag_hedges}: MDA Tags tag Hedges
 
-\item \code{dtag_hedges}: tag Hedges
+\item \code{dtag_disc_part}: MDA Tags tag Discourse Particles
 
-\item \code{dtag_disc_part}: tag Discourse Particles
+\item \code{dtag_dem_pronouns}: MDA Tags tag Demonstrative Pronouns
 
-\item \code{dtag_dem_pronouns}: tag Demonstrative Pronouns
+\item \code{dtag_demonstratives}: MDA Tags tag Demonstratives
 
-\item \code{dtag_demonstratives}: tag Demonstratives
+\item \code{dtag_that_del}: MDA Tags tag Subordinator-That Deletion
 
-\item \code{dtag_that_del}: tag Subordinator-That Deletion
-
-\item \code{dtag_indep_cc}: tag Independent Clause Coordination
+\item \code{dtag_indep_cc}: MDA Tags tag Independent Clause Coordination
 }}
 
 \examples{
 \dontrun{
 # Generate some text
 text <- "This example is short and sweet. This means that not all the complex
-tags will have been included, which is why this is really only a guide. It should
+tags will have been included, which is why this is really only a guide and it should
 be used with that in mind. Otherwise, I think you will be disappointed."
 # Load udpipe model into the global environment for _ST tagging
 init_udpipe_model()

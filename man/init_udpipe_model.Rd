@@ -2,7 +2,7 @@
 % Please edit documentation in R/init_udpipe_model.R
 \name{init_udpipe_model}
 \alias{init_udpipe_model}
-\title{Initialize Model}
+\title{Initialize UDPipe Model}
 \usage{
 init_udpipe_model(lang = "english")
 }
@@ -13,9 +13,9 @@ init_udpipe_model(lang = "english")
 None
 }
 \description{
-Initialize Model
+Initialize UDPipe Model
 }
 \examples{
-init_udpipe_model()
+\dontrun{init_udpipe_model()}
 
 }

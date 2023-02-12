@@ -4,15 +4,16 @@
 \alias{dtag_hesitation}
 \title{Add hesitation markers}
 \usage{
-dtag_hesitation(x, regex = "\\\\berm?\\\\b|\\\\bum\\\\b")
+dtag_hesitation(x, regex = "\\\\berm?\\\\b|\\\\berm?_|\\\\bum\\\\b|\\\\bum_")
 }
 \arguments{
 \item{x}{A character vector.}
 
-\item{regex}{A regular expression (default \\berm?\\b|\\bum\\b). The regex expression is case insensitive by default.}
+\item{regex}{A regular expression (default "\\berm?\\b|\\berm?\emph{|\\bum\\b|\\bum}").
+The regex expression is case insensitive by default.}
 }
 \value{
-A character vector with hesitation tags.
+A character vector with hesitation tags appended.
 }
 \description{
 Add hesitation marker <HSTN> to a vector of tokenized strings

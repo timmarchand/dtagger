@@ -5,9 +5,9 @@
 #' @param n an integer, to specify the number of context tokens either side of the matched node
 #' @param tokenize a logical, to tokenize the text first or not
 #' @param separated a logical, to separate the context tokens or not
-#'
 #' @return a tibble, with the contextualized text shown around the matched node
-#' @import data.table
+#' @rawNamespace import(data.table, except = c(first,last,between, transpose))
+#' @importFrom data.table data.table shift
 #' @import tibble
 #' @import dplyr
 #' @export

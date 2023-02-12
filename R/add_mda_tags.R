@@ -8,7 +8,6 @@
 #' Regex for the hesitation markers is the same as the default for \code{dtag_hesitation}, but can be set using the regex argument. See \code{\link{dtag_hesitation}} for details.
 #' @param progress logical. If \code{TRUE}, a progress message is printed
 #' @param ... Additional arguments to pass on.
-#' @import data.table
 #' @import tibble
 #' @import dplyr
 #' @import purrr
@@ -54,6 +53,7 @@ x <- data.table(x)
 
 result <-
   x %>%
+  # Basic MDA tags
     dtag_possessives() %>%
     dtag_to_prep() %>%
     dtag_negation() %>%
@@ -61,6 +61,7 @@ result <-
     dtag_ind_pron() %>%
     dtag_quantifiers() %>%
     dtag_quant_pron() %>%
+  # Complex MDA tags
     dtag_adverbial_subords() %>%
     dtag_conjuncts() %>%
     dtag_pred_adj() %>%
@@ -95,6 +96,7 @@ result <-
     dtag_demonstratives() %>%
     dtag_that_del() %>%
     dtag_indep_cc() %>%
+  # Regex match MDA tags
     dtag_amplifier() %>%
     dtag_downtoner() %>%
     dtag_nominalisation() %>%

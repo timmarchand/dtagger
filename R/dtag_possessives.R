@@ -2,7 +2,6 @@
 #' @description  Correct Stanford (ST) possessive tags by replacing $ with S to make future regex matching easier
 #' @param x a character vector of strings with ST tags
 #' @return a character vector
-#' @import data.table
 #' @export
 #'
 #' @examples
