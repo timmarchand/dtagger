@@ -29,7 +29,8 @@
 #' # Tag speech
 #' add_st_tags(speech, st_hesitation = TRUE, tokenized = TRUE)}
 
-add_st_tags <- function(x, mdl = udmodel, st_hesitation = FALSE, tokenized = FALSE, ...){
+add_st_tags <- function(x, mdl = udmodel, st_hesitation = FALSE,
+                        tokenized = FALSE, ...){
 
     if(tokenized){x <- d_flatten_text(x)}
 

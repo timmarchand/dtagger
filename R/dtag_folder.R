@@ -41,7 +41,7 @@ tags_to_count <- c("<AMP>", "<ANDC>", "<BEMA>", "<CAUS>", "<CONT>", "<DEMP>",
 negative_tags <- c("<NN>", "<AWL>", "<PIN>", "<TTR>",
                    "<JJ>", "<TIME>", "<PLACE>", "<RB>")
 
-ALL_corpora <-  path %>%
+ALL_corpora <-
   path %>%
   # target only folders with $$ prefix
   fs::dir_info(recurse = TRUE, regexp = "\\$\\$.*txt") %>%

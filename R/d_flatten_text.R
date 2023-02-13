@@ -3,8 +3,8 @@
 #' This function takes a vector of strings and flattens them into a single string.
 #' @details A wrapper for stringr::str_flatten(x, " ").
 #'
-#' In case of d_flatten_text(), there is the additional function of removing
-#' floating spaces between a set of punctuation marks (.,;:!?") and tokens.
+#' d_flatten() is fine for tagged text, but use_flatten_text() when you want to
+#' remove floating spaces between a set of punctuation marks (.,;:!?") and tokens.
 #' @param x A character vector.
 #'
 #' @return A character vector where the elements are a single string.
@@ -13,10 +13,11 @@
 #' @importFrom purrr map_chr
 #' @export
 #' @examples
+#' \dontrun{
 #' x <- c("This" , "is" , "," , "or" , "at" , "least" , "should" , "be" , "," ,
 #' "a" , "suitable" , "example" , "." , "Is" , "it", "?")
 #' d_flatten(x)
-#' d_flatten_text(x)
+#' d_flatten_text(x)}
 #'
 #' @describeIn Flatten d_flatten
 d_flatten <- function(x){

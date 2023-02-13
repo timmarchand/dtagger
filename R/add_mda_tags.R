@@ -37,7 +37,7 @@ if(progress){message("\nAdding MDA tags to ", x)}
  # # tag and extract mda_hesitation markers
 if(mda_hesitation){
  mda_hesitations_extracted <-
-   dtag_hesitation(x,...) %>%
+   dtag_hesitation(x) %>%
     enframe() %>%
     group_split(mda_hesitation = str_detect(value, "HSTN")) %>%
     map(~select(.x, -mda_hesitation))
