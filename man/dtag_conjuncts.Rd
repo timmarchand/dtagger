@@ -25,5 +25,4 @@ In case of conjuncts that are part of a multi-word expression (e.g. in_IN additi
 "went_VBD", "way_NN", "over_RB", "budget_NN", "._.")
 dtag_conjuncts(x)
 }
-
 }

@@ -18,4 +18,5 @@ This function tags adverbial subordinating conjunctions in text that has been pr
 \examples{
 dtag_adverbial_subords(c("Since_RB",  "he_PRP" , "left_VBD"))
 
+
 }

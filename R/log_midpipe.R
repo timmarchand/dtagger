@@ -8,7 +8,6 @@
 #' @return The data object after the expression is evaluated.
 #'
 #'
-#' @export
 #'
 log_midpipe <- function(x, expr) {
   result <- x

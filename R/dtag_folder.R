@@ -19,7 +19,6 @@
 #' @importFrom fs dir_info
 #' @importFrom readtext readtext
 #' @export
-#'
 #' @examples
 #' \dontrun{
 #' dtag_folder("path_to_folder")}
@@ -73,7 +72,8 @@ ALL <- ALL %>%
   log_midpipe(message("(3/4) Compiling the tagged text")) %>%
   mutate(tagged_text = map(mda_tags, ~str_flatten(.x, " ")) %>%
                         map_chr(~str_replace_all(.x, "\\s([.,;:!?])" , "\\1"))) %>%
-  mutate(wordcount = map_int(tagged_text, ~str_count(.x, "[A-Za-z']+_")))
+  mutate(wordcount = map_int(tagged_text, ~str_count(.x, "[A-Za-z']+_"))) %>%
+  tibble()
 
 ## get awl ttr scores for each doc_id
 awl_ttr <- ALL %>%
@@ -84,7 +84,7 @@ awl_ttr <- ALL %>%
                             names_to = "feature",
                             names_transform = ~str_replace(.x, "(.+)", "<\\1>"),
                             values_to = "value")) %>%
-        map_df(~as_data_frame(.x), .id = "doc_id" ) %>%
+        map_df(~as_tibble(.x), .id = "doc_id" ) %>%
         separate(doc_id, into = c("corpus", "doc_id"), sep = "&&&")
 
 
@@ -111,19 +111,27 @@ document_dimension_scores <- ALL_Dscores %>%
             pivot_wider(names_from = "dimension", values_from = "dimension_score") %>%
             select(-Other)
 
-corpus_dimension_scores <- document_dimension_scores %>%
-  summarise(across(where(is.numeric), mean), .by = corpus)
+document_dimension_scores <- list(document_dimension_scores) %>%
+                              add_closest_text_type()
+
+
+ corpus_dimension_scores <- document_dimension_scores %>%
+                                map(~.x %>% summarise(most_common_text_type = find_mode(closest_text_type),
+                                across(where(is.numeric), mean), .by = corpus)) %>%
+                                add_closest_text_type(by = "corpus") %>%
+                                  map(~.x %>%
+                                  relocate(corpus_text_type = closest_text_type, .after = corpus))
 
 
 
-l <- list( corpus_dimension_scores = corpus_dimension_scores,
-           document_dimension_scores =  document_dimension_scores,
+l <- list( corpus_dimension_scores = pluck(corpus_dimension_scores, 1),
+           document_dimension_scores =  pluck(document_dimension_scores,1),
            dimension_tags = ALL_Dscores,
            tokenized_tags = ALL %>%
                             unnest(cols = c("st_tags", "mda_tags")) %>%
                             select(corpus, doc_id, st_tags, mda_tags) %>%
                             arrange(corpus, doc_id),
-           texts = ALL %>% tibble() %>%
+           texts = ALL %>%
              select(corpus, doc_id, raw_text = text, tagged_text, wordcount) %>%
              arrange(corpus, doc_id))
 

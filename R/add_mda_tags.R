@@ -13,7 +13,7 @@
 #' @import purrr
 #' @import stringr
 #' @return character string with <MDA> tags added
-#'
+#' @export
 #' @examples
 #' \dontrun{
 #' # Simple example:

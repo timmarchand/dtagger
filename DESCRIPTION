@@ -10,14 +10,15 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Imports: 
     data.table,
-    dplyr,
+    dplyr (>= 1.1.0),
     tibble,
     purrr,
     udpipe,
     stringr,
     magrittr,
     fs,
-    readtext
+    readtext,
+    collapse
 URL: https://github.com/timmarchand/dtagger
 BugReports: https://github.com/timmarchand/dtagger/issues
 Depends: 

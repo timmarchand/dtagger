@@ -14,7 +14,6 @@
 #' "went_VBD", "way_NN", "over_RB", "budget_NN", "._.")
 #' dtag_conjuncts(x)
 #' }
-#'
 #' @export
 dtag_conjuncts <- function(x){
 

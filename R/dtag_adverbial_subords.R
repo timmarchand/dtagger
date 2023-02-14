@@ -5,11 +5,10 @@
 #' @param x A character vector of strings that have been tokenized and tagged with _ST tags.
 #'
 #' @return A character vector with adverbial subordinating conjunctions <OSUB> tags added.
-#'
+#' @export
 #' @examples
 #' dtag_adverbial_subords(c("Since_RB",  "he_PRP" , "left_VBD"))
 #'
-#' @export
 #'
 dtag_adverbial_subords <- function(x){
 adverbial1 <- adverbial2 <- adverbial3 <- adverbial4 <- adverbial5 <- NULL
