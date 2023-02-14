@@ -2,7 +2,8 @@
 #'
 #' @description Adds a column for the closest text type based on the Euclidean distances of the five dimensions to each type
 #'
-#' @param data A data frame with a corpus or doc_id column, and columns for Dimension scores Dimension1 ~ Dimesnion5
+#' @param data A data frame with a corpus or doc_id column, and columns for Dimension scores Dimension1 ~ Dimension5.
+#' The data frame needs to be in a list for the purrr::map function to work.
 #' @param by The column name by which the dimensions are to be grouped.
 #'
 #' @return A data frame with closest_text_type column added
