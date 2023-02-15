@@ -1,20 +1,24 @@
-#' dtag_folder
-#' @description Tag a folder of plain text files with <MDA> tags
-#' @details This function takes in a path and an optional argument for the number of texts to be analyzed.
-#' It then reads the text files in the folder, adds Stanford _ST  and multidimensional analysis <MDA> tags,
-#' and returns a list of tibbles containing the tagged texts, individual and corpus-level scores
-#' for each dimension of the text, and word counts.
-#'
-#' The target texts to be tagged should be placed in folders with $$ prefixed on the folder name. The function will then
-#' read in any text files from the target folders, and retrieve the folder names as the "corpus" variable.
+#' dtag_directory
+#' @description Tag a directory of folders of plain text files with <MDA> tags
+#' @details The target texts to be tagged should be placed in a directory of folders
+#' with $$ prefixed on the folder names. The function will then read in any text
+#' files from the target folders, and retrieve the folder names as the "corpus" variable.
 #'
 #' If the texts have already been tagged with Stanford _ST tags, choose the option \code{ST = TRUE}.
 #'
-#' Otherwise, the function add_st_tags() will run over the texts, for which it is necessary to have a udpipe model loaded.See \code{\link{add_st_tags}} for details.
+#' Otherwise, the function add_st_tags() will run over the texts,
+#' for which it is necessary to have a udpipe model loaded. See \code{\link{add_st_tags}} for details.
+#'
+#' The function then adds multidimensional analysis <MDA> tags, and calculates Dimension scores
+#' based on the Biber 1988 standard.
+#'
+#' The function returns a list of tibbles including the tagged texts, individual and
+#' corpus-level scores for each dimension of the text and word counts.
+#'
 #' @param path A character string denoting the folder containing the target folders (at any level).
 #' @param n An optional argument denoting the maximum number of text files to be analyzed.
 #' @param ST Logical argument denoting whether the text files have _ST tags included already.
-#' @param ... Additional arguments to passed on.
+#' @param ... Additional arguments to be passed on.
 #' @return A list of data frames containing:
 #'
 #' \bold{corpus_dimension_scores}
@@ -53,10 +57,13 @@
 #' @importFrom fs dir_info
 #' @importFrom readtext readtext
 #' @export
+#' @references
+#'  1. Biber, D. (1988). Variation across Speech and Writing. Cambridge: Cambridge University Press. doi:10.1017/CBO9780511621024
+#'  2. Biber, D. (1989). A typology of English texts. , 27(1), 3-44. https://doi.org/10.1515/ling.1989.27.1.3
 #' @examples
 #' \dontrun{
-#' dtag_folder("path_to_folder")}
-dtag_folder <- function(path, n = NULL, ST = FALSE, ...){
+#' dtag_directory("path_to_directory")}
+dtag_directory <- function(path, n = NULL, ST = FALSE, ...){
 
 
 tags_to_count <- c("<AMP>", "<ANDC>", "<BEMA>", "<CAUS>", "<CONT>", "<DEMP>",
