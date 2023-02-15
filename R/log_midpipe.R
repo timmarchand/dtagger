@@ -6,7 +6,7 @@
 #' @param expr An expression to be evaluated on the data object.
 #'
 #' @return The data object after the expression is evaluated.
-#'
+#' @export
 #'
 #'
 log_midpipe <- function(x, expr) {
