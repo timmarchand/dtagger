@@ -1,5 +1,13 @@
 #' @title dtag_tbl
 #' @description Compute the Biber-style dimension scores of a data frame.
+#' @details This function adds multidimensional analysis <MDA> tags to a data frame.
+#' The data frame should contain one column to identify input id, and another for the
+#' text that has been tagged with _ST tags, and flattened into non-tokenized form.
+#'
+#' After tagging the text, the function then calculates Dimension scores based on the
+#' Biber 1988 standard, and approximates the closest text type as per Biber 1989 text
+#' classification.
+#'
 #' @param tbl A data frame with at least one column as input id  and another for the _ST tagged text.
 #' @param input A column for the input id (defaults to 1st position, but can be named as e.g. "colname1").
 #' @param text A column for the text (defaults to 2nd position, but can be named as e.g. "colname12").
@@ -17,7 +25,9 @@
 #' * biber_mean and biber_sd for each feature, based on Biber 1988
 #' * closest matching text type for each input, based on Biber 1989
 #' @export
-#'
+#' @references
+#'  1. Biber, D. (1988). Variation across Speech and Writing. Cambridge: Cambridge University Press. doi:10.1017/CBO9780511621024
+#'  2. Biber, D. (1989). A typology of English texts. , 27(1), 3-44. https://doi.org/10.1515/ling.1989.27.1.3
 dtag_tbl <- function(tbl, input = 1, text = 2, ttr = 400){
 
      stopifnot("The input must be in the form of a data frame, with input id in col1 and text in col2." = is.data.frame(tbl))

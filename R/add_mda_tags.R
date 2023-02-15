@@ -5,7 +5,8 @@
 #' @param x character string
 #' @param mda_hesitation logical. If \code{TRUE}, hesitation markers are extracted from the text.
 #' Experimental feature - should hesitation markers be excluded before tagging?
-#' Regex for the hesitation markers is the same as the default for \code{dtag_hesitation}, but can be set using the regex argument. See \code{\link{dtag_hesitation}} for details.
+#' Regex for the hesitation markers is the same as the default for \code{dtag_hesitation},
+#' but can be set using the regex argument. See \code{\link{dtag_hesitation}} for details.
 #' @param progress logical. If \code{TRUE}, a progress message is printed
 #' @param ... Additional arguments to pass on.
 #' @import tibble
@@ -21,9 +22,9 @@
 #' add_mda_tags(text)
 #' # More detailed example:
 #' # Generate some text
-#' text <- "This example is short and sweet. This means that not all the complex
-#' tags will have been included, which is why this is really only a guide. It should
-#' be used with that in mind. Otherwise, I think you will be disappointed."
+#' text <- "This example is short and sweet. This means that not all the will have
+#' been included, which is why this is really only a guide. It should
+#' be used with that in mind. Otherwise, I think it may lead to disappointment."
 #' # Load udpipe model into the global environment for _ST tagging
 #' init_udpipe_model()
 #' # Add Stanford tags to text

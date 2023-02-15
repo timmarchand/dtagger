@@ -34,3 +34,18 @@ A tibble containing:
 \description{
 Compute the Biber-style dimension scores of a data frame.
 }
+\details{
+This function adds multidimensional analysis <MDA> tags to a data frame.
+The data frame should contain one column to identify input id, and another for the
+text that has been tagged with _ST tags, and flattened into non-tokenized form.
+
+After tagging the text, the function then calculates Dimension scores based on the
+Biber 1988 standard, and approximates the closest text type as per Biber 1989 text
+classification.
+}
+\references{
+\enumerate{
+\item Biber, D. (1988). Variation across Speech and Writing. Cambridge: Cambridge University Press. doi:10.1017/CBO9780511621024
+\item Biber, D. (1989). A typology of English texts. , 27(1), 3-44. https://doi.org/10.1515/ling.1989.27.1.3
+}
+}
