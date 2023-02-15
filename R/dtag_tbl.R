@@ -1,0 +1,103 @@
+#' @title dtag_tbl
+#' @description Compute the Biber-style dimension scores of a data frame.
+#' @param tbl A data frame with at least one column as input id  and another for the _ST tagged text.
+#' @param input A column for the input id (defaults to 1st position, but can be named as e.g. "colname1").
+#' @param text A column for the text (defaults to 2nd position, but can be named as e.g. "colname12").
+#' The text should be tagged with _ST tags, and in the flattened, not tokenized form.
+#' @param ttr Maximum number of tokens to consider for TTR, defaults to 400.
+#' @return A tibble containing:
+#' * wordcount - number of non-punctuation tokens found in text
+#' * dimension - Dimension1 ~ Dimension6 from Biber 1988 for each feature
+#' * feature - the <MDA> tag or AWL or TTR
+#' * detail - brief description of the feature
+#' * count - number of times the feature is counted in text
+#' * value - in case of <MDA> tag, normailsed frequency per 100 tokens
+#' * z-score - value scaled to the biber_mean and biber_sd
+#' * d-score - same as z-score, but with the sign of negative dimension features reversed
+#' * biber_mean and biber_sd for each feature, based on Biber 1988
+#' * closest matching text type for each input, based on Biber 1989
+#' @export
+#'
+dtag_tbl <- function(tbl, input = 1, text = 2, ttr = 400){
+
+     stopifnot("The input must be in the form of a data frame, with input id in col1 and text in col2." = is.data.frame(tbl))
+
+input <- pull(tbl,{{input}})
+text <- pull(tbl,{{text}})
+ttr <- {{ttr}}
+
+     stopifnot("The text doesn't appear to have any _ST tags.\nConsider using the add_st_tags() function on the text column first with:\n
+               tbl <-  mutate(tbl, text = map(text, add_st_tags) %>% map_chr(d_flatten))" = str_detect(d_flatten(text), "_\\W|_\\w"))
+
+  tags_to_count <- c("<AMP>", "<ANDC>", "<BEMA>", "<CAUS>", "<CONT>", "<DEMP>",
+"<DPAR>", "<EMPH>", "<FPP1>", "<HDG>", "<INPR>", "<JJ>", "<NN>",
+"<PIN>", "<PIT>", "<POMD>", "<PRIV>", "<PROD>", "<SERE>", "<SPP2>",
+"<STPR>", "<THATD>", "<TTR>", "<VPRT>", "<WHCL>", "<WHQU>", "<XX0>",
+"<PEAS>", "<PRESP>", "<PUBV>", "<SYNE>", "<TPP3>", "<VBD>", "<NOMZ>",
+"<PHC>", "<PIRE>", "<PLACE>", "<RB>", "<TIME>", "<WHOBJ>", "<WHSUB>",
+"<COND>", "<IN>", "<NEMD>", "<PRMD>", "<SPAU>", "<SUAV>", "<BYPA>",
+"<CONJ>", "<OSUB>", "<PASS>", "<PASTP>", "<WZPAST>", "<DEMO>",
+"<THAC>", "<THVC>", "<TOBJ>", "<CONC>", "<DWNT>", "<EX>", "<GER>",
+"<HSTN>", "<PRED>", "<QUAN>", "<QUPR>", "<SMP>", "<SPIN>", "<TO>",
+"<TSUB>", "<VBN>", "<WZPRES>")
+
+negative_tags <- c("<NN>", "<AWL>", "<PIN>", "<TTR>",
+                   "<JJ>", "<TIME>", "<PLACE>", "<RB>")
+
+
+
+  for (i in  1:nrow(tbl)){
+    tagged_text = add_mda_tags(text[i]) %>% str_flatten(., " ")
+    words <- tagged_text %>% stringr::str_extract_all("\\w+(?=_)") %>% unlist
+    if (400 > length(words)) {
+        ttr <- length(words)}
+    AWL <- (nchar(words) %>% sum) / length(words)
+    TTR <- words[1:ttr] %>% unique %>% length / ttr
+
+    awl_ttr <- tibble(input = input[i],
+                    tagged_text = tagged_text,
+                    wordcount = length(words),
+                    feature = c("<AWL>", "<TTR>"),
+                    value = c(AWL,TTR))
+
+    interim <- tibble(input = input[i],
+                    tagged_text = tagged_text,
+                    wordcount = length(words))
+
+
+ result   <-  map_df(tags_to_count, ~ interim %>%
+         mutate(
+                count = str_count(tagged_text, .x),
+                value = (count * 100) / wordcount,
+                feature = .x), .progress = "(4/4) Counting tags") %>%
+  tibble() %>%
+   arrange(input, feature) %>%
+   bind_rows(awl_ttr) %>%
+  left_join(biber_base, by = "feature") %>%
+  mutate(zscore = ((value - biber_mean) / biber_sd)) %>%
+  mutate(dscore = case_when(feature %in% negative_tags ~ -zscore,
+                            TRUE ~ zscore)) %>%
+  select(input, wordcount, dimension, feature, detail, count,value, zscore,dscore, biber_mean, biber_sd) %>%
+  arrange(input, dimension, feature)
+
+
+result  <- result %>%
+                          nest(dimension_tags = c(dimension, feature, detail, count,value, zscore,dscore, biber_mean, biber_sd)) %>%
+                         mutate(dimension_scores = map(dimension_tags, ~ .x %>%
+                                                        summarise(dimension_score = sum(dscore, na.rm = TRUE),
+                                                                  .by = c(dimension)) %>%
+                                                                    arrange(dimension) %>%
+                                  pivot_wider(names_from = "dimension", values_from = "dimension_score") %>%
+                                    select(-Other)),
+                                dimension_scores = add_closest_text_type(dimension_scores, by = NULL))
+
+
+    result_list[[i]] <-  result
+
+  }
+
+
+bind_rows(result_list) %>%
+  hoist(dimension_scores, "closest_text_type") %>%
+  relocate(closest_text_type, .after = wordcount)
+}

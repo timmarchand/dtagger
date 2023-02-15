@@ -15,7 +15,41 @@
 #' @param n An optional argument denoting the maximum number of text files to be analyzed.
 #' @param ST Logical argument denoting whether the text files have _ST tags included already.
 #' @param ... Additional arguments to passed on.
-#' @return A list of dataframes containing the tagged texts, individual and corpus-level scores for each dimension of the text, and word counts.
+#' @return A list of data frames containing:
+#'
+#' \bold{corpus_dimension_scores}
+#' * corpus - name of corpus folder
+#' * corpus_text_type - closest text type for average corpus dimensions
+#' * most_common_text_type - the mode of the closest text type for the documents within the corpus folder
+#' * Dimension scores - calculated scores for Dimension1 ~ Dimension6
+#'
+#' \bold{document_dimension_scores}
+#' * corpus - name of corpus folder
+#' * doc_id - name of text file
+#' * Dimension scores - calculated scores for Dimension1 ~ Dimension6
+#' * closest_text_type - closest matching text type for each doc_id, based on Biber 1989
+#' * dimension_tags
+#' * dimension - Dimension1 ~ Dimension6 from Biber 1988 for each feature
+#' * feature - the <MDA> tag or AWL or TTR
+#' * detail - brief description of the feature
+#' * count - number of times the feature is counted in text
+#' * value - in case of <MDA> tag, normailsed frequency per 100 tokens
+#' * z-score - value scaled to the biber_mean and biber_sd
+#' * d-score - same as z-score, but with the sign of negative dimension features reversed
+#' * biber_mean and biber_sd for each feature, based on Biber 1988
+#'
+#' \bold{tokenized_tags}
+#' * corpus - name of corpus folder
+#' * doc_id - name of text file
+#' * st_tags - text tokenized on each _ST tag
+#' * mda_tags - text tokenized on each <MDA> tag
+#'
+#' \bold{texts}
+#' * corpus - name of corpus folder
+#' * doc_id - name of text file
+#' * raw_text - untagged, flattened text for each doc_id
+#' * tagged_text - flattened text with _ST and <MDA> tags for each doc_id
+#' * wordcount - number of non-punctuation tokens found in text
 #' @importFrom fs dir_info
 #' @importFrom readtext readtext
 #' @export
@@ -101,7 +135,7 @@ ALL_Dscores <- map_df(tags_to_count, ~ALL %>%
             mutate(zscore = ((value - biber_mean) / biber_sd)) %>%
             mutate(dscore = case_when(feature %in% negative_tags ~ -zscore,
                             TRUE ~ zscore)) %>%
-            select(corpus, doc_id, dimension, feature, detail, value, zscore,dscore, biber_mean, biber_sd) %>%
+            select(corpus, doc_id, dimension, feature, detail, count,value, zscore,dscore, biber_mean, biber_sd) %>%
             arrange(corpus, doc_id, dimension, feature)
 
 document_dimension_scores <- ALL_Dscores %>%

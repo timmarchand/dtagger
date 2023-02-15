@@ -7,7 +7,8 @@
 add_closest_text_type(data, by = c("doc_id", "corpus"))
 }
 \arguments{
-\item{data}{A data frame with a corpus or doc_id column, and columns for Dimension scores Dimension1 ~ Dimesnion5}
+\item{data}{A data frame with a corpus or doc_id column, and columns for Dimension scores Dimension1 ~ Dimension5.
+The data frame needs to be in a list for the purrr::map function to work.}
 
 \item{by}{The column name by which the dimensions are to be grouped.}
 }
