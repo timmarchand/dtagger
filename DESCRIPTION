@@ -18,7 +18,8 @@ Imports:
     magrittr,
     fs,
     readtext,
-    collapse
+    collapse,
+    tidyr
 URL: https://github.com/timmarchand/dtagger
 BugReports: https://github.com/timmarchand/dtagger/issues
 Depends: 

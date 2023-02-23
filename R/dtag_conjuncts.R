@@ -1,9 +1,11 @@
-#' @title Tag conjuncts
+#' @title Tag conjuncts <CONJ>
 #'
 #' @description This function tags conjuncts in text that has been previously _ST tagged and tokenized.
 #' @details The function adds the <CONJ> tag to the relevant token.
 #'
-#' In case of conjuncts that are part of a multi-word expression (e.g. in_IN addition_NN), the function adds the <CONJ> tag to the first token, and a _NULL tag to the second (e.g. "in_IN <CONJ>" , "addition_NULL").
+#' In case of conjuncts that are part of a multi-word expression (e.g. in_IN addition_NN),
+#' the function adds the <CONJ> tag to the first token, and a _NULL tag to the second
+#' (e.g. "in_IN <CONJ>" , "addition_NULL").
 #'
 #' @param x A character vector of strings that have been tokenized and tagged with _ST tags.
 #'

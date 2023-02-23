@@ -4,7 +4,7 @@
 \alias{dtag_tbl}
 \title{dtag_tbl}
 \usage{
-dtag_tbl(tbl, input = 1, text = 2, ttr = 400)
+dtag_tbl(tbl, input = 1, text = 2, tokenized = FALSE, ttr = 400)
 }
 \arguments{
 \item{tbl}{A data frame with at least one column as input id  and another for the _ST tagged text.}
@@ -13,6 +13,9 @@ dtag_tbl(tbl, input = 1, text = 2, ttr = 400)
 
 \item{text}{A column for the text (defaults to 2nd position, but can be named as e.g. "colname12").
 The text should be tagged with _ST tags, and in the flattened, not tokenized form.}
+
+\item{tokenized}{Logical. The default is FALSE, in which case the function tokenizes the text
+with \code{str_split(text, " ")}. Set to TRUE if text is already tokenized and in a list column.}
 
 \item{ttr}{Maximum number of tokens to consider for TTR, defaults to 400.}
 }

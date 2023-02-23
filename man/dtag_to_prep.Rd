@@ -7,10 +7,10 @@
 dtag_to_prep(x)
 }
 \arguments{
-\item{x}{A character of tokenized strings with ST tags}
+\item{x}{A character of tokenized strings with _ST tags}
 }
 \value{
-A character vector with some preposition tags.
+A character vector with some preposition <PIN> tags.
 }
 \description{
 Adds the preposition tag  <PIN> to preposition form of to_TO

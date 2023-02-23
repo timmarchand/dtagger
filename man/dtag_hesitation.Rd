@@ -7,7 +7,7 @@
 dtag_hesitation(x, regex = "\\\\berm?\\\\b|\\\\berm?_|\\\\bum\\\\b|\\\\bum_")
 }
 \arguments{
-\item{x}{A character vector.}
+\item{x}{A character vector with <HSTN> added, where necessary.}
 
 \item{regex}{A regular expression (default "\\berm?\\b|\\berm?\emph{|\\bum\\b|\\bum}").
 The regex expression is case insensitive by default.}
@@ -16,7 +16,7 @@ The regex expression is case insensitive by default.}
 A character vector with hesitation tags appended.
 }
 \description{
-Add hesitation marker <HSTN> to a vector of tokenized strings
+Add hesitation marker <HSTN> to a vector of tokenized strings.
 }
 \examples{
 dtag_hesitation(c("I'm", "not", "sure",".", "Um" ,"," ,"no"))

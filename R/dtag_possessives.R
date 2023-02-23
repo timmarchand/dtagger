@@ -1,7 +1,7 @@
 #' @title Correct Stanford (ST) possessive tags
-#' @description  Correct Stanford (ST) possessive tags by replacing $ with S to make future regex matching easier
-#' @param x a character vector of strings with ST tags
-#' @return a character vector
+#' @description  Correct Stanford _ST possessive tags by replacing $ with S to make future regex matching easier.
+#' @param x a character vector of strings, tokenized and with _ST tags.
+#' @return a character vector of strings, tokenized and with "..$" replaced by "..S"
 #' @export
 #'
 #' @examples

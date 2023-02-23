@@ -12,6 +12,8 @@
 #' @param input A column for the input id (defaults to 1st position, but can be named as e.g. "colname1").
 #' @param text A column for the text (defaults to 2nd position, but can be named as e.g. "colname12").
 #' The text should be tagged with _ST tags, and in the flattened, not tokenized form.
+#' @param tokenized Logical. The default is FALSE, in which case the function tokenizes the text
+#' with \code{str_split(text, " ")}. Set to TRUE if text is already tokenized and in a list column.
 #' @param ttr Maximum number of tokens to consider for TTR, defaults to 400.
 #' @return A tibble containing:
 #' * wordcount - number of non-punctuation tokens found in text
@@ -24,11 +26,13 @@
 #' * d-score - same as z-score, but with the sign of negative dimension features reversed
 #' * biber_mean and biber_sd for each feature, based on Biber 1988
 #' * closest matching text type for each input, based on Biber 1989
+#' @importFrom tidyr hoist
+#' @importFrom tidyr nest
 #' @export
 #' @references
 #'  1. Biber, D. (1988). Variation across Speech and Writing. Cambridge: Cambridge University Press. doi:10.1017/CBO9780511621024
 #'  2. Biber, D. (1989). A typology of English texts. , 27(1), 3-44. https://doi.org/10.1515/ling.1989.27.1.3
-dtag_tbl <- function(tbl, input = 1, text = 2, ttr = 400){
+dtag_tbl <- function(tbl, input = 1, text = 2, tokenized = FALSE, ttr = 400){
 
      stopifnot("The input must be in the form of a data frame, with input id in col1 and text in col2." = is.data.frame(tbl))
 
@@ -38,6 +42,11 @@ ttr <- {{ttr}}
 
      stopifnot("The text doesn't appear to have any _ST tags.\nConsider using the add_st_tags() function on the text column first with:\n
                tbl <-  mutate(tbl, text = map(text, add_st_tags) %>% map_chr(d_flatten))" = str_detect(d_flatten(text), "_\\W|_\\w"))
+
+if(!tokenized){text <- text %>%
+                        str_split("\\s")}
+
+
 
   tags_to_count <- c("<AMP>", "<ANDC>", "<BEMA>", "<CAUS>", "<CONT>", "<DEMP>",
 "<DPAR>", "<EMPH>", "<FPP1>", "<HDG>", "<INPR>", "<JJ>", "<NN>",
@@ -92,7 +101,7 @@ negative_tags <- c("<NN>", "<AWL>", "<PIN>", "<TTR>",
 
 
 result  <- result %>%
-                          nest(dimension_tags = c(dimension, feature, detail, count,value, zscore,dscore, biber_mean, biber_sd)) %>%
+                          tidyr::nest(dimension_tags = c(dimension, feature, detail, count,value, zscore,dscore, biber_mean, biber_sd)) %>%
                          mutate(dimension_scores = map(dimension_tags, ~ .x %>%
                                                         summarise(dimension_score = sum(dscore, na.rm = TRUE),
                                                                   .by = c(dimension)) %>%
@@ -108,6 +117,6 @@ result  <- result %>%
 
 
 bind_rows(result_list) %>%
-  hoist(dimension_scores, "closest_text_type") %>%
+  tidyr::hoist(dimension_scores, "closest_text_type") %>%
   relocate(closest_text_type, .after = wordcount)
 }

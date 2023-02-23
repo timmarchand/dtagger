@@ -3,10 +3,10 @@
 globs <-
 c(".","...", "<<-", "andc1", "andc2", "andc3", "andc4", "be_main1", "be_main2",
 "biber_base", "biber_mean", "biber_sd", "by", "bypassives1", "bypassives2",
-"bypassives3", "case","conjuncts1","conjuncts2", "conjuncts3","conjuncts4",
+"bypassives3", "case","closest_text_type", "conjuncts1","conjuncts2", "conjuncts3","conjuncts4",
 "conjuncts5" ,"conjuncts6", "conjuncts7","conjuncts8", "conjuncts9",
 "conjuncts10", "corpus", "dem_pronouns1", "dem_pronouns2",
-"demonstratives", "detail", "dimension", "disc_part", "doc_id",
+"demonstratives", "detail", "dimension", "dimension_tags", "dimension_scores" , "disc_part", "doc_id",
 "docvar2", "dscore", "emphatics1", "emphatics2", "emphatics3",
 "feature", "hedges1", "hedges2", "hedges3", "hedges4", "hedges5",
 "left", "log_midpipe", "mda_tags", "name", "null2", "null3",
@@ -24,7 +24,7 @@ c(".","...", "<<-", "andc1", "andc2", "andc3", "andc4", "be_main1", "be_main2",
 "that_obj1", "that_sub1", "that_sub2", "that_sub3", "that_subj1",
 "that_subj2", "that_subj3", "that_vc1", "that_vc2", "that_vc3",
 "that_vc4", "that_vc5", "time_adv1", "time_adv2", "to_prep",
-"token", "token_id", "udmodel", "unnest", "value", "wh_clauses",
+"token", "tokenized",  "token_id", "udmodel", "unnest", "value", "wh_clauses",
 "wh_obj1", "wh_questions", "what_subj1", "what_subj2", "what_subj3",
 "wordcount", "xpos", "zscore")
 

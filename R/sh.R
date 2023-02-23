@@ -1,4 +1,4 @@
-#' Reference Data
+#' Shorthand Reference Data
 #'
 #' Data and shortcuts used in some of the tagging functions
 #'

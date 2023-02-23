@@ -7,13 +7,13 @@
 dtag_possessives(x)
 }
 \arguments{
-\item{x}{a character vector of strings with ST tags}
+\item{x}{a character vector of strings, tokenized and with _ST tags.}
 }
 \value{
-a character vector
+a character vector of strings, tokenized and with "..$" replaced by "..S"
 }
 \description{
-Correct Stanford (ST) possessive tags by replacing $ with S to make future regex matching easier
+Correct Stanford _ST possessive tags by replacing $ with S to make future regex matching easier.
 }
 \examples{
 x <- c("Their_PRP$", "house_NN", "was_VBD", "big_JJ", "and_CC", "luxurious_JJ", "._.")

@@ -31,8 +31,8 @@ text <- c("I_PPSS", "have_VB", "a_DET", "dog_NN")
 add_mda_tags(text)
 # More detailed example:
 # Generate some text
-text <- "This example is short and sweet. This means that not all the will have
-been included, which is why this is really only a guide. It should
+text <- "This example is short and sweet. This means that not all the tags will
+have been included, which is why this is really only a guide and it should
 be used with that in mind. Otherwise, I think it may lead to disappointment."
 # Load udpipe model into the global environment for _ST tagging
 init_udpipe_model()

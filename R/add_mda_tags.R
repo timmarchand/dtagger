@@ -22,8 +22,8 @@
 #' add_mda_tags(text)
 #' # More detailed example:
 #' # Generate some text
-#' text <- "This example is short and sweet. This means that not all the will have
-#' been included, which is why this is really only a guide. It should
+#' text <- "This example is short and sweet. This means that not all the tags will
+#' have been included, which is why this is really only a guide and it should
 #' be used with that in mind. Otherwise, I think it may lead to disappointment."
 #' # Load udpipe model into the global environment for _ST tagging
 #' init_udpipe_model()
@@ -56,7 +56,8 @@ result <-
   x %>%
   # Basic MDA tags
     dtag_possessives() %>%
-    dtag_to_prep() %>%
+    dtag_to_inf() %>% # tag all to_ first
+    dtag_to_prep() %>% # replace <TO> with <PIN>
     dtag_negation() %>%
     dtag_prepositions() %>%
     dtag_ind_pron() %>%
@@ -79,8 +80,9 @@ result <-
     dtag_str_prepositions() %>%
     dtag_split_infinitives() %>%
     dtag_split_auxiliaries() %>%
+    dtag_syn_negation() %>%
     dtag_time_adverbials() %>% # overlap with DPAR
-    dtag_place_adverbials() %>% # upstairs?
+    dtag_place_adverbials() %>%
     dtag_that_vc()  %>%
     dtag_that_ac() %>%
     dtag_pres_part() %>%
@@ -106,6 +108,8 @@ result <-
     dtag_all_adjectives() %>%
     dtag_all_adverbs() %>%
     dtag_present_tenses() %>%
+    dtag_past_tenses() %>%
+    dtag_perfect_tenses() %>%   # redundant
     dtag_first_person_pronoun() %>%
     dtag_second_person_pronoun() %>%
     dtag_third_person_pronoun() %>%
@@ -121,6 +125,7 @@ result <-
     dtag_suasive_verb() %>%
     dtag_seem_appear() %>%
     dtag_contractions() %>%
+    dtag_ex_there() %>%
    unlist(x) %>%
    remove_duplicated_tags()
 
