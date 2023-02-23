@@ -109,7 +109,7 @@ result <-
     dtag_all_adverbs() %>%
     dtag_present_tenses() %>%
     dtag_past_tenses() %>%
-    dtag_perfect_tenses() %>%   # redundant
+    dtag_all_pp() %>%   # redundant
     dtag_first_person_pronoun() %>%
     dtag_second_person_pronoun() %>%
     dtag_third_person_pronoun() %>%
