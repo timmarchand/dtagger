@@ -4,7 +4,7 @@
 #' @param x A character of tokenized strings with _ST tags.
 #' @return A character vector with all past participle verb matches tagged by <VBN>.
 #' @export
-dtag_past_tenses <- function(x){
+dtag_all_pp <- function(x){
   regex <- "_VBN"
   x <- data.table(x)
   x[d_grepl(x, regex), x:=d_sub(x, "$", " <VBN>")]
