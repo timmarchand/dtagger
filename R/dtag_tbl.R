@@ -63,7 +63,7 @@ if(!tokenized){text <- text %>%
 # negative_tags <- c("<NN>", "<AWL>", "<PIN>", "<TTR>",
 #                    "<JJ>", "<TIME>", "<PLACE>", "<RB>")
 
-
+result_list <- list()
 
   for (i in  1:nrow(tbl)){
     tagged_text = add_mda_tags(text[i]) %>% str_flatten(., " ")
