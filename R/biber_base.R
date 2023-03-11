@@ -10,6 +10,6 @@
 #' \item(detail){Simple description of the feature}
 #' \item(biber_mean){Mean value for the feature found in Biber 1988}
 #' \item(biber_sd){Standard deviation of the feature found in Biber 1988}
-#' \item(loading{Whether the feature has a positive or negative loading in the MDA)
+#' \item(loading){Whether the feature has a positive or negative loading in the MDA}
 #' }
 "biber_base"
