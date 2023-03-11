@@ -78,8 +78,8 @@ tags_to_count <- c("<AMP>", "<ANDC>", "<BEMA>", "<CAUS>", "<CONT>", "<DEMP>",
 "<HSTN>", "<PRED>", "<QUAN>", "<QUPR>", "<SMP>", "<SPIN>", "<TO>",
 "<TSUB>", "<VBN>", "<WZPRES>")
 
-negative_tags <- c("<NN>", "<AWL>", "<PIN>", "<TTR>",
-                   "<JJ>", "<TIME>", "<PLACE>", "<RB>")
+# negative_tags <- c("<NN>", "<AWL>", "<PIN>", "<TTR>",
+#                    "<JJ>", "<TIME>", "<PLACE>", "<RB>")
 
 ALL_corpora <-
   path %>%
@@ -140,8 +140,7 @@ ALL_Dscores <- map_df(tags_to_count, ~ALL %>%
             bind_rows(awl_ttr) %>%
             left_join(biber_base) %>%
             mutate(zscore = ((value - biber_mean) / biber_sd)) %>%
-            mutate(dscore = case_when(feature %in% negative_tags ~ -zscore,
-                            TRUE ~ zscore)) %>%
+            mutate(dscore = if_else(loading == "negative",  -zscore, zscore)) %>%
             select(corpus, doc_id, dimension, feature, detail, count,value, zscore,dscore, biber_mean, biber_sd) %>%
             arrange(corpus, doc_id, dimension, feature)
 

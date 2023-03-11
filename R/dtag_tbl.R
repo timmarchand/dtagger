@@ -60,8 +60,8 @@ if(!tokenized){text <- text %>%
 "<HSTN>", "<PRED>", "<QUAN>", "<QUPR>", "<SMP>", "<SPIN>", "<TO>",
 "<TSUB>", "<VBN>", "<WZPRES>")
 
-negative_tags <- c("<NN>", "<AWL>", "<PIN>", "<TTR>",
-                   "<JJ>", "<TIME>", "<PLACE>", "<RB>")
+# negative_tags <- c("<NN>", "<AWL>", "<PIN>", "<TTR>",
+#                    "<JJ>", "<TIME>", "<PLACE>", "<RB>")
 
 
 
@@ -94,8 +94,7 @@ negative_tags <- c("<NN>", "<AWL>", "<PIN>", "<TTR>",
    bind_rows(awl_ttr) %>%
   left_join(biber_base, by = "feature") %>%
   mutate(zscore = ((value - biber_mean) / biber_sd)) %>%
-  mutate(dscore = case_when(feature %in% negative_tags ~ -zscore,
-                            TRUE ~ zscore)) %>%
+           mutate(dscore = if_else(loading == "negative",  -zscore, zscore)) %>%
   select(input, wordcount, dimension, feature, detail, count,value, zscore,dscore, biber_mean, biber_sd) %>%
   arrange(input, dimension, feature)
 
