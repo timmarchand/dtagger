@@ -137,7 +137,6 @@ ALL_Dscores <- map_df(tags_to_count, ~ALL %>%
             tibble()  %>%
             select(corpus,doc_id,feature,count,value) %>%
             arrange(doc_id, feature) %>%
-            filter(feature != "<TTR>")
             bind_rows(awl_ttr) %>%
             left_join(biber_base) %>%
             mutate(zscore = ((value - biber_mean) / biber_sd)) %>%
