@@ -17,7 +17,7 @@ dtag_indep_cc <- function(x){
 
   x[, andc3 := d_grepl(x, "_,") &
       d_grepl(shift(x, type="lead", n=1), "\\band_") &
-      d_grepl(shift(x, type="lead", n=2), "\\bit_|\\bso_|\\bthen_|\\byou_|_DEMP|\\bi_|\\bwe_|\\bhe_|\\bshe_|\\bthey_")]
+      d_grepl(shift(x, type="lead", n=2), "\\bit_|\\bso_|\\bthen_|\\byou_|<DEMP>|\\bi_|\\bwe_|\\bhe_|\\bshe_|\\bthey_")]
 
   x[, andc4 := d_grepl(shift(x, type="lag", n=1), "_,") &
       d_grepl(x, "\\band_") &
@@ -25,6 +25,6 @@ dtag_indep_cc <- function(x){
       d_grepl(shift(x, type="lead", n=2), sh["be"])]
 
   x[andc1 == TRUE | andc2 == TRUE | andc3 == TRUE | andc4 == TRUE,
-    x:= d_sub(x, "$", " <ANDC>")]
+    x:= d_sub(x, "(<PHC>)?$", " <ANDC>")]
   return(x$x)
 }

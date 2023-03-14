@@ -21,9 +21,8 @@ stringr::str_extract("\\w+(?=_)") %>%
   .[!is.na(.)]
 
 if(ttr > length(words)){ ttr <- length(words)}
-# standardise per 100 words
-ttr <- ttr/100
+
 
 tibble::tibble(AWL = (nchar(words) %>% sum) / length(words),
-       TTR = (words[1:{{ttr}}] %>% unique %>% length) / ttr )
+       TTR = (words[1:{{ttr}}] %>% unique %>% length)*100 / ttr )
 }

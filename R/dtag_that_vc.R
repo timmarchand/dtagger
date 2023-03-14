@@ -7,11 +7,12 @@ dtag_that_vc <- function(x){
  that_vc1 <- that_vc2 <- that_vc2 <- that_vc2 <- that_vc2 <- NULL
 
   x <- data.table(x)
-  x[, that_vc1 := str_detect(shift(x, type="lag", n=1), "\\band_|\\bnor_|\\bbut_|\\bor_|\\balso_|_\\W") &
+  x[, that_vc1 := d_grepl_case(shift(x, type="lag", n=1), "\\band_|\\bnor_|\\bbut_|\\bor_|\\balso_|_\\W") &
       d_grepl(x, "\\bthat_") &
-      d_grepl(shift(x, type="lead", n=1), "_DT|_QUAN|_CD|_PRP|there_|_NNS|_NNP")]
+      d_grepl(shift(x, type="lead", n=1), "_DT|<QUAN>|_CD|_PRP|there_|_NNS|_NNP")]
 
-  x[, that_vc2 := d_grepl(shift(x, type="lag", n=1), str_flatten(sh[c("public" , "private" , "suasive","SMP")],"|")) &
+  x[, that_vc2 := d_grepl(shift(x, type="lag", n=1), str_c(str_flatten(sh[c("public" , "private" , "suasive")],"|"),
+                                                           "|\\bseem_|\\bseems_|\\bseemed_|\\bseeming_|\\bappear_|\\bappears_|\\bappeared_|\\bappearing_")) &
       d_grepl(x, "\\bthat_") &
       !d_grepl(shift(x, type="lead", n=1), "_V|_MD|\\band_|_\\W") &
       !d_grepl(shift(x, type="lead", n=1), str_flatten(sh[c("do" , "have" , "be")], "|"))]

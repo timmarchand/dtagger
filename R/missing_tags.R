@@ -23,10 +23,12 @@ input2 <- deparse(substitute(vec2))
       index1 <- str_which(vec1, {{regex}})
       index2 <- str_which(vec2, {{regex}})
 
-     missing1 <-  setdiff(index1,index2) %>% quick_conc(vec1, .) %>%
+     missing1 <-  setdiff(index1,index2) %>%
+       dtagger::quick_conc(vec1, .) %>%
        mutate(input := input1, .before = case)
 
-     missing2 <-  setdiff(index1, index2) %>% quick_conc(vec2, .)%>%
+     missing2 <-  setdiff(index1, index2) %>%
+       dtagger::quick_conc(vec2, .) %>%
        mutate(input := input2, .before = case)
 
 
@@ -38,10 +40,12 @@ input2 <- deparse(substitute(vec2))
       index1 <- str_which(vec1, {{regex1}})
       index2 <- str_which(vec2, {{regex2}})
 
-     missing1 <-  setdiff(index1,index2) %>% quick_conc(vec1, .) %>%
+     missing1 <-  setdiff(index1,index2) %>%
+       dtagger::quick_conc(vec1, .) %>%
        mutate(input := input1, .before = case)
 
-     missing2 <-  setdiff(index1, index2) %>% quick_conc(vec2, .)%>%
+     missing2 <-  setdiff(index1, index2) %>%
+       dtagger::quick_conc(vec2, .) %>%
        mutate(input := input2, .before = case)
 
 

@@ -17,15 +17,15 @@ dtag_that_del <- function(x){
 
   x[, that_del3 := d_grepl(x, str_flatten(sh[c("public" , "private" , "suasive")], "|")) &
       (d_grepl(shift(x, type="lead", n=1), "_PRP|_N") |
-      d_grepl(shift(x, type="lead", n=1), "_JJ|_PRED|_RB|_DT|_QUAN|_CD|_PRPS") &
-      d_grepl(shift(x, type="lead", n=2), "_N")) &
+      d_grepl(shift(x, type="lead", n=1), "_JJ|_PRED|_RB|_DT|_QUAN|_CD|_PRPS")) &
+      d_grepl(shift(x, type="lead", n=2), "_N") &
       (d_grepl(shift(x, type="lead", n=3), "_MD|_V") |
          d_grepl(shift(x, type="lead", n=3), str_flatten(sh[c("do","have","be")],"|")))]
 
   x[, that_del4 := d_grepl(x, str_flatten(sh[c("public" , "private" , "suasive")], "|")) &
       (d_grepl(shift(x, type="lead", n=1), "_PRP|_N") |
-         d_grepl(shift(x, type="lead", n=1), "_JJ|_PRED|_RB|_DT|_QUAN|_CD|_PRPS") &
-      d_grepl(shift(x, type="lead", n=2), "_JJ|_PRED")) &
+         d_grepl(shift(x, type="lead", n=1), "_JJ|_PRED|_RB|_DT|_QUAN|_CD|_PRPS")) &
+      d_grepl(shift(x, type="lead", n=2), "_JJ|_PRED") &
       d_grepl(shift(x, type="lead", n=3), "_N") &
       (d_grepl(shift(x, type="lead", n=4), "_MD|_V") |
       d_grepl(shift(x, type="lead", n=4), str_flatten(sh[c("do","have","be")],"|")))]

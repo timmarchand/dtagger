@@ -24,7 +24,7 @@ dtag_conjuncts <- function(x){
   x[, conjuncts1 := d_grepl(x, "\\belse_|\\baltogether_|\\brather_") &
       str_detect(shift(x, type="lag", n=1), "_\\W")]
 
-  x[, conjuncts2 := d_grepl(x, "\\balternatively_|\\bconsequently_|\\bconversely_|\\beg_|\\be\\.g\\._|\\bfurthermore_|\\bhence_|\\bhowever_|\\bi\\.e\\._|\\binstead_|\\blikewise_|\\bmoreover_|\\bnamely_|\\bnevertheless_|\\bnonetheless_|\\bnotwithstanding_|\\botherwise_|\\bsimilarly_|\\btherefore_|\\bthus_|\\bviz\\.")
+  x[, conjuncts2 := d_grepl(x, "\\balternatively_|\\bconsequently_|\\bconversely_|\\beg_|\\be\\.g\\._|\\bfurthermore_|\\bhence_|\\bhowever_|\\bi\\.e\\._|\\binstead_|\\blikewise_|\\bmoreover_|\\bnamely_|\\bnevertheless_|\\bnonetheless_|\\bnotwithstanding_|\\botherwise_|\\bsimilarly_|\\btherefore_|\\bthus_|\\bviz\\.")]
 
   x[, conjuncts3 := d_grepl(x, "\\bin_") &
       d_grepl(shift(x, type="lead", n=1), "\\bcomparison_|\\bcontrast_|\\bparticular_|\\baddition_|\\bconclusion_|\\bconsequence_|\\bsum_|\\bsummary_")]

@@ -12,9 +12,9 @@ dtag_pro_do <- function(x){
       !d_grepl(shift(x, type="lag", n=1), str_flatten(sh[c("wp","who")], "|")) &
       d_grepl(x,sh["do"]) &
       !d_grepl(shift(x, type="lead", n=1),"_V") &
-      !d_grepl(shift(x, type="lead", n=1),"_XX0") &
-      !(d_grepl(shift(x, type="lead", n=1),"_RB|_XX0") | d_grepl(shift(x, type="lead", n=2),"_V")) &
-      !(d_grepl(shift(x, type="lead", n=1),"_RB|_XX0") | d_grepl(shift(x, type="lead", n=1),"_RB") | d_grepl(shift(x, type="lead", n=3),"_V"))]
+      !d_grepl(shift(x, type="lead", n=1),"<XX0>") &
+      !(d_grepl(shift(x, type="lead", n=1),"_RB|<XX0>") | d_grepl(shift(x, type="lead", n=2),"_V")) &
+      !(d_grepl(shift(x, type="lead", n=1),"_RB|<XX0>") | d_grepl(shift(x, type="lead", n=1),"_RB") | d_grepl(shift(x, type="lead", n=3),"_V"))]
 
   x[pro_do == TRUE, x := d_sub(x, "$", " <PROD>")]
 
