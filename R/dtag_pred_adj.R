@@ -9,11 +9,11 @@ dtag_pred_adj <- function(x){
       d_grepl(x, "_JJ") &
       !d_grepl(shift(x, type="lead", n=1), "_JJ|_RB|_NN|_NNP")]
   x[, pred_3 := d_grepl(shift(x, type="lag", n=2), sh["be"])  &
-      d_grepl(shift(x, type="lag", n=1), "_XX0") &
+      d_grepl(shift(x, type="lag", n=1), "<XX0>") &
       d_grepl(x, "_JJ") &
       !d_grepl(shift(x, type="lead", n=1), "_JJ|_RB|_NN|_NNP")]
   x[, pred_4 := d_grepl(shift(x, type="lag", n=3), sh["be"]) &
-      d_grepl(shift(x, type="lag", n=2), "_XX0") &
+      d_grepl(shift(x, type="lag", n=2), "<XX0>") &
       d_grepl(shift(x, type="lead", n=1), "_RB") &
       d_grepl(x, "_JJ") &
       !d_grepl(shift(x, type="lead", n=1), "_JJ|_RB|_NN|_NNP")]
