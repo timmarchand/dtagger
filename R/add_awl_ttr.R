@@ -20,9 +20,10 @@ words <- vec %>%
 stringr::str_extract("\\w+(?=_)") %>%
   .[!is.na(.)]
 
+ttr <- {{ttr}}
 if(ttr > length(words)){ ttr <- length(words)}
 
 
 tibble::tibble(AWL = (nchar(words) %>% sum) / length(words),
-       TTR = (words[1:{{ttr}}] %>% unique %>% length)*100 / ttr )
+       TTR = (words[1:ttr] %>% unique %>% length)*100 / ttr )
 }

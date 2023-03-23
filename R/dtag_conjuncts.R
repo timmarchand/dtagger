@@ -22,7 +22,7 @@ dtag_conjuncts <- function(x){
  x <- data.table(x)
 
   x[, conjuncts1 := d_grepl(x, "\\belse_|\\baltogether_|\\brather_") &
-      str_detect(shift(x, type="lag", n=1), "_\\W")]
+      d_grepl_case(shift(x, type="lag", n=1), "_\\W")]
 
   x[, conjuncts2 := d_grepl(x, "\\balternatively_|\\bconsequently_|\\bconversely_|\\beg_|\\be\\.g\\._|\\bfurthermore_|\\bhence_|\\bhowever_|\\bi\\.e\\._|\\binstead_|\\blikewise_|\\bmoreover_|\\bnamely_|\\bnevertheless_|\\bnonetheless_|\\bnotwithstanding_|\\botherwise_|\\bsimilarly_|\\btherefore_|\\bthus_|\\bviz\\.")]
 
@@ -73,30 +73,41 @@ dtag_conjuncts <- function(x){
       d_grepl(shift(x, type = "lag", n=1), "\\ba_") &
       d_grepl(x, "\\bresult_|\\bconsequence_")]
 
-  x[, conjuncts10 := d_grepl(x, "\\bon_") &
+
+    x[, conjuncts10 := d_grepl(x, "\\bon_") &
+      d_grepl(shift(x, type="lead", n=1), "\\bthe_") &
+      d_grepl(shift(x, type="lead", n=2), "\\bcontrary_")]
+  x[, null10 := d_grepl(shift(x, type = "lag", n=1), "\\bon_") &
+      d_grepl(x, "\\bthe_") &
+      d_grepl(shift(x, type="lead", n=1), "\\bcontrary_")]
+  x[, null10a := d_grepl(shift(x, type = "lag", n=2), "\\bon_") &
+      d_grepl(shift(x, type="lag", n=1), "\\bthe_") &
+      d_grepl(x, "\\contrary_")]
+
+  x[, conjuncts11 := d_grepl(x, "\\bon_") &
       d_grepl(shift(x, type = "lead", n=1), "\\bthe_") &
       d_grepl(shift(x, type = "lead", n=2), "\\bother_") &
       d_grepl(shift(x, type = "lead", n=3), "\\bhand_")]
-  x[, null10 := d_grepl(shift(x, type = "lag", n=1), "\\bon_") &
+  x[, null11 := d_grepl(shift(x, type = "lag", n=1), "\\bon_") &
       d_grepl(x, "\\bthe_") &
       d_grepl(shift(x, type = "lead", n=1), "\\bother_") &
       d_grepl(shift(x, type = "lead", n=2), "\\bhand_")]
-  x[, null10a := d_grepl(shift(x, type = "lag", n=2), "\\bon_") &
+  x[, null11a := d_grepl(shift(x, type = "lag", n=2), "\\bon_") &
       d_grepl(shift(x, type = "lag", n=1), "\\bthe_") &
       d_grepl(x, "\\bother_") &
       d_grepl(shift(x, type = "lead", n=1), "\\bhand_")]
-  x[, null10b := d_grepl(shift(x, type = "lag", n=3), "\\bon_") &
+  x[, null11b := d_grepl(shift(x, type = "lag", n=3), "\\bon_") &
       d_grepl(shift(x, type = "lag", n=2), "\\bthe_") &
       d_grepl(shift(x, type = "lag", n=1), "\\bother_") &
       d_grepl(x, "\\bhand_")]
 
   x[conjuncts1 == TRUE | conjuncts2 == TRUE | conjuncts3 == TRUE | conjuncts4 == TRUE |
     conjuncts5 == TRUE | conjuncts6 == TRUE | conjuncts7 == TRUE | conjuncts8 == TRUE |
-    conjuncts9 == TRUE | conjuncts10 == TRUE,
+    conjuncts9 == TRUE | conjuncts10 == TRUE | conjuncts11 == TRUE,
     x := d_sub(x, "$", " <CONJ>")]
   x[null3 == TRUE | null4 == TRUE | null4 == TRUE |   null5 == TRUE | null6 == TRUE |
     null7 == TRUE | null8 == TRUE | null8a == TRUE |  null9 == TRUE | null9a == TRUE |
-    null10 == TRUE | null10a == TRUE | null10b == TRUE,
+    null10 == TRUE | null10a == TRUE |  null11 == TRUE | null11a == TRUE | null11b == TRUE,
     x := d_sub(x, "_\\w+", "_NULL")]
 
   return(x$x)

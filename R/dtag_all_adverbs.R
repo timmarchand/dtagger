@@ -20,7 +20,7 @@ dtag_all_adverbs <- function(x){
   x[d_grepl(x, regex) & !d_grepl(x, "<OSUB>") & !d_grepl(x, "<EMPH>") &
       !d_grepl(x, "<XX0>") & !d_grepl(x, "<AMP>") & !d_grepl(x, "<DWNT>") &
       !d_grepl(x, "<DPAR>") &  !d_grepl(x, "<QUAN>") & !d_grepl(x, "<PLACE>") &
-      !d_grepl(x, "<TIME>"),
+      !d_grepl(x, "<TIME>") & !d_grepl(x, "<CONJ>"),
     x:=d_sub(x, "$", " <RB>")]
   return(x$x)
 }
