@@ -8,7 +8,7 @@ dtag_all_nouns <- function(x){
   regex <- "(_NN|_NNS|_NNP|_NNPS)"
   x <- data.table(x)
   x[d_grepl(x, regex)
-    & !d_grepl(x,"<GER>|<NOMZ>|<QUPR>|<INPR>|<TIME>|<PLACE>)"), x:=d_sub(x, "$", " <NN>")]
+    & !d_grepl(x,"<GER>|<NOMZ>|<QUPR>|<INPR>|<TIME>|<PLACE>"), x:=d_sub(x, "$", " <NN>")]
   return(x$x)
 }
 
