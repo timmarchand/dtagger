@@ -9,10 +9,9 @@ dtag_dem_pronouns <- function(x){
 
   x <- data.table(x)
   x[, dem_pronouns1 := d_grepl(x, "\\bthat_|\\bthis_|\\bthese_|\\bthose_") &
-      !d_grepl(x, "_NULL") &
-      (d_grepl(shift(x, type="lead", n=1), "_V|_MD|_\\W|\\band_") |
-         d_grepl(shift(x, type="lead", n=1), str_flatten(sh[c("do","have","be","wp")], "|"))) &
-      !d_grepl(x, "<TOBJ>|<TSUB>|<THAC>|<THVC>")]
+      !d_grepl(x, "_NULL|<TOBJ>|<TSUB>|<THAC>|<THVC>") &
+      (d_grepl_case(shift(x, type="lead", n=1), "_V|_MD|_\\W|\\band_") |
+         d_grepl(shift(x, type="lead", n=1), str_flatten(sh[c("do","have","be","wp")], "|")))]
 
   x[, dem_pronouns2 := d_grepl(x, "\\bthat_") &
       d_grepl(shift(x, type="lead", n=1), "[i']s_")]
