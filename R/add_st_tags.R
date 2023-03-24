@@ -39,13 +39,13 @@ add_st_tags <- function(x, mdl = udmodel, st_hesitation = FALSE,
 
   # correction for missing spaces after commas and full stops
 
-  x <- {{x}} %>%
-              str_squish %>%
-              str_replace_all("(\\w(\\.|,))(\\w)", "\\1 \\2") %>%
-              str_split("\\s|(?=[?!,.])") %>%
-              map(~str_subset(.x, ".+")) %>%
-              pluck(1)
- #
+ #  x <- {{x}} %>%
+ #              str_squish %>%
+ #              str_replace_all("(\\w(\\.|,))(\\w)", "\\1 \\2") %>%
+ #              str_split("\\s|(?=[?!,.])") %>%
+ #              map(~str_subset(.x, ".+")) %>%
+ #              pluck(1)
+ # #
 
 
 
