@@ -6,7 +6,8 @@
 #'
 dtag_ind_pron <- function(x){
   x <- data.table(x)
-  regex <- "\\banybody_|\\banyone_|\\banything_|\\beverybody_|\\beveryone_|\\beverything_|\\bnobody_|\\bnone_|\\bnothing_|\\bnowhere_|\\bsomebody_|\\bsomeone_|\\bsomething_"
+  regex <- "\\bnobody_|\\bnone_|\\bnothing_|\\bnowhere_"
+ # regex <- "\\banybody_|\\banyone_|\\banything_|\\beverybody_|\\beveryone_|\\beverything_|\\bnobody_|\\bnone_|\\bnothing_|\\bnowhere_|\\bsomebody_|\\bsomeone_|\\bsomething_"
   x[d_grepl(x,regex), x:= d_sub(x, "$", " <INPR>")]
   return(x$x)
 }

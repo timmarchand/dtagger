@@ -180,7 +180,7 @@ document_dimension_scores_deflated <- list(document_dimension_scores_deflated) %
                                   map(~.x %>%
                                   relocate(corpus_text_type = closest_text_type, .after = corpus))
 
-corpus_dimension_scores_deflated <- document_dimension_scores %>%
+corpus_dimension_scores_deflated <- document_dimension_scores_deflated %>%
                                 map(~.x %>% summarise(most_common_text_type = find_mode(closest_text_type),
                                 across(where(is.numeric), mean), .by = corpus)) %>%
                                 add_closest_text_type(by = "corpus") %>%
