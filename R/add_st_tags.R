@@ -66,7 +66,8 @@ if(length(st_hesitations_extracted) < 2){st_hesitations_extracted[2] <- list(c()
 
 
 
-  st_tagged <- udpipe::udpipe_annotate({{mdl}}, x, parser = "none") %>%
+  st_tagged <- udpipe::udpipe_annotate({{mdl}}, x, tagger = "default",
+                                       parser = "none") %>%
     as_tibble() %>%
     transmute(tagged = str_c(token,xpos,sep = "_")) %>%
     pull(tagged)

@@ -4,10 +4,10 @@
 \alias{init_udpipe_model}
 \title{Initialize UDPipe Model}
 \usage{
-init_udpipe_model(lang = "english")
+init_udpipe_model(lang = "english-gum")
 }
 \arguments{
-\item{lang}{The language to use for the model. Default is 'english'.}
+\item{lang}{The language to use for the model. Default is 'english-gum'.}
 }
 \value{
 None
