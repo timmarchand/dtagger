@@ -37,17 +37,6 @@ add_st_tags <- function(x, mdl = udmodel, st_hesitation = FALSE,
   # check to see if udpipe is loaded, load as required
    stopifnot("Udpipe model not loaded. Initialise first with init_udpipe_model()" = exists("udmodel"))
 
-  # correction for missing spaces after commas and full stops
-
- #  x <- {{x}} %>%
- #              str_squish %>%
- #              str_replace_all("(\\w(\\.|,))(\\w)", "\\1 \\2") %>%
- #              str_split("\\s|(?=[?!,.])") %>%
- #              map(~str_subset(.x, ".+")) %>%
- #              pluck(1)
- # #
-
-
 
  # tag and extract st_hesitation markers
 if(st_hesitation){
