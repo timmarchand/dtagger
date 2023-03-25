@@ -48,13 +48,13 @@ if(!tokenized){text <- text %>%
 
 
 
-  tags_to_count <- c("<AMP>", "<ANDC>", "<BEMA>", "<CAUS>", "<CONT>", "<DEMP>",
+ tags_to_count <- c("<AMP>", "<ANDC>", "<BEMA>", "<CAUS>", "<CONT>", "<DEMP>",
 "<DPAR>", "<EMPH>", "<FPP1>", "<HDG>", "<INPR>", "<JJ>", "<NN>",
 "<PIN>", "<PIT>", "<POMD>", "<PRIV>", "<PROD>", "<SERE>", "<SPP2>",
-"<STPR>", "<THATD>", "<TTR>", "<VPRT>", "<WHCL>", "<WHQU>", "<XX0>",
+"<STPR>", "<THATD>", "<VPRT>", "<WHCL>", "<WHQU>", "<XX0>",
 "<PEAS>", "<PRESP>", "<PUBV>", "<SYNE>", "<TPP3>", "<VBD>", "<NOMZ>",
 "<PHC>", "<PIRE>", "<PLACE>", "<RB>", "<TIME>", "<WHOBJ>", "<WHSUB>",
-"<COND>", "<IN>", "<NEMD>", "<PRMD>", "<SPAU>", "<SUAV>", "<BYPA>",
+"<COND>", "<NEMD>", "<PRMD>", "<SPAU>", "<SUAV>", "<BYPA>",
 "<CONJ>", "<OSUB>", "<PASS>", "<PASTP>", "<WZPAST>", "<DEMO>",
 "<THAC>", "<THVC>", "<TOBJ>", "<CONC>", "<DWNT>", "<EX>", "<GER>",
 "<HSTN>", "<PRED>", "<QUAN>", "<QUPR>", "<SMP>", "<SPIN>", "<TO>",
