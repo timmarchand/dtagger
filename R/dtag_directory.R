@@ -114,7 +114,7 @@ ALL <- ALL_corpora %>%
 
 ALL <- ALL %>%
   mutate(mda_tags = map(st_tags,
-                        ~add_mda_tags(.x, mda_hesitation = TRUE, ...),
+                        ~add_mda_tags(.x, mda_hesitation = TRUE),
                         .progress = "(2/4) Tagging MDA tags")) %>%
   log_midpipe(message("(3/4) Compiling the tagged text")) %>%
   mutate(tagged_text = map(mda_tags, ~str_flatten(.x, " ")) %>%
