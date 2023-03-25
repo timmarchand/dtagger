@@ -7,7 +7,7 @@
 #' @param by The column name by which the dimensions are to be grouped.
 #'
 #' @return A data frame with closest_text_type column added
-#'
+#' @export
 #' @examples
 #'
 #' # Create a data frame with the five dimensions

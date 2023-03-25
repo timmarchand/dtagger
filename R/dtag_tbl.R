@@ -43,7 +43,7 @@ ttr <- {{ttr}}
      stopifnot("The text doesn't appear to have any _ST tags.\nConsider using the add_st_tags() function on the text column first with:\n
                tbl <-  mutate(tbl, text = map(text, add_st_tags) %>% map_chr(d_flatten))" = str_detect(d_flatten(text), "_\\W|_\\w"))
 
-if(!tokenized){text <- text %>%
+if(tokenized == FALSE){text <- text %>%
                         str_split("\\s")}
 
 
@@ -80,6 +80,7 @@ result_list <- list()
                     value = c(AWL,TTR))
 
     interim <- tibble(input = input[i],
+                      text = text[i],
                     tagged_text = tagged_text,
                     wordcount = length(words))
 
@@ -95,7 +96,7 @@ result_list <- list()
   left_join(biber_base, by = "feature") %>%
   mutate(zscore = ((value - biber_mean) / biber_sd)) %>%
            mutate(dscore = if_else(loading == "negative",  -zscore, zscore)) %>%
-  select(input, wordcount, dimension, feature, detail, count,value, zscore,dscore, biber_mean, biber_sd) %>%
+  select(input, text, wordcount, dimension, feature, detail, count,value, zscore,dscore, biber_mean, biber_sd) %>%
   arrange(input, dimension, feature)
 
 

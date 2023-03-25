@@ -3,6 +3,7 @@
 export("%>%")
 export()
 export(add_awl_ttr)
+export(add_closest_text_type)
 export(add_mda_tags)
 export(add_st_tags)
 export(compare_tags)
