@@ -129,4 +129,4 @@ bind_rows(result_list) %>%
   tidyr::hoist(dimension_scores, "closest_text_type") %>%
   relocate(closest_text_type, .after = wordcount)
   }
-}
+
