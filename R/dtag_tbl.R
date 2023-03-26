@@ -73,10 +73,10 @@ result_list <- list()
     text = str_split_1(st[i], " ")
     tagged_text = add_mda_tags(text, mda_hesitation = FALSE) %>% d_flatten()
     words <- tagged_text %>% stringr::str_extract_all("\\w+(?=_)") %>% unlist
-    if (400 > length(words)) {
-        ttr <- length(words)}
+    ttr <- pmin(ttr, length(words))
+
     AWL <- (nchar(words) %>% sum) / length(words)
-    TTR <- words[1:ttr] %>% unique %>% length / ttr
+    TTR <- (words[1:ttr] %>% unique %>% length)*100 / ttr
 
     awl_ttr <- tibble(input = input[i],
                       st_text = st[i],

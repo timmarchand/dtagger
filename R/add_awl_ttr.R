@@ -21,7 +21,7 @@ stringr::str_extract("\\w+(?=_)") %>%
   .[!is.na(.)]
 
 ttr <- {{ttr}}
-if(ttr > length(words)){ ttr <- length(words)}
+ttr <- pmin(ttr, length(words))
 
 
 tibble::tibble(AWL = (nchar(words) %>% sum) / length(words),
