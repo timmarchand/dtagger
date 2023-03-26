@@ -15,6 +15,9 @@
 #' @param tokenized Logical. The default is FALSE, in which case the function tokenizes the text
 #' with \code{str_split(text, " ")}. Set to TRUE if text is already tokenized and in a list column.
 #' @param ttr Maximum number of tokens to consider for TTR, defaults to 400.
+#' @param deflated Logical. If TRUE (default), Dimension scores
+#' are calculated without using the low mean frequency features from Biber's original study,
+#' following the MAT tagger algorithm (Nini 2019).
 #' @return A tibble containing:
 #' * wordcount - number of non-punctuation tokens found in text
 #' * dimension - Dimension1 ~ Dimension6 from Biber 1988 for each feature
@@ -32,16 +35,17 @@
 #' @references
 #'  1. Biber, D. (1988). Variation across Speech and Writing. Cambridge: Cambridge University Press. doi:10.1017/CBO9780511621024
 #'  2. Biber, D. (1989). A typology of English texts. , 27(1), 3-44. https://doi.org/10.1515/ling.1989.27.1.3
-dtag_tbl <- function(tbl, input = 1, text = 2, tokenized = FALSE, ttr = 400){
+#'   3. Nini, A. (2019). The Multi-Dimensional Analysis Tagger. In Berber Sardinha, T. &  Veirano Pinto M. (eds), Multi-Dimensional Analysis: Research Methods and Current  Issues, 67-94, London; New York: Bloomsbury Academic.
+dtag_tbl <- function(tbl, input = 1, text = 2, tokenized = FALSE, ttr = 400, deflated = TRUE){
 
      stopifnot("The input must be in the form of a data frame, with input id in col1 and text in col2." = is.data.frame(tbl))
 
 input <- pull(tbl,{{input}})
-text <- pull(tbl,{{text}})
+st <- pull(tbl,{{text}})
 ttr <- {{ttr}}
 
      stopifnot("The text doesn't appear to have any _ST tags.\nConsider using the add_st_tags() function on the text column first with:\n
-               tbl <-  mutate(tbl, text = map(text, add_st_tags) %>% map_chr(d_flatten))" = str_detect(d_flatten(text), "_\\W|_\\w"))
+               tbl <-  mutate(tbl, text = map(text, add_st_tags) %>% map_chr(d_flatten))" = str_detect(d_flatten(st), "_\\W|_\\w"))
 
 if(tokenized == FALSE){text <- text %>%
                         str_split("\\s")}
@@ -66,7 +70,8 @@ if(tokenized == FALSE){text <- text %>%
 result_list <- list()
 
   for (i in  1:nrow(tbl)){
-    tagged_text = add_mda_tags(text[i]) %>% str_flatten(., " ")
+    text = str_split_1(st[i], " ")
+    tagged_text = add_mda_tags(text, mda_hesitation = FALSE) %>% d_flatten()
     words <- tagged_text %>% stringr::str_extract_all("\\w+(?=_)") %>% unlist
     if (400 > length(words)) {
         ttr <- length(words)}
@@ -74,14 +79,15 @@ result_list <- list()
     TTR <- words[1:ttr] %>% unique %>% length / ttr
 
     awl_ttr <- tibble(input = input[i],
-                    tagged_text = tagged_text,
+                      st_text = st[i],
+                    mda_text = tagged_text,
                     wordcount = length(words),
                     feature = c("<AWL>", "<TTR>"),
                     value = c(AWL,TTR))
 
     interim <- tibble(input = input[i],
-                      text = text[i],
-                    tagged_text = tagged_text,
+                      st_text = st[i],
+                    mda_text = tagged_text,
                     wordcount = length(words))
 
 
@@ -96,9 +102,13 @@ result_list <- list()
   left_join(biber_base, by = "feature") %>%
   mutate(zscore = ((value - biber_mean) / biber_sd)) %>%
            mutate(dscore = if_else(loading == "negative",  -zscore, zscore)) %>%
-  select(input, text, wordcount, dimension, feature, detail, count,value, zscore,dscore, biber_mean, biber_sd) %>%
+  select(input, st_text, mda_text, wordcount, dimension, feature, detail, count,value, zscore,dscore, biber_mean, biber_sd) %>%
   arrange(input, dimension, feature)
 
+ if(deflated == TRUE){
+   result <- result %>%
+     filter(biber_mean >= 0.1)
+ }
 
 result  <- result %>%
                           tidyr::nest(dimension_tags = c(dimension, feature, detail, count,value, zscore,dscore, biber_mean, biber_sd)) %>%
@@ -106,9 +116,8 @@ result  <- result %>%
                                                         summarise(dimension_score = sum(dscore, na.rm = TRUE),
                                                                   .by = c(dimension)) %>%
                                                                     arrange(dimension) %>%
-                                  pivot_wider(names_from = "dimension", values_from = "dimension_score") %>%
-                                    select(-Other)),
-                                dimension_scores = add_closest_text_type(dimension_scores, by = NULL))
+                                                  pivot_wider(names_from = "dimension", values_from = "dimension_score") %>% select(-Other)),
+                                  dimension_scores = add_closest_text_type(dimension_scores, by = NULL))
 
 
     result_list[[i]] <-  result
@@ -119,4 +128,5 @@ result  <- result %>%
 bind_rows(result_list) %>%
   tidyr::hoist(dimension_scores, "closest_text_type") %>%
   relocate(closest_text_type, .after = wordcount)
+  }
 }
