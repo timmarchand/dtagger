@@ -8,7 +8,7 @@ dtag_past_whiz <- function(x){
 
  x <- data.table(x)
   x[, past_whiz1 := (d_grepl(shift(x, type="lag", n=1), "_N") |
-      d_grepl(shift(x, type="lag", n=1), "_QUPR")) &
+      d_grepl(shift(x, type="lag", n=1), "<QUPR>")) &
       d_grepl(x, "_VBN") &
       (d_grepl(shift(x, type="lead", n=1), "<PIN>") |
       d_grepl(shift(x, type="lead", n=1), "_RB") |

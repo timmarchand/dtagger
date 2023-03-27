@@ -11,6 +11,7 @@ RoxygenNote: 7.1.2
 Imports: 
     data.table,
     dplyr (>= 1.1.0),
+    broom,
     tibble,
     purrr,
     udpipe,

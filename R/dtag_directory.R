@@ -61,6 +61,8 @@
 #' * wordcount - number of non-punctuation tokens found in text
 #' @importFrom fs dir_info
 #' @importFrom readtext readtext
+#' @importFrom broom tidy
+#' @importFrom tidyr pivot_longer
 #' @export
 #' @references
 #'  1. Biber, D. (1988). Variation across Speech and Writing. Cambridge: Cambridge University Press. doi:10.1017/CBO9780511621024
@@ -157,6 +159,7 @@ document_dimension_scores <- ALL_Dscores %>%
             pivot_wider(names_from = "dimension", values_from = "dimension_score") %>%
             select(-Other)
 
+
 document_dimension_scores_deflated <- ALL_Dscores %>%
     filter(biber_mean >= 0.1) %>%
   summarise(dimension_score = sum(dscore, na.rm = TRUE),
@@ -164,6 +167,37 @@ document_dimension_scores_deflated <- ALL_Dscores %>%
             arrange(corpus, doc_id, dimension) %>%
             pivot_wider(names_from = "dimension", values_from = "dimension_score") %>%
             select(-Other)
+
+Tukey_hsd <- Tukey_hsd_deflated <-  NULL
+if(document_dimension_scores %>%
+   distinct(corpus) %>%
+   nrow > 1){
+
+  Tukey_hsd <- document_dimension_scores %>%
+   pivot_longer(contains("Dimension"), names_to = "dimension",
+               names_transform = list(dimension = as.factor)) %>%
+group_by(dimension) %>%
+  nest() %>%
+  mutate(model = map(data, ~lm(value ~ corpus, .x))) %>%
+  summarise(aov = map(model, ~stats::aov(.x)),
+         Tukey = map(aov, ~ stats::TukeyHSD(.x))) %>%
+    mutate(Tukey = map(Tukey, ~broom::tidy(.x))) %>%
+    select(dimension, Tukey) %>%
+  unnest(Tukey)
+
+
+Tukey_hsd_deflated <- document_dimension_scores_deflated %>%
+   pivot_longer(contains("Dimension"), names_to = "dimension",
+               names_transform = list(dimension = as.factor)) %>%
+group_by(dimension) %>%
+  nest() %>%
+  mutate(model = map(data, ~lm(value ~ corpus, .x))) %>%
+  summarise(aov = map(model, ~stats::aov(.x)),
+         Tukey = map(aov, ~ stats::TukeyHSD(.x))) %>%
+    mutate(Tukey = map(Tukey, ~broom::tidy(.x))) %>%
+    select(dimension, Tukey) %>%
+  unnest(Tukey)
+}
 
 document_dimension_scores <- list(document_dimension_scores) %>%
                               add_closest_text_type()
@@ -188,7 +222,6 @@ corpus_dimension_scores_deflated <- document_dimension_scores_deflated %>%
                                   relocate(corpus_text_type = closest_text_type, .after = corpus))
 
 
-
 l <- list( corpus_dimension_scores = pluck(corpus_dimension_scores, 1),
            corpus_dimension_scores_deflated = pluck(corpus_dimension_scores_deflated, 1),
            document_dimension_scores =  pluck(document_dimension_scores,1),
@@ -200,9 +233,14 @@ l <- list( corpus_dimension_scores = pluck(corpus_dimension_scores, 1),
                             arrange(corpus, doc_id),
            texts = ALL %>%
              select(corpus, doc_id, raw_text = text, tagged_text, wordcount) %>%
-             arrange(corpus, doc_id))
+             arrange(corpus, doc_id),
+           Tukey_hsd = Tukey_hsd,
+           Tukey_hsd_deflated = Tukey_hsd_deflated)
 
-if(deflated == FALSE){l$corpus_dimension_scores_deflated <- l$ocument_dimension_scores_deflated <- NULL}
+if(!deflated){l$corpus_dimension_scores_deflated <- NULL
+                      l$document_dimension_scores_deflated <- NULL
+                      l$Tukey_hsd_deflated  <- NULL}
+
 
 return(l)
 }

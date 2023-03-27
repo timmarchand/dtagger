@@ -105,14 +105,11 @@ result_list <- list()
   select(input, st_text, mda_text, wordcount, dimension, feature, detail, count,value, zscore,dscore, biber_mean, biber_sd) %>%
   arrange(input, dimension, feature)
 
- if(deflated == TRUE){
-   result <- result %>%
-     filter(biber_mean >= 0.1)
- }
 
 result  <- result %>%
                           tidyr::nest(dimension_tags = c(dimension, feature, detail, count,value, zscore,dscore, biber_mean, biber_sd)) %>%
                          mutate(dimension_scores = map(dimension_tags, ~ .x %>%
+                                                         {if(deflated == TRUE) filter(., biber_mean >= 0.1) else .} %>%
                                                         summarise(dimension_score = sum(dscore, na.rm = TRUE),
                                                                   .by = c(dimension)) %>%
                                                                     arrange(dimension) %>%
