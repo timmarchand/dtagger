@@ -63,6 +63,17 @@ A list of data frames containing:
 \item tagged_text - flattened text with _ST and <MDA> tags for each doc_id
 \item wordcount - number of non-punctuation tokens found in text
 }
+
+\bold{Tukey_hsd}
+\itemize{
+\item dimension - the dimension for pairwise comparison
+\item contrast - the corpora under pairwise comparison
+\item null.value - the expected difference in means after aov (zero)
+\item estimate - the difference in means after aov
+\item conf.low - the 95\% familywise lower confidence level
+\item conf.high - the 95\% familywise upper confidence level
+\item p.value -  significance test
+}
 }
 \description{
 Tag a directory of folders of plain text files with <MDA> tags
@@ -83,7 +94,11 @@ are calculated without using the low mean frequency features from Biber's origin
 following the MAT tagger algorithm (Nini 2019).
 
 The function returns a list of tibbles including the tagged texts, individual and
-corpus-level scores for each dimension of the text and word counts.
+corpus-level scores for each dimension of the text and word counts. If the function detects
+more than one corpus folder (folders prefixed with $$), it will also return the result of
+post-hoc significance tests. This is a set of confidence intervals
+on the differences between the means of the dimension scores based on the Studentized range statistic,
+Tukey's ‘Honest Significant Difference’ method.
 }
 \examples{
 \dontrun{

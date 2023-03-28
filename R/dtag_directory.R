@@ -15,7 +15,11 @@
 #' following the MAT tagger algorithm (Nini 2019).
 #'
 #' The function returns a list of tibbles including the tagged texts, individual and
-#' corpus-level scores for each dimension of the text and word counts.
+#' corpus-level scores for each dimension of the text and word counts. If the function detects
+#' more than one corpus folder (folders prefixed with $$), it will also return the result of
+#' post-hoc significance tests. This is a set of confidence intervals
+#' on the differences between the means of the dimension scores based on the Studentized range statistic,
+#' Tukey's ‘Honest Significant Difference’ method.
 #'
 #' @param path A character string denoting the folder containing the target folders (at any level).
 #' @param n An optional argument denoting the maximum number of text files to be analyzed.
@@ -59,6 +63,15 @@
 #' * raw_text - untagged, flattened text for each doc_id
 #' * tagged_text - flattened text with _ST and <MDA> tags for each doc_id
 #' * wordcount - number of non-punctuation tokens found in text
+#'
+#'  \bold{Tukey_hsd}
+#' * dimension - the dimension for pairwise comparison
+#' * contrast - the corpora under pairwise comparison
+#' * null.value - the expected difference in means after aov (zero)
+#' * estimate - the difference in means after aov
+#' * conf.low - the 95% familywise lower confidence level
+#' * conf.high - the 95% familywise upper confidence level
+#' * p.value -  significance test
 #' @importFrom fs dir_info
 #' @importFrom readtext readtext
 #' @importFrom broom tidy
@@ -183,7 +196,8 @@ group_by(dimension) %>%
          Tukey = map(aov, ~ stats::TukeyHSD(.x))) %>%
     mutate(Tukey = map(Tukey, ~broom::tidy(.x))) %>%
     select(dimension, Tukey) %>%
-  unnest(Tukey)
+  unnest(Tukey) %>%
+    select(-term)
 
 
 Tukey_hsd_deflated <- document_dimension_scores_deflated %>%
@@ -196,7 +210,8 @@ group_by(dimension) %>%
          Tukey = map(aov, ~ stats::TukeyHSD(.x))) %>%
     mutate(Tukey = map(Tukey, ~broom::tidy(.x))) %>%
     select(dimension, Tukey) %>%
-  unnest(Tukey)
+  unnest(Tukey)%>%
+    select(-term)
 }
 
 document_dimension_scores <- list(document_dimension_scores) %>%
