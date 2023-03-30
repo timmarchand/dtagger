@@ -8,6 +8,7 @@
 #' @return a tibble, with the contextualized text shown around the matched node
 #' @rawNamespace import(data.table, except = c(first,last,between, transpose))
 #' @importFrom data.table data.table shift
+#' @importFrom tidyselect all_of
 #' @import tibble
 #' @import dplyr
 #' @export

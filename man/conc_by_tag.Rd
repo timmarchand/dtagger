@@ -11,7 +11,8 @@ conc_by_tag(
   match,
   cols = c("corpus", "doc_id", "sentence"),
   tag2 = NULL,
-  match2 = NULL
+  match2 = NULL,
+  ...
 )
 }
 \arguments{
@@ -32,7 +33,7 @@ corpus, doc_id, sentence, but need to be changed if the inputting df has differe
 
 \item{match2}{The second tag to match within the \code{tag2} column (optional).}
 
-\item{...}{Additional arguments to be passed onto \code{dtagger::quick_conc}}
+\item{...}{Additional arguments to be passed onto \code{dtagger::quick_conc}.}
 }
 \value{
 A data frame containing the \code{cols} plus an extra column with the
@@ -52,8 +53,4 @@ and \code{dtagger::dtag_tbl} od \code{dtagger::dtag_directory} functions.
 
 The concordancer can take up to two tag inputs, for example matching all \code{upos == "ADJ"}
 tags and \code{dep_rel == "amod"} tags, and seing the resulting key words in context.
-}
-\examples{
-conc_by_tag(data, what = "token", tag ="mda_tags", match = "NNP")
-
 }

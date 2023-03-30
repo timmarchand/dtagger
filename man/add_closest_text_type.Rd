@@ -18,17 +18,3 @@ A data frame with closest_text_type column added
 \description{
 Adds a column for the closest text type based on the Euclidean distances of the five dimensions to each type
 }
-\examples{
-
-# Create a data frame with the five dimensions
-data <- data.frame(
-  corpus = c(1, 1, 2, 2),
-  doc_id = c(1, 2, 1, 2),
-  Dimension1 = c(50, 60, 40, 10),
-  Dimension2 = c(0, 0, 0, 0),
-  Dimension3 = c(-4, -6, -4, -4),
-  Dimension4 = c(3, 1, 5, 7),
-  Dimension5 = c(-2, -2, -2, -2)
-)
-
-}

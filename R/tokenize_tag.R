@@ -14,5 +14,5 @@
 #' @export
 #'
 tokenize_tag <- function(vec, regex = "\\s(?!<\\w+>)"){
-  purr::map(vec, ~stringr::str_split_1(.x, {{regex}}))
+  purrr::map(vec, ~stringr::str_split_1(.x, {{regex}}))
 }

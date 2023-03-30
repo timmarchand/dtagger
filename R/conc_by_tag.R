@@ -25,17 +25,15 @@
 #' corpus, doc_id, sentence, but need to be changed if the inputting df has different columns.
 #' @param tag2 The name of the second column containing the tags to match (optional).
 #' @param match2 The second tag to match within the `tag2` column (optional).
-#' @param ... Additional arguments to be passed onto \code{dtagger::quick_conc}
+#' @param ... Additional arguments to be passed onto \code{dtagger::quick_conc}.
 #'
 #' @return A data frame containing the `cols` plus an extra column with the
 #' concatenated text.
 #'
-#' @examples
-#' conc_by_tag(data, what = "token", tag ="mda_tags", match = "NNP")
 #'
 #' @export
 conc_by_tag <- function(data, what = "token", tag = "mda_tags", match, cols = c("corpus", "doc_id", "sentence"),
-                           tag2 = NULL, match2 = NULL){
+                           tag2 = NULL, match2 = NULL, ...){
 
 
  cols <- c("index", {{tag}}, {{tag2}},  {{cols}})

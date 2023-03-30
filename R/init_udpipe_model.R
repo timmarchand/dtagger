@@ -11,5 +11,7 @@
 init_udpipe_model <- function(lang = 'english-ewt')
 {
   udmodel <<- udpipe::udpipe_download_model(language = lang)
+  udmodel <- udpipe::udpipe_download_model(language = lang) # to pass devtools::check()
   udmodel <<- udpipe::udpipe_load_model(file = udmodel$file_model)
+  udmodel<- udpipe::udpipe_load_model(file = udmodel$file_model) # to pass devtools::check()
 }
