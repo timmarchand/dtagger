@@ -49,7 +49,7 @@ quick_conc <- function(x, index, n = 5, tokenize = FALSE, separated = FALSE){
             DT[index][,case := .I] -> result}
 
           if(separated){result <- tibble::as_tibble(result) %>%
-            dplyr::select(case, token_id, all_of(cols_left),match,all_of(cols_right))
+            dplyr::select(case, token_id, tidyselect::all_of(cols_left),match,tidyselect::all_of(cols_right))
           return(result)}
 
           result <- result[,left := base::do.call(paste, c(.SD, sep = " ")), .SDcols = cols_left][,
