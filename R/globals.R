@@ -18,7 +18,7 @@ c(".","...", "<<-", "andc1", "andc2", "andc3", "andc4", "aov", "be_main1", "be_m
 "phrasal_coord1", "phrasal_coord2", "phrasal_coord3", "phrasal_coord4",
 "pivot_wider", "place_adverbials", "pp_rel_clauses", "pred_1",
 "pred_2", "pred_3", "pred_4", "pred_5", "pres_whiz1", "presp1",
-"pro_do", "right", "sentence_rels", "separate", "sh", "split_aux1",
+"pro_do", "replace_vec", "right", "sentence_rels", "separate", "sh", "split_aux1",
 "split_infin1", "split_infin2", "st", "st_tags", "st_text","str_prepositions",
 "syn_neg1", "syn_neg2", "syn_neg3", "tagged", "tagged_text", "term",
 "text", "that_ac", "that_del1", "that_del2", "that_del3", "that_del4",
