@@ -22,7 +22,8 @@ Imports:
     readtext,
     collapse,
     tidyr
-URL: https://github.com/timmarchand/dtagger
+URL: https://github.com/timmarchand/dtagger,
+    https://timmarchand.github.io/dtagger/
 BugReports: https://github.com/timmarchand/dtagger/issues
 Depends: 
     R (>= 2.10)
