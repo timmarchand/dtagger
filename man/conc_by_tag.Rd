@@ -7,7 +7,7 @@
 conc_by_tag(
   data,
   what = "token",
-  tag = "mda_tags",
+  tag = "mda",
   match,
   cols = c("corpus", "doc_id", "sentence"),
   tag2 = NULL,

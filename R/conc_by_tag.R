@@ -32,7 +32,7 @@
 #'
 #'
 #' @export
-conc_by_tag <- function(data, what = "token", tag = "mda_tags", match, cols = c("corpus", "doc_id", "sentence"),
+conc_by_tag <- function(data, what = "token", tag = "mda", match, cols = c("corpus", "doc_id", "sentence"),
                            tag2 = NULL, match2 = NULL, ...){
 
 
