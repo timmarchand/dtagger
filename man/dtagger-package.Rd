@@ -12,6 +12,7 @@ What the package does (one paragraph).
 Useful links:
 \itemize{
   \item \url{https://github.com/timmarchand/dtagger}
+  \item \url{https://timmarchand.github.io/dtagger/}
   \item Report bugs at \url{https://github.com/timmarchand/dtagger/issues}
 }
 
