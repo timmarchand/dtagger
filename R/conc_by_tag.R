@@ -29,7 +29,25 @@
 #'
 #' @return A data frame containing the `cols` plus an extra column with the
 #' concatenated text.
+#' @examples
+#' \dontrun{
+#' # create two example vectors:
+#' # vec1 tagged with ewt udpipe English model
+#' vec1 <- c("This_DT", "is_VBZ", "a_DT", "test_NN", "sentence_NN", "with_IN",
+#' "tags_NNS", "._.")
 #'
+#' vec2 tagged with line udpipe English model
+#'
+#' vec2 <- c("This_DEM-SG", "is_PRES", "a_IND-SG", "test_SG-NOM", "sentence_SG-NOM",
+#' NA, "tags_PL-NOM", "._Period")
+#'
+#' # find tags in vec1 that are missing in vec2
+#' missing_tags(vec1, vec2, regex = "DT")
+
+#' # find tags in vec2 that are missing in vec1
+#' missing_tags(vec2, vec1, regex = "Period")
+#' # find tags in vec1 that are missing in vec2 but with different tag searches
+#' missing_tags(vec1, vec2, regex1 = "DT", regex2 = "IND-SG")
 #'
 #' @export
 conc_by_tag <- function(data, what = "token", tag = "mda", match, cols = c("corpus", "doc_id", "sentence"),
