@@ -24,7 +24,7 @@
 #' * feature - the <MDA> tag or AWL or TTR
 #' * detail - brief description of the feature
 #' * count - number of times the feature is counted in text
-#' * value - in case of <MDA> tag, normailsed frequency per 100 tokens
+#' * value - in case of <MDA> tag, normalized frequency per 100 tokens
 #' * z-score - value scaled to the biber_mean and biber_sd
 #' * d-score - same as z-score, but with the sign of negative dimension features reversed
 #' * biber_mean and biber_sd for each feature, based on Biber 1988

@@ -132,36 +132,54 @@ produced by one tagger are not found in the output of another.
  add_st_tags(speech, st_hesitation = TRUE, tokenized = TRUE)
 ```
 
-The `add_st_tags` function adds Stanford (\_ST) part of speech tags to a
-character vector of text.
+The `add_st_tags` function is designed to process and annotate text
+using the Universal Dependencies (UD) model with the udpipe package. It
+allows users to tokenize and tag text with part-of-speech (Stanford)
+tags, and to extract and handle hesitation markers. The function
+provides options for controlling the parsing, tokenizer type, and
+handling of flattened input.
 
-The function works by tokenizing the text first and then annotating the
-tokenized text using `udpipe::udpipe_annotate()`. It requires a
-`udpipe_model` to be present, so if an error occurs, try running
-`init_udpipe_model()` first.
+### Arguments
 
-### Function arguments
+- x A character vector of input text to be processed.
 
-`add_st_tags(x, mdl = udmodel, st_hesitation = FALSE, tokenized = FALSE, ...)`
+- mdl A udpipe model to use for processing the text. The default is the udmodel.
 
-The function has four arguments:
+- st_hesitation A logical value indicating whether or not to extract hesitation markers
 
-- `x`: A character vector containing the text to be tagged.
+  from the input text. If `TRUE`, the function will extract hesitation
+  markers and return them separately. Default is `FALSE`.
 
-- `mdl`: A model object of class udpipe_model.
+- flattened A logical value indicating if the input text is flattened. If `FALSE`, i.e. if the character string is in tokenized form, the function will flatten the text before processing. Default is `TRUE`.
 
-- `st_hesitation`: Logical. Experimental feature - should hesitation
-  markers be excluded before tagging? Set to TRUE to exclude. Regex for
-  the hesitation markers are the same as the default for
-  dtag_hesitation(), but can be set using the regex argument. See
-  dtag_hesitation() for details.
+- skip_parse A logical value determining if the function should skip parsing
 
-- `tokenized`: Logical. Set to TRUE in case text has already been
-  tokenized.
+  and only return tokenized and tagged text. If `FALSE`, the function
+  returns the full UD model when parsing. Default is `TRUE`.
 
-### **Return value**
+- … Additional arguments to be passed to the `udpipe_annotate()`
+  function. For example:
 
-The function returns a character vector containing the tagged text.
+– `tokenizer = "horizontal"` to force the `udpipe_annotate` function to
+tokenize on tokens separated by white spaces. This will combine words
+and trailing punctuation marks, unless they have been spearated by white
+space previously.
+
+–`tokenizer = "vertical"` to force the `udpipe_annotate` function to
+tokenize on tokens separated by new line breaks. This can be useful if
+you want the tokenizer to recognise multi-word entities as a single
+token, or avoid separating hyphenated words.
+
+### Returns
+
+The function returns a character vector of tokenized and tagged text.
+
+If `skip_parse` is `FALSE`, the function returns a tibble with the full
+udpipe model when parsing.
+
+If `st_hesitation` is `TRUE` (experimental), the function returns a
+character vector of tokenized and tagged text with hesitation markers
+extracted and handled separately.
 
 ### **Dependencies**
 
@@ -225,6 +243,37 @@ text <- add_st_tags(text)
 add_mda_tags(text)
 ```
 
+## Add a Table of ST, MDA and Other UD Tags with `add_tag_tbl`
+
+The `add_tag_tbl` function is a wrapper around the `add_st_tags` and
+`add_mda_tags` functions that also retains all the Universal Dependency
+tags produced by the udpipe model.
+
+### Usage
+
+``` r
+
+# Process text with the add_tag_tbl function
+text <- "This is a sample sentence."
+result <- add_tag_tbl(text)
+```
+
+### Arguments
+
+- x A character vector of input text to be processed.
+
+- … Additional arguments to be passed to the `add_st_tags()` function.
+
+## Returns
+
+A tibble with the original text annotated with ST tags and MDA tags. The
+output columns includes: - id columns (`doc_id`, `paragraph_id`,
+`sentence_id` etc.)
+
+- udpipe output (`token`, `upos`, `xpos`, `dep_rel`, etc)
+
+- both `st` and `mda` tags.
+
 # Concordancing functions
 
 ## Quick concordancing with `quick_conc`
@@ -272,7 +321,8 @@ x <- "The dog barked loudly, alerting the neighbors of potential danger. A nearb
 
 **`conc_by_tag`** allows for fine-grained concordance searches of tagged
 text and is typically used with output from `udpipe::udpipe_annotate`
-and `dtagger::dtag_tbl` or `dtagger::dtag_directory` functions.
+and `dtagger::dtag_tbl` , `dtagger::dtag_directory` or
+`dtagger::add_tag_tbl` functions.
 
 The function takes a relational data frame containing the text to
 concordance as input, along with the name of the column containing the
@@ -285,11 +335,30 @@ and seeing the resulting keywords in context.
 ## Usage
 
 ``` r
- # Get concordance of all tokens with "upos" tag == "ADJ"
-    conc_by_tag(example_data, tag = "upos", match = "ADJ")
+ # Process text with the add_tag_tbl function (assuming add_mda_tags function is defined)
+ text <- c(doc1 = "This is a simple sentence with a specific keyword.",
+           doc2 = "Is this one more complex or simpler?")
+ data <- add_tag_tbl(text)
 
-  # Get concordance of all tokens with "upos" tag == "ADJ" and "dep_rel" tag == "amod"
-    conc_by_tag(example_data, tag = "upos", match = "ADJ", tag2 = "dep_rel", match2 = "amod")
+ # Run conc_by_tag function with specified tags and matches
+ conc_by_tag(
+   data,
+   what = "token",
+   tag = "xpos",
+   match = "^JJ$",
+   cols = c("doc_id", "lemma"),
+   tag2 = "dep_rel",
+   match2 = "^amod$"
+ )
+ conc_by_tag(
+   data,
+   what = "token",
+   tag = "xpos",
+   match = "JJ",
+   cols = c("doc_id", "dep_rel"),
+   separated = TRUE,
+   n = 3
+ )
 ```
 
 The **`conc_by_tag`** function produces concordance lines of text from
@@ -297,7 +366,7 @@ The **`conc_by_tag`** function produces concordance lines of text from
 should be a dataframe with a column for tokens in tokenized form, and
 separate columns for tags, document and corpus details. Typically, the
 function can be used with output from **`udpipe::udpipe_annotate`** and
-**`dtagger::dtag_tbl`** or **`dtagger::dtag_directory`** functions.
+**`dtagger::dtag_tbl`** or **`dtagger::add_tab_tbl`** functions.
 
 The concordancer can take up to two tag inputs, for example matching all
 **`upos == "ADJ"`** tags and **`dep_rel == "amod"`** tags, and seeing
@@ -330,6 +399,29 @@ match at the centre, and left and right windows of the concordancing.
 
 - `...`: Additional arguments to be passed onto
   **`dtagger::quick_conc`**.
+
+## Returns
+
+-  `case` - a case number for the match found.
+
+-  `left` - objects immediately adjacent (up to n) to the left of the matched node,
+
+  as defined by the `what` argument (default is token).
+
+In case of `separated = TRUE`, the left are separated into left(n):left1
+
+-  match - the matched search item, as defined by the `match` argument.
+
+-  right - tokens immediately adjacent (up to n) to the right of the matched node,
+
+  as defined by the `what` argument (default is token).
+
+In case of `separated = TRUE`, the right tokens are separated into
+right1:right(n).
+
+-  index - the index row position of matched result from the input data frame.
+
+-  other cols - as defined by the `tag`, `tag2` and `cols` arguments.
 
 ## Compare tagging output with `missing_tags`
 

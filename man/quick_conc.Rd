@@ -18,7 +18,16 @@ quick_conc(x, index, n = 5, tokenize = FALSE, separated = FALSE)
 \item{separated}{a logical, to separate the context tokens or not}
 }
 \value{
-a tibble, with the contextualized text shown around the matched node
+A tibble containing:
+\itemize{
+\item case - a case number for the match found.
+\item left - objects immediately adjacent (up to n) to the left of the matched node.
+In case of \code{separated = TRUE}, the left  are separated into left(n):left1
+\item match - the matched search item, as defined by the \code{index} argument.
+\item right - tokens immediately adjacent (up to n) to the right of the matched node.
+In case of \code{separated = TRUE}, the right tokens are separated into right1:right(n).
+\item index - the index row position of matched result from the input data frame.
+}
 }
 \description{
 Lightweight concordancing function to return key words in context (KWIC) in a tidy format.

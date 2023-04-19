@@ -28,12 +28,25 @@
 #' @param match2 The second tag to match within the `tag2` column (optional).
 #' @param ... Additional arguments to be passed onto \code{dtagger::quick_conc}.
 #'
-#' For example,
-#' if you pass on the `separated = TRUE` argument, you can then sort your search result by
-#' adjacent tokens to the left and right.
+#' For example:
+#' pass on the `separated = TRUE` argument, to enable sorting search result by
+#' adjacent tokens to the left and right
 #'
-#' @return A data frame containing the `cols` plus an extra column with the
-#' concatenated text.
+#' pass on the `n = 3 `argument, to limit the search window to 3 tokens either side of the match.
+#'
+#'
+#'
+#' @return A tibble containing:
+#' * case - a case number for the match found.
+#' * left - objects immediately adjacent (up to n) to the left of the matched node,
+#' as defined by the `what` argument (default is token).
+#' In case of `separated = TRUE`, the left  are separated into left(n):left1
+#' * match - the matched search item, as defined by the `match` argument.
+#' * right - tokens immediately adjacent (up to n) to the right of the matched node,
+#' as defined by the `what` argument (default is token).
+#' In case of `separated = TRUE`, the right tokens are separated into right1:right(n).
+#' * index - the index row position of matched result from the input data frame.
+#' * other cols - as defined by the `tag`, `tag2` and `cols` arguments.
 #' @examples
 #' \dontrun{
 #' # Load the required udpipe model

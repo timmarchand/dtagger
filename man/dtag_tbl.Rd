@@ -38,7 +38,7 @@ A tibble containing:
 \item feature - the <MDA> tag or AWL or TTR
 \item detail - brief description of the feature
 \item count - number of times the feature is counted in text
-\item value - in case of <MDA> tag, normailsed frequency per 100 tokens
+\item value - in case of <MDA> tag, normalized frequency per 100 tokens
 \item z-score - value scaled to the biber_mean and biber_sd
 \item d-score - same as z-score, but with the sign of negative dimension features reversed
 \item biber_mean and biber_sd for each feature, based on Biber 1988

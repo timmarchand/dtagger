@@ -5,7 +5,14 @@
 #' @param n an integer, to specify the number of context tokens either side of the matched node
 #' @param tokenize a logical, to tokenize the text first or not
 #' @param separated a logical, to separate the context tokens or not
-#' @return a tibble, with the contextualized text shown around the matched node
+#' @return A tibble containing:
+#' * case - a case number for the match found.
+#' * left - objects immediately adjacent (up to n) to the left of the matched node.
+#' In case of `separated = TRUE`, the left  are separated into left(n):left1
+#' * match - the matched search item, as defined by the `index` argument.
+#' * right - tokens immediately adjacent (up to n) to the right of the matched node.
+#' In case of `separated = TRUE`, the right tokens are separated into right1:right(n).
+#' * index - the index row position of matched result from the input data frame.
 #' @rawNamespace import(data.table, except = c(first,last,between, transpose))
 #' @importFrom data.table data.table shift
 #' @importFrom tidyselect all_of

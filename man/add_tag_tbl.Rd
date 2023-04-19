@@ -2,17 +2,19 @@
 % Please edit documentation in R/add_tag_tbl.R
 \name{add_tag_tbl}
 \alias{add_tag_tbl}
-\title{Add a Table of ST, MDA and Other UD Tags to Text}
+\title{Add a Table of ST, MDA and Other UD Tags}
 \usage{
-add_tag_tbl(text, ...)
+add_tag_tbl(x, ...)
 }
 \arguments{
-\item{text}{A character vector of input text to be processed.}
+\item{x}{A character vector of input text to be processed.}
 
 \item{...}{Additional arguments to be passed to the \code{add_st_tags()} function.}
 }
 \value{
-A tibble with the original text annotated with ST tags and MDA tags. The output columns include \code{doc_id}, \code{st}, and \code{mda}.
+A tibble with the original text annotated with ST tags and MDA tags. The output columns includes
+id columns  (\code{doc_id}, \code{paragraph_id}, \code{sentence_id} etc.) udpipe output (\code{token}, \code{upos}, \code{xpos}, \code{dep_rel}, etc)
+and both \code{st} and \code{mda} tags.
 }
 \description{
 The \code{add_tag_tbl} function is a wrapper around the \code{add_st_tags} function that also adds MDA tags to the text.

@@ -36,13 +36,26 @@ extra reference columns (such as doc_id), or other tags for more fine-grained fi
 
 \item{...}{Additional arguments to be passed onto \code{dtagger::quick_conc}.
 
-For example,
-if you pass on the \code{separated = TRUE} argument, you can then sort your search result by
-adjacent tokens to the left and right.}
+For example:
+pass on the \code{separated = TRUE} argument, to enable sorting search result by
+adjacent tokens to the left and right
+
+pass on the \code{n = 3 }argument, to limit the search window to 3 tokens either side of the match.}
 }
 \value{
-A data frame containing the \code{cols} plus an extra column with the
-concatenated text.
+A tibble containing:
+\itemize{
+\item case - a case number for the match found.
+\item left - objects immediately adjacent (up to n) to the left of the matched node,
+as defined by the \code{what} argument (default is token).
+In case of \code{separated = TRUE}, the left  are separated into left(n):left1
+\item match - the matched search item, as defined by the \code{match} argument.
+\item right - tokens immediately adjacent (up to n) to the right of the matched node,
+as defined by the \code{what} argument (default is token).
+In case of \code{separated = TRUE}, the right tokens are separated into right1:right(n).
+\item index - the index row position of matched result from the input data frame.
+\item other cols - as defined by the \code{tag}, \code{tag2} and \code{cols} arguments.
+}
 }
 \description{
 This function produces concordance lines of text from \code{data} by finding up to

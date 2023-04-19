@@ -1,12 +1,14 @@
-#' Add a Table of ST, MDA and Other UD Tags to Text
+#' Add a Table of ST, MDA and Other UD Tags
 #'
 #' The `add_tag_tbl` function is a wrapper around the `add_st_tags` function that also adds MDA tags to the text.
 #' It processes and annotates the input text using the full Universal Dependencies (UD) model with the udpipe package, then adds MDA tags to the resulting output.
 #'
-#' @param text A character vector of input text to be processed.
+#' @param x A character vector of input text to be processed.
 #' @param ... Additional arguments to be passed to the `add_st_tags()` function.
 #'
-#' @return A tibble with the original text annotated with ST tags and MDA tags. The output columns include `doc_id`, `st`, and `mda`.
+#' @return A tibble with the original text annotated with ST tags and MDA tags. The output columns includes
+#' id columns  (`doc_id`, `paragraph_id`, `sentence_id` etc.) udpipe output (`token`, `upos`, `xpos`, `dep_rel`, etc)
+#' and both `st` and `mda` tags.
 #'
 #' @examples
 #' \dontrun{
@@ -20,7 +22,7 @@
 #' }
 #' @export
 
-add_tag_tbl <- function(text, ...){
+add_tag_tbl <- function(x, ...){
 
     add_st_tags(x = text, skip_parse = FALSE) %>%
     nest(data = -doc_id) %>%
