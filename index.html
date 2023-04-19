@@ -247,8 +247,9 @@
 <div class="section level2">
 <h2 id="returns-2">Returns<a class="anchor" aria-label="anchor" href="#returns-2"></a>
 </h2>
-<p>A tibble with the original text annotated with ST tags and MDA tags. The output columns includes: - id columns (<code>doc_id</code>, <code>paragraph_id</code>, <code>sentence_id</code> etc.)</p>
+<p>A tibble with the original text annotated with ST tags and MDA tags. The output columns includes:</p>
 <ul>
+<li><p>id columns (<code>doc_id</code>, <code>paragraph_id</code>, <code>sentence_id</code> etc.)</p></li>
 <li><p>udpipe output (<code>token</code>, <code>upos</code>, <code>xpos</code>, <code>dep_rel</code>, etc)</p></li>
 <li><p>both <code>st</code> and <code>mda</code> tags.</p></li>
 </ul>
@@ -337,7 +338,7 @@
 <ul>
 <li><p><code>data</code>: A relational data frame containing the text to concordance.</p></li>
 <li><p><code>what</code>: The name of the column containing the text to concatenate. Default is “token”.</p></li>
-<li><p><code>tag</code>: The name of the column containing the tags to match. Default is “mda_tags”.</p></li>
+<li><p><code>tag</code>: The name of the column containing the tags to match. Default is “mda”.</p></li>
 <li><p><code>match</code>: The tag to match within the <strong><code>tag</code></strong> column.</p></li>
 <li><p><code>cols</code>: The names of the columns to include in the output. By default, these will include corpus, doc_id, sentence, but need to be changed if the inputting df has different columns.</p></li>
 <li><p><code>tag2</code>: The name of the second column containing the tags to match (optional).</p></li>
@@ -352,14 +353,12 @@
 <li><p><code>case</code> - a case number for the match found.</p></li>
 <li><p><code>left</code> - objects immediately adjacent (up to n) to the left of the matched node,</p></li>
 </ul>
-<p>as defined by the <code>what</code> argument (default is token).</p>
-<p>In case of <code>separated = TRUE</code>, the left are separated into left(n):left1</p>
+<p>as defined by the <code>what</code> argument (default is token). In case of <code>separated = TRUE</code>, the left are separated into left(n):left1</p>
 <ul>
 <li><p>match - the matched search item, as defined by the <code>match</code> argument.</p></li>
 <li><p>right - tokens immediately adjacent (up to n) to the right of the matched node,</p></li>
 </ul>
-<p>as defined by the <code>what</code> argument (default is token).</p>
-<p>In case of <code>separated = TRUE</code>, the right tokens are separated into right1:right(n).</p>
+<p>as defined by the <code>what</code> argument (default is token). In case of <code>separated = TRUE</code>, the right tokens are separated into right1:right(n).</p>
 <ul>
 <li><p>index - the index row position of matched result from the input data frame.</p></li>
 <li><p>other cols - as defined by the <code>tag</code>, <code>tag2</code> and <code>cols</code> arguments.</p></li>
