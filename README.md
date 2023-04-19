@@ -267,8 +267,9 @@ result <- add_tag_tbl(text)
 ## Returns
 
 A tibble with the original text annotated with ST tags and MDA tags. The
-output columns includes: - id columns (`doc_id`, `paragraph_id`,
-`sentence_id` etc.)
+output columns includes:
+
+- id columns (`doc_id`, `paragraph_id`, `sentence_id` etc.)
 
 - udpipe output (`token`, `upos`, `xpos`, `dep_rel`, etc)
 
@@ -383,7 +384,7 @@ match at the centre, and left and right windows of the concordancing.
   Default is “token”.
 
 - `tag`: The name of the column containing the tags to match. Default is
-  “mda_tags”.
+  “mda”.
 
 - `match`: The tag to match within the **`tag`** column.
 
@@ -406,18 +407,16 @@ match at the centre, and left and right windows of the concordancing.
 
 -  `left` - objects immediately adjacent (up to n) to the left of the matched node,
 
-  as defined by the `what` argument (default is token).
-
-In case of `separated = TRUE`, the left are separated into left(n):left1
+  as defined by the `what` argument (default is token). In case of
+  `separated = TRUE`, the left are separated into left(n):left1
 
 -  match - the matched search item, as defined by the `match` argument.
 
 -  right - tokens immediately adjacent (up to n) to the right of the matched node,
 
-  as defined by the `what` argument (default is token).
-
-In case of `separated = TRUE`, the right tokens are separated into
-right1:right(n).
+  as defined by the `what` argument (default is token). In case of
+  `separated = TRUE`, the right tokens are separated into
+  right1:right(n).
 
 -  index - the index row position of matched result from the input data frame.
 
