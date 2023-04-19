@@ -1,4 +1,4 @@
-#' @title Concordance text by choice of tag
+#' @title Concordance Text By Tag Choices
 #'
 #' @description
 #' This function produces concordance lines of text from `data` by finding up to
@@ -10,7 +10,7 @@
 #' and separate columns for tags, document and corpus details.
 #'
 #' Typically, the function can be used with output from \code{udpipe::udpipe_annotate}
-#' and \code{dtagger::dtag_tbl} od \code{dtagger::dtag_directory} functions.
+#' and \code{dtagger::dtag_tbl}, \code{dtagger::dtag_directory} or \code{dtagger::add_tag_tbl} functions.
 #'
 #' The concordancer can take up to two tag inputs, for example matching all `upos == "ADJ"`
 #' tags and `dep_rel == "amod"` tags, and seing the resulting key words in context.
@@ -19,38 +19,54 @@
 #' The data frame is expected to have one column of tokens, in tokenized form, at least one
 #' column of the corresponding tags, and identifying details such as corpus, doc_id etc.
 #' @param what The name of the column containing the text to concatenate. Default is "token".
-#' @param tag The name of the column containing the tags to match. Default is "mda_tags".
-#' @param match The tag to match within the `tag` column.
-#' @param cols The names of the columns to include in the output. By default, these will include
-#' corpus, doc_id, sentence, but need to be changed if the inputting df has different columns.
+#' @param tag The name of the column containing the tags to match. Default is "mda".
+#' @param match The tag to match within the `tag` column. The match can take regex, so you can use
+#' anchoring characters (^ and $) for specific searches.
+#' @param cols The names of the columns to include in the output. It may be useful to include some
+#' extra reference columns (such as doc_id), or other tags for more fine-grained filtering.
 #' @param tag2 The name of the second column containing the tags to match (optional).
 #' @param match2 The second tag to match within the `tag2` column (optional).
 #' @param ... Additional arguments to be passed onto \code{dtagger::quick_conc}.
+#'
+#' For example,
+#' if you pass on the `separated = TRUE` argument, you can then sort your search result by
+#' adjacent tokens to the left and right.
 #'
 #' @return A data frame containing the `cols` plus an extra column with the
 #' concatenated text.
 #' @examples
 #' \dontrun{
-#' # create two example vectors:
-#' # vec1 tagged with ewt udpipe English model
-#' vec1 <- c("This_DT", "is_VBZ", "a_DT", "test_NN", "sentence_NN", "with_IN",
-#' "tags_NNS", "._.")
+#' # Load the required udpipe model
+#' Load the required udpipe model
+#' init_udpipe_model()
 #'
-#' vec2 tagged with line udpipe English model
+#' # Process text with the add_tag_tbl function (assuming add_mda_tags function is defined)
+#' text <- c(doc1 = "This is a simple sentence with a specific keyword.",
+#'           doc2 = "Is this one more complex or simpler?")
+#' data <- add_tag_tbl(text)
 #'
-#' vec2 <- c("This_DEM-SG", "is_PRES", "a_IND-SG", "test_SG-NOM", "sentence_SG-NOM",
-#' NA, "tags_PL-NOM", "._Period")
-#'
-#' # find tags in vec1 that are missing in vec2
-#' missing_tags(vec1, vec2, regex = "DT")
-
-#' # find tags in vec2 that are missing in vec1
-#' missing_tags(vec2, vec1, regex = "Period")
-#' # find tags in vec1 that are missing in vec2 but with different tag searches
-#' missing_tags(vec1, vec2, regex1 = "DT", regex2 = "IND-SG")
-#'
+#' # Run conc_by_tag function with specified tags and matches
+#' conc_by_tag(
+#'   data,
+#'   what = "token",
+#'   tag = "xpos",
+#'   match = "^JJ$",
+#'   cols = c("doc_id", "lemma"),
+#'   tag2 = "dep_rel",
+#'   match2 = "^amod$"
+#' )
+#' conc_by_tag(
+#'   data,
+#'   what = "token",
+#'   tag = "xpos",
+#'   match = "JJ",
+#'   cols = c("doc_id", "dep_rel"),
+#'   separated = TRUE,
+#'   n = 3
+#' )
+#' }
 #' @export
-conc_by_tag <- function(data, what = "token", tag = "mda", match, cols = c("corpus", "doc_id", "sentence"),
+conc_by_tag <- function(data, what = "token", tag = "mda", match, cols = NULL,
                            tag2 = NULL, match2 = NULL, ...){
 
 
