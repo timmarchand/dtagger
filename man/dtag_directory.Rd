@@ -51,8 +51,8 @@ A list of data frames containing:
 \itemize{
 \item corpus - name of corpus folder
 \item doc_id - name of text file
-\item st_tags - text tokenized on each _ST tag
-\item mda_tags - text tokenized on each <MDA> tag
+\item st - text tokenized on each _ST tag
+\item mda - text tokenized on each <MDA> tag
 }
 
 \bold{texts}

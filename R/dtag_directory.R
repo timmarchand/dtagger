@@ -54,8 +54,8 @@
 #' \bold{tokenized_tags}
 #' * corpus - name of corpus folder
 #' * doc_id - name of text file
-#' * st_tags - text tokenized on each _ST tag
-#' * mda_tags - text tokenized on each <MDA> tag
+#' * st - text tokenized on each _ST tag
+#' * mda - text tokenized on each <MDA> tag
 #'
 #' \bold{texts}
 #' * corpus - name of corpus folder
@@ -119,27 +119,27 @@ ALL_corpora <-
 
 if(!is.null(n)){ALL_corpora <- ALL_corpora[1:n,]}
 if(ST == TRUE){ALL <- ALL_corpora %>%
-  mutate(st_tags = map(text, ~base::unlist(base::strsplit(.x, "\\s", perl = TRUE))))}
+  mutate(st = map(text, ~base::unlist(base::strsplit(.x, "\\s", perl = TRUE))))}
 
 if(ST == FALSE){
 ALL <- ALL_corpora %>%
-  mutate(st_tags = map(text,
+  mutate(st = map(text,
                        ~add_st_tags(.x, st_hesitation = FALSE),
                        .progress = "(1/4) Tagging ST tags")) }
 
 ALL <- ALL %>%
-  mutate(mda_tags = map(st_tags,
+  mutate(mda = map(st,
                         ~add_mda_tags(.x, mda_hesitation = TRUE),
                         .progress = "(2/4) Tagging MDA tags")) %>%
   log_midpipe(message("(3/4) Compiling the tagged text")) %>%
-  mutate(tagged_text = map(mda_tags, ~str_flatten(.x, " ")) %>%
+  mutate(tagged_text = map(mda, ~str_flatten(.x, " ")) %>%
                         map_chr(~str_replace_all(.x, "\\s([.,;:!?])" , "\\1"))) %>%
   mutate(wordcount = map_int(tagged_text, ~str_count(.x, "[A-Za-z']+_"))) %>%
   tibble()
 
 ## get awl ttr scores for each doc_id
 awl_ttr <- ALL %>%
-          pluck("st_tags") %>%
+          pluck("st") %>%
           map( ~ add_awl_ttr(.x)) %>%
           set_names(str_c(ALL$corpus, ALL$doc_id, sep = "&&&")) %>%
           map(~pivot_longer(.x, cols = everything(),
@@ -243,8 +243,8 @@ l <- list( corpus_dimension_scores = pluck(corpus_dimension_scores, 1),
            document_dimension_scores_deflated =  pluck(document_dimension_scores_deflated,1),
            dimension_tags = ALL_Dscores,
            tokenized_tags = ALL %>%
-                            unnest(cols = c("st_tags", "mda_tags")) %>%
-                            select(corpus, doc_id, st_tags, mda_tags) %>%
+                            unnest(cols = c("st", "mda")) %>%
+                            select(corpus, doc_id, st, mda) %>%
                             arrange(corpus, doc_id),
            texts = ALL %>%
              select(corpus, doc_id, raw_text = text, tagged_text, wordcount) %>%

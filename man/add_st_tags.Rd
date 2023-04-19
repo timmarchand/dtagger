@@ -64,5 +64,13 @@ init_udpipe_model()
 # Tag text
 add_st_tags(text)
 # Tag speech
-add_st_tags(speech, st_hesitation = TRUE, tokenized = TRUE)}
+add_st_tags(speech, st_hesitation = TRUE, tokenized = TRUE)
+text <- "I'm in a part-time job, at the moment."
+text2 <- "I'm\nin\na\npart-time\njob\n,\n\nat the moment\n.\n"
+# tokenizes using default model - may separate some hyphenated words
+add_st_tags(text)
+# tokenizes on whitespaces - punctuation marks can be lumped in with words
+add_st_tags(text, tokenizer = "horizontal")
+# tokenizes on user-defined line breaks - possible to capture multi-word expressions
+ add_st_tags(text2, tokenizer = "vertical") }
 }
