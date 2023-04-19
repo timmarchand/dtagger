@@ -3,7 +3,7 @@
 #' This function takes a vector of strings and flattens them into a single string.
 #' @details A wrapper for stringr::str_flatten(x, " ").
 #'
-#' d_flatten() is fine for tagged text, but use_flatten_text() when you want to
+#' d_flatten() is fine for tagged text, but use d_flatten_text() when you want to
 #' remove floating spaces between a set of punctuation marks (.,;:!?") and tokens.
 #' @param x A character vector.
 #'

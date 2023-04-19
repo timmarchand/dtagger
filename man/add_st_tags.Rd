@@ -2,32 +2,55 @@
 % Please edit documentation in R/add_st_tags.R
 \name{add_st_tags}
 \alias{add_st_tags}
-\title{Add Stanford _ST tags}
+\title{Add ST Tags to Text}
 \usage{
-add_st_tags(x, mdl = udmodel, st_hesitation = FALSE, tokenized = FALSE, ...)
+add_st_tags(
+  x,
+  mdl = udmodel,
+  st_hesitation = FALSE,
+  flattened = TRUE,
+  skip_parse = TRUE,
+  ...
+)
 }
 \arguments{
-\item{x}{A character vector containing the text to be tagged.}
+\item{x}{A character vector of input text to be processed.}
 
-\item{mdl}{A model object of class \code{udpipe_model}.}
+\item{mdl}{A udpipe model to use for processing the text. The default is the udmodel.}
 
-\item{st_hesitation}{Logical. Experimental feature - should hesitation markers be excluded before tagging? Set to TRUE to exclude.
-Regex for the hesitation markers are the same as the default for \code{dtag_hesitation}, but can be set using the regex argument. See \code{\link{dtag_hesitation}} for details.}
+\item{st_hesitation}{A logical value indicating whether or not to extract hesitation markers
+from the input text. If \code{TRUE}, the function will extract hesitation markers and return them separately.
+Default is \code{FALSE}.}
 
-\item{tokenized}{Logical. Set to TRUE in case text has already been tokenized.}
+\item{flattened}{A logical value indicating if the input text is flattened. If \code{FALSE}, i.e. if the character string is in
+tokenized form, the function will flatten the text before processing. Default is \code{TRUE}.}
 
-\item{...}{Additional arguments to pass on.}
+\item{skip_parse}{A logical value determining if the function should skip parsing
+and only return tokenized and tagged text. If \code{FALSE}, the function returns the
+full UD model when parsing. Default is \code{TRUE}.}
+
+\item{...}{Additional arguments to be passed to the \code{udpipe_annotate()} function.
+For example:
+
+\code{tokenizer = "horizontal"} to force the \code{udpipe_annotate} function to tokenize on tokens
+separated by white spaces. This will combine words and trailing punctuation marks, unless
+they have been spearated by white space previously.
+
+\code{tokenizer = "vertical"} to force the \code{udpipe_annotate} function to tokenize on tokens separated by
+new line breaks.  This can be useful if you want the tokenizer to recognise multi-word
+entities as a single token, or avoid separating hyphenated words.}
 }
 \value{
-A character vector containing the tagged text.
+If \code{skip_parse} is \code{FALSE}, the function returns a tibble with the full udpipe model when parsing.
+If \code{st_hesitation} is \code{TRUE} (experimental), the function returns a character vector of tokenized and tagged
+text with hesitation markers extracted and handled separately.
+Otherwise, the function returns a character vector of tokenized and tagged text.
 }
 \description{
-Adds Stanford (_ST) part of speech tags to a character vector of text.
-}
-\details{
-This function adds Stanford Tags _ST to a vector of text. The function works by tokenizing the text first,
-and then annotating the tokenized text using \code{udpipe::udpipe_annotate}.
-Requires a udpipe_model to be present, so if an error occurs, try running \code{init_udpipe_model()} first.
+The \code{add_st_tags} function is designed to process and annotate text using the Universal Dependencies
+(UD) model with the udpipe package. It allows users to tokenize and tag text with part-of-speech (Stanford) tags,
+and to extract and handle hesitation markers. The function provides options for controlling the parsing,
+tokenizer type, and handling of flattened input.
 }
 \examples{
 \dontrun{

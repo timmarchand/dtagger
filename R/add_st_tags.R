@@ -1,18 +1,39 @@
-#' @title Add Stanford _ST tags
+#' Add ST Tags to Text
 #'
-#' @description Adds Stanford (_ST) part of speech tags to a character vector of text.
-#' @details This function adds Stanford Tags _ST to a vector of text. The function works by tokenizing the text first,
-#' and then annotating the tokenized text using \code{udpipe::udpipe_annotate}.
-#' Requires a udpipe_model to be present, so if an error occurs, try running \code{init_udpipe_model()} first.
-#' @param x A character vector containing the text to be tagged.
-#' @param mdl A model object of class \code{udpipe_model}.
-#' @param st_hesitation Logical. Experimental feature - should hesitation markers be excluded before tagging? Set to TRUE to exclude.
-#' Regex for the hesitation markers are the same as the default for \code{dtag_hesitation}, but can be set using the regex argument. See \code{\link{dtag_hesitation}} for details.
-#' @param tokenized Logical. Set to TRUE in case text has already been tokenized.
-#' @param ... Additional arguments to pass on.
-#' @return A character vector containing the tagged text.
+#' The `add_st_tags` function is designed to process and annotate text using the Universal Dependencies
+#' (UD) model with the udpipe package. It allows users to tokenize and tag text with part-of-speech (Stanford) tags,
+#' and to extract and handle hesitation markers. The function provides options for controlling the parsing,
+#' tokenizer type, and handling of flattened input.
+#'
+#' @param x A character vector of input text to be processed.
+#' @param mdl A udpipe model to use for processing the text. The default is the udmodel.
+#' @param st_hesitation A logical value indicating whether or not to extract hesitation markers
+#' from the input text. If `TRUE`, the function will extract hesitation markers and return them separately.
+#' Default is `FALSE`.
+#' @param flattened A logical value indicating if the input text is flattened. If `FALSE`, i.e. if the character string is in
+#' tokenized form, the function will flatten the text before processing. Default is `TRUE`.
+
+#' @param skip_parse A logical value determining if the function should skip parsing
+#' and only return tokenized and tagged text. If `FALSE`, the function returns the
+#' full UD model when parsing. Default is `TRUE`.
+#' @param ... Additional arguments to be passed to the `udpipe_annotate()` function.
+#' For example:
+#'
+#' `tokenizer = "horizontal"` to force the `udpipe_annotate` function to tokenize on tokens
+#'  separated by white spaces. This will combine words and trailing punctuation marks, unless
+#'  they have been spearated by white space previously.
+#'
+#' `tokenizer = "vertical"` to force the `udpipe_annotate` function to tokenize on tokens separated by
+#' new line breaks.  This can be useful if you want the tokenizer to recognise multi-word
+#' entities as a single token, or avoid separating hyphenated words.
+#'
+#' @return If `skip_parse` is `FALSE`, the function returns a tibble with the full udpipe model when parsing.
+#' If `st_hesitation` is `TRUE` (experimental), the function returns a character vector of tokenized and tagged
+#' text with hesitation markers extracted and handled separately.
+#' Otherwise, the function returns a character vector of tokenized and tagged text.
 #'
 #' @export
+#'
 #'
 #' @importFrom  udpipe udpipe_annotate
 #' @examples
@@ -29,14 +50,26 @@
 #' # Tag speech
 #' add_st_tags(speech, st_hesitation = TRUE, tokenized = TRUE)}
 
-add_st_tags <- function(x, mdl = udmodel, st_hesitation = FALSE,
-                        tokenized = FALSE, ...){
+add_st_tags <- function(x,
+                        mdl = udmodel,
+                        st_hesitation = FALSE,
+                        flattened = TRUE,
+                        skip_parse = TRUE,
+                        ...){
 
-    if(tokenized){x <- d_flatten_text(x)}
+    if(!flattened){x <- d_flatten_text(x)}
 
   # check to see if udpipe is loaded, load as required
    stopifnot("Udpipe model not loaded. Initialise first with init_udpipe_model()" = exists("udmodel"))
 
+   ## return full udpipe model when parsing
+  if(!skip_parse) {full_tbl <- udpipe::udpipe_annotate({{mdl}}, x, tagger = "default",
+                                       parser = "default",
+                                       ...) %>%
+    as_tibble() %>%
+    mutate(st = str_c(token,xpos,sep = "_"), .after = xpos)
+
+  return(full_tbl)}
 
  # tag and extract st_hesitation markers
 if(st_hesitation){
@@ -56,7 +89,8 @@ if(length(st_hesitations_extracted) < 2){st_hesitations_extracted[2] <- list(c()
 
 
   st_tagged <- udpipe::udpipe_annotate({{mdl}}, x, tagger = "default",
-                                       parser = "none") %>%
+                                       parser = "none",
+                                       ...) %>%
     as_tibble() %>%
     transmute(tagged = str_c(token,xpos,sep = "_")) %>%
     pull(tagged)
@@ -71,4 +105,5 @@ if(length(st_hesitations_extracted) < 2){st_hesitations_extracted[2] <- list(c()
    pull(value) }
 
     return(st_tagged)
-  }
+
+}
