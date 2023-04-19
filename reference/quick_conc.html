@@ -77,8 +77,14 @@
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>a tibble, with the contextualized text shown around the matched node</p>
-    </div>
+<p>A tibble containing:</p><ul><li><p>case - a case number for the match found.</p></li>
+<li><p>left - objects immediately adjacent (up to n) to the left of the matched node.
+In case of <code>separated = TRUE</code>, the left  are separated into left(n):left1</p></li>
+<li><p>match - the matched search item, as defined by the <code>index</code> argument.</p></li>
+<li><p>right - tokens immediately adjacent (up to n) to the right of the matched node.
+In case of <code>separated = TRUE</code>, the right tokens are separated into right1:right(n).</p></li>
+<li><p>index - the index row position of matched result from the input data frame.</p></li>
+</ul></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
