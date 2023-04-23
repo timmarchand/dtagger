@@ -24,7 +24,7 @@
 
 add_tag_tbl <- function(x, ...){
 
-    add_st_tags(x = text, skip_parse = FALSE) %>%
+    add_st_tags(x = x, skip_parse = FALSE, ...) %>%
     nest(data = -doc_id) %>%
     mutate(mda = (map(data, ~ add_mda_tags(.x$st)))) %>%
     unnest(-doc_id) %>%
