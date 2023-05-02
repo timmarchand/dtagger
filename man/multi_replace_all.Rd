@@ -12,7 +12,7 @@ multi_replace_all(text, tbl, add_breaks = TRUE)
 \item{tbl}{A two-column tibble with the \code{token} to replace and its
 corresponding \code{new} value.}
 
-\item{add_breaks}{A logical indicating whether to add \verb{\\\\b} (word boundary) to token.}
+\item{add_breaks}{A logical indicating whether to add \verb{\\\\b} (word boundary) either side of each token.}
 }
 \value{
 A character vector of strings with replaced tokens.

@@ -10,7 +10,8 @@ dtag_tbl(
   text = 2,
   tokenized = FALSE,
   ttr = 400,
-  deflated = TRUE
+  deflated = TRUE,
+  exclude = NULL
 )
 }
 \arguments{
@@ -29,6 +30,22 @@ with \code{str_split(text, " ")}. Set to TRUE if text is already tokenized and i
 \item{deflated}{Logical. If TRUE (default), Dimension scores
 are calculated without using the low mean frequency features from Biber's original study,
 following the MAT tagger algorithm (Nini 2019).}
+
+\item{exclude}{A character vector of dimension tags you don't want to include in the analysis.
+Note that the dimension tags should be quoted inside angular brackets. For example:
+
+(1) If some of the word counts in the texts are below 400, you may want to exclude
+type token ratios from the analysis with \code{exclude = "<TTR>"}.
+
+(2) Some of the tags (such as <WZPRES> and <GER>)  were manually checked in the original Biber study, but
+are automatically tagged here.  You can exclude some of these tags by naming them in the exclude character
+vector such as \code{exclude = c("<GER>", "<WZPRES>")}.
+
+(3) To exclude all of tags manually checked by Biber, use the argument \code{exclude = "<MANUAL>"}
+This is the same as the argument:
+\code{exclude = c("<DEMP>", "<GER>", "<PASTP>", "<PRESP>", "<SERE>", "<THAC>", "<THVC>", "<TOBJ>", "<TSUB>", "<WZPAST>", "<WZPRES>")}
+
+(4) You can combine (1) and (3) with \code{exclude = c("<MANUAL>" , "<TTR>")}}
 }
 \value{
 A tibble containing:

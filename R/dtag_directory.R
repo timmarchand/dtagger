@@ -10,8 +10,11 @@
 #' for which it is necessary to have a udpipe model loaded. See \code{\link{add_st_tags}} for details.
 #'
 #' The function then adds multidimensional analysis <MDA> tags, and calculates Dimension scores
-#' based on the Biber 1988 standard. If the argument \code{deflated = TRUE}, Dimension scores
-#' are calculated without using the low mean frequency features from Biber's original study,
+#' based on the Biber 1988 standard. Note that some of the tags from the original study can be excluded
+#' from the analysis, with the `exclude` argument.
+#'
+#' If the argument \code{deflated = TRUE}, the function also returns Dimension scores
+#'  calculated without using the low mean frequency features from Biber's original study,
 #' following the MAT tagger algorithm (Nini 2019).
 #'
 #' The function returns a list of tibbles including the tagged texts, individual and
@@ -24,9 +27,27 @@
 #' @param path A character string denoting the folder containing the target folders (at any level).
 #' @param n An optional argument denoting the maximum number of text files to be analyzed.
 #' @param ST Logical argument denoting whether the text files have _ST tags included already.
-#' @param deflated Logical argument. If TRUE (default), returns the dimension scores with "deflated" results,
+#' @param deflated Logical argument. If TRUE (default), in addition to the normal results, the function
+#' returns the dimension scores with "deflated" results,
 #' which means rare features from Biber's original study (mean freq < 0.1) are removed from the Dimension
 #' score calculations.
+#' @param exclude A character vector of dimension tags you don't want to include in the analysis.
+#' Note that the dimension tags should be quoted inside angular brackets. For example:
+#'
+#' (1) If some of the word counts in the texts are below 400, you may want to exclude
+#' type token ratios from the analysis with `exclude = "<TTR>"`.
+#'
+#' (2) Some of the tags (such as <WZPRES> and <GER>)  were manually checked in the original Biber study, but
+#' are automatically tagged here.  You can exclude some of these tags by naming them in the exclude character
+#' vector such as `exclude = c("<GER>", "<WZPRES>")`.
+#'
+#' (3) To exclude all of tags manually checked by Biber, use the argument `exclude = "<MANUAL>"`
+#' This is the same as the argument:
+#' `exclude = c("<DEMP>", "<GER>", "<PASTP>", "<PRESP>", "<SERE>", "<THAC>", "<THVC>", "<TOBJ>", "<TSUB>", "<WZPAST>", "<WZPRES>")`
+#'
+#' (4) You can combine (1) and (3) with `exclude = c("<MANUAL>" , "<TTR>")`
+#'
+#'
 #' @param ... Additional arguments to be passed on.
 #' @return A list of data frames containing:
 #'
@@ -84,7 +105,7 @@
 #' @examples
 #' \dontrun{
 #' dtag_directory("path_to_directory")}
-dtag_directory <- function(path, n = NULL, ST = FALSE, deflated = TRUE, ...){
+dtag_directory <- function(path, n = NULL, ST = FALSE, deflated = TRUE, exclude = NULL, ...){
 
 
 tags_to_count <- c("<AMP>", "<ANDC>", "<BEMA>", "<CAUS>", "<CONT>", "<DEMP>",
@@ -98,6 +119,11 @@ tags_to_count <- c("<AMP>", "<ANDC>", "<BEMA>", "<CAUS>", "<CONT>", "<DEMP>",
 "<THAC>", "<THVC>", "<TOBJ>", "<CONC>", "<DWNT>", "<EX>", "<GER>",
 "<HSTN>", "<PRED>", "<QUAN>", "<QUPR>", "<SMP>", "<SPIN>", "<TO>",
 "<TSUB>", "<VBN>", "<WZPRES>")
+
+exclude <- {{exclude}}
+if(any(str_detect(exclude, "<MANUAL>"))){ exclude <- c(exclude, "<DEMP>", "<GER>", "<PASTP>",
+                                                  "<PRESP>", "<SERE>", "<THAC>", "<THVC>",
+                                                  "<TOBJ>", "<TSUB>", "<WZPAST>", "<WZPRES>")}
 
 # negative_tags <- c("<NN>", "<AWL>", "<PIN>", "<TTR>",
 #                    "<JJ>", "<TIME>", "<PLACE>", "<RB>")
@@ -159,6 +185,7 @@ ALL_Dscores <- map_df(tags_to_count, ~ALL %>%
             select(corpus,doc_id,feature,count,value) %>%
             arrange(doc_id, feature) %>%
             bind_rows(awl_ttr) %>%
+            filter(!feature %in% exclude) %>%
             left_join(biber_base) %>%
             mutate(zscore = ((value - biber_mean) / biber_sd)) %>%
             mutate(dscore = if_else(loading == "negative",  -zscore, zscore)) %>%

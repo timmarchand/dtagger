@@ -4,7 +4,14 @@
 \alias{dtag_directory}
 \title{dtag_directory}
 \usage{
-dtag_directory(path, n = NULL, ST = FALSE, deflated = TRUE, ...)
+dtag_directory(
+  path,
+  n = NULL,
+  ST = FALSE,
+  deflated = TRUE,
+  exclude = NULL,
+  ...
+)
 }
 \arguments{
 \item{path}{A character string denoting the folder containing the target folders (at any level).}
@@ -13,9 +20,26 @@ dtag_directory(path, n = NULL, ST = FALSE, deflated = TRUE, ...)
 
 \item{ST}{Logical argument denoting whether the text files have _ST tags included already.}
 
-\item{deflated}{Logical argument. If TRUE (default), returns the dimension scores with "deflated" results,
+\item{deflated}{Logical argument. If TRUE (default), in addition to the normal results, the function
+returns the dimension scores with "deflated" results,
 which means rare features from Biber's original study (mean freq < 0.1) are removed from the Dimension
 score calculations.}
+
+\item{exclude}{A character vector of dimension tags you don't want to include in the analysis.
+Note that the dimension tags should be quoted inside angular brackets. For example:
+
+(1) If some of the word counts in the texts are below 400, you may want to exclude
+type token ratios from the analysis with \code{exclude = "<TTR>"}.
+
+(2) Some of the tags (such as <WZPRES> and <GER>)  were manually checked in the original Biber study, but
+are automatically tagged here.  You can exclude some of these tags by naming them in the exclude character
+vector such as \code{exclude = c("<GER>", "<WZPRES>")}.
+
+(3) To exclude all of tags manually checked by Biber, use the argument \code{exclude = "<MANUAL>"}
+This is the same as the argument:
+\code{exclude = c("<DEMP>", "<GER>", "<PASTP>", "<PRESP>", "<SERE>", "<THAC>", "<THVC>", "<TOBJ>", "<TSUB>", "<WZPAST>", "<WZPRES>")}
+
+(4) You can combine (1) and (3) with \code{exclude = c("<MANUAL>" , "<TTR>")}}
 
 \item{...}{Additional arguments to be passed on.}
 }
@@ -89,8 +113,11 @@ Otherwise, the function add_st_tags() will run over the texts,
 for which it is necessary to have a udpipe model loaded. See \code{\link{add_st_tags}} for details.
 
 The function then adds multidimensional analysis <MDA> tags, and calculates Dimension scores
-based on the Biber 1988 standard. If the argument \code{deflated = TRUE}, Dimension scores
-are calculated without using the low mean frequency features from Biber's original study,
+based on the Biber 1988 standard. Note that some of the tags from the original study can be excluded
+from the analysis, with the \code{exclude} argument.
+
+If the argument \code{deflated = TRUE}, the function also returns Dimension scores
+calculated without using the low mean frequency features from Biber's original study,
 following the MAT tagger algorithm (Nini 2019).
 
 The function returns a list of tibbles including the tagged texts, individual and

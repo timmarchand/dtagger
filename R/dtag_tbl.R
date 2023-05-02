@@ -18,6 +18,22 @@
 #' @param deflated Logical. If TRUE (default), Dimension scores
 #' are calculated without using the low mean frequency features from Biber's original study,
 #' following the MAT tagger algorithm (Nini 2019).
+#' @param exclude A character vector of dimension tags you don't want to include in the analysis.
+#' Note that the dimension tags should be quoted inside angular brackets. For example:
+#'
+#' (1) If some of the word counts in the texts are below 400, you may want to exclude
+#' type token ratios from the analysis with `exclude = "<TTR>"`.
+#'
+#' (2) Some of the tags (such as <WZPRES> and <GER>)  were manually checked in the original Biber study, but
+#' are automatically tagged here.  You can exclude some of these tags by naming them in the exclude character
+#' vector such as `exclude = c("<GER>", "<WZPRES>")`.
+#'
+#' (3) To exclude all of tags manually checked by Biber, use the argument `exclude = "<MANUAL>"`
+#' This is the same as the argument:
+#' `exclude = c("<DEMP>", "<GER>", "<PASTP>", "<PRESP>", "<SERE>", "<THAC>", "<THVC>", "<TOBJ>", "<TSUB>", "<WZPAST>", "<WZPRES>")`
+#'
+#' (4) You can combine (1) and (3) with `exclude = c("<MANUAL>" , "<TTR>")`
+#'
 #' @return A tibble containing:
 #' * wordcount - number of non-punctuation tokens found in text
 #' * dimension - Dimension1 ~ Dimension6 from Biber 1988 for each feature
@@ -36,7 +52,7 @@
 #'  1. Biber, D. (1988). Variation across Speech and Writing. Cambridge: Cambridge University Press. doi:10.1017/CBO9780511621024
 #'  2. Biber, D. (1989). A typology of English texts. , 27(1), 3-44. https://doi.org/10.1515/ling.1989.27.1.3
 #'   3. Nini, A. (2019). The Multi-Dimensional Analysis Tagger. In Berber Sardinha, T. &  Veirano Pinto M. (eds), Multi-Dimensional Analysis: Research Methods and Current  Issues, 67-94, London; New York: Bloomsbury Academic.
-dtag_tbl <- function(tbl, input = 1, text = 2, tokenized = FALSE, ttr = 400, deflated = TRUE){
+dtag_tbl <- function(tbl, input = 1, text = 2, tokenized = FALSE, ttr = 400, deflated = TRUE, exclude = NULL){
 
      stopifnot("The input must be in the form of a data frame, with input id in col1 and text in col2." = is.data.frame(tbl))
 
@@ -63,6 +79,14 @@ if(tokenized == FALSE){text <- text %>%
 "<THAC>", "<THVC>", "<TOBJ>", "<CONC>", "<DWNT>", "<EX>", "<GER>",
 "<HSTN>", "<PRED>", "<QUAN>", "<QUPR>", "<SMP>", "<SPIN>", "<TO>",
 "<TSUB>", "<VBN>", "<WZPRES>")
+
+
+
+exclude <- {{exclude}}
+if(any(str_detect(exclude, "<MANUAL>"))){ exclude <- c(exclude, "<DEMP>", "<GER>", "<PASTP>",
+                                                  "<PRESP>", "<SERE>", "<THAC>", "<THVC>",
+                                                  "<TOBJ>", "<TSUB>", "<WZPAST>", "<WZPRES>")}
+
 
 # negative_tags <- c("<NN>", "<AWL>", "<PIN>", "<TTR>",
 #                    "<JJ>", "<TIME>", "<PLACE>", "<RB>")
@@ -99,6 +123,7 @@ result_list <- list()
   tibble() %>%
    arrange(input, feature) %>%
    bind_rows(awl_ttr) %>%
+     filter(!feature %in% exclude) %>%
   left_join(biber_base, by = "feature") %>%
   mutate(zscore = ((value - biber_mean) / biber_sd)) %>%
            mutate(dscore = if_else(loading == "negative",  -zscore, zscore)) %>%

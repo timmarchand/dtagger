@@ -7,7 +7,7 @@
 #' @param text A string vector to replace tokens in.
 #' @param tbl A two-column tibble with the `token` to replace and its
 #'     corresponding `new` value.
-#' @param add_breaks A logical indicating whether to add `\\b` (word boundary) to token.
+#' @param add_breaks A logical indicating whether to add `\\b` (word boundary) either side of each token.
 #' @export
 #' @importFrom dplyr distinct filter mutate
 #' @importFrom tibble deframe
