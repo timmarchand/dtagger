@@ -48,7 +48,14 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">dtag_directory</span><span class="op">(</span><span class="va">path</span>, n <span class="op">=</span> <span class="cn">NULL</span>, ST <span class="op">=</span> <span class="cn">FALSE</span>, deflated <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">dtag_directory</span><span class="op">(</span></span>
+<span>  <span class="va">path</span>,</span>
+<span>  n <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ST <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  deflated <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  exclude <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -66,9 +73,24 @@
 
 
 <dt>deflated</dt>
-<dd><p>Logical argument. If TRUE (default), returns the dimension scores with "deflated" results,
+<dd><p>Logical argument. If TRUE (default), in addition to the normal results, the function
+returns the dimension scores with "deflated" results,
 which means rare features from Biber's original study (mean freq &lt; 0.1) are removed from the Dimension
 score calculations.</p></dd>
+
+
+<dt>exclude</dt>
+<dd><p>A character vector of dimension tags you don't want to include in the analysis.
+Note that the dimension tags should be quoted inside angular brackets. For example:</p>
+<p>(1) If some of the word counts in the texts are below 400, you may want to exclude
+type token ratios from the analysis with <code>exclude = "&lt;TTR&gt;"</code>.</p>
+<p>(2) Some of the tags (such as &lt;WZPRES&gt; and &lt;GER&gt;)  were manually checked in the original Biber study, but
+are automatically tagged here.  You can exclude some of these tags by naming them in the exclude character
+vector such as <code>exclude = c("&lt;GER&gt;", "&lt;WZPRES&gt;")</code>.</p>
+<p>(3) To exclude all of tags manually checked by Biber, use the argument <code>exclude = "&lt;MANUAL&gt;"</code>
+This is the same as the argument:
+<code>exclude = c("&lt;DEMP&gt;", "&lt;GER&gt;", "&lt;PASTP&gt;", "&lt;PRESP&gt;", "&lt;SERE&gt;", "&lt;THAC&gt;", "&lt;THVC&gt;", "&lt;TOBJ&gt;", "&lt;TSUB&gt;", "&lt;WZPAST&gt;", "&lt;WZPRES&gt;")</code></p>
+<p>(4) You can combine (1) and (3) with <code>exclude = c("&lt;MANUAL&gt;" , "&lt;TTR&gt;")</code></p></dd>
 
 
 <dt>...</dt>
@@ -140,8 +162,10 @@ files from the target folders, and retrieve the folder names as the "corpus" var
 <p>Otherwise, the function add_st_tags() will run over the texts,
 for which it is necessary to have a udpipe model loaded. See <code><a href="add_st_tags.html">add_st_tags</a></code> for details.</p>
 <p>The function then adds multidimensional analysis &lt;MDA&gt; tags, and calculates Dimension scores
-based on the Biber 1988 standard. If the argument <code>deflated = TRUE</code>, Dimension scores
-are calculated without using the low mean frequency features from Biber's original study,
+based on the Biber 1988 standard. Note that some of the tags from the original study can be excluded
+from the analysis, with the <code>exclude</code> argument.</p>
+<p>If the argument <code>deflated = TRUE</code>, the function also returns Dimension scores
+calculated without using the low mean frequency features from Biber's original study,
 following the MAT tagger algorithm (Nini 2019).</p>
 <p>The function returns a list of tibbles including the tagged texts, individual and
 corpus-level scores for each dimension of the text and word counts. If the function detects

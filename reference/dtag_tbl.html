@@ -54,7 +54,8 @@
 <span>  text <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  tokenized <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  ttr <span class="op">=</span> <span class="fl">400</span>,</span>
-<span>  deflated <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  deflated <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  exclude <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -86,6 +87,20 @@ with <code>str_split(text, " ")</code>. Set to TRUE if text is already tokenized
 <dd><p>Logical. If TRUE (default), Dimension scores
 are calculated without using the low mean frequency features from Biber's original study,
 following the MAT tagger algorithm (Nini 2019).</p></dd>
+
+
+<dt>exclude</dt>
+<dd><p>A character vector of dimension tags you don't want to include in the analysis.
+Note that the dimension tags should be quoted inside angular brackets. For example:</p>
+<p>(1) If some of the word counts in the texts are below 400, you may want to exclude
+type token ratios from the analysis with <code>exclude = "&lt;TTR&gt;"</code>.</p>
+<p>(2) Some of the tags (such as &lt;WZPRES&gt; and &lt;GER&gt;)  were manually checked in the original Biber study, but
+are automatically tagged here.  You can exclude some of these tags by naming them in the exclude character
+vector such as <code>exclude = c("&lt;GER&gt;", "&lt;WZPRES&gt;")</code>.</p>
+<p>(3) To exclude all of tags manually checked by Biber, use the argument <code>exclude = "&lt;MANUAL&gt;"</code>
+This is the same as the argument:
+<code>exclude = c("&lt;DEMP&gt;", "&lt;GER&gt;", "&lt;PASTP&gt;", "&lt;PRESP&gt;", "&lt;SERE&gt;", "&lt;THAC&gt;", "&lt;THVC&gt;", "&lt;TOBJ&gt;", "&lt;TSUB&gt;", "&lt;WZPAST&gt;", "&lt;WZPRES&gt;")</code></p>
+<p>(4) You can combine (1) and (3) with <code>exclude = c("&lt;MANUAL&gt;" , "&lt;TTR&gt;")</code></p></dd>
 
 </dl></div>
     <div class="section level2">
