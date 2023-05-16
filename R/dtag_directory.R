@@ -96,7 +96,7 @@
 #' @importFrom fs dir_info
 #' @importFrom readtext readtext
 #' @importFrom broom tidy
-#' @importFrom tidyr pivot_longer
+#' @importFrom tidyr pivot_longer separate
 #' @export
 #' @references
 #'  1. Biber, D. (1988). Variation across Speech and Writing. Cambridge: Cambridge University Press. doi:10.1017/CBO9780511621024

@@ -12,6 +12,7 @@ Imports:
     data.table,
     dplyr (>= 1.1.0),
     broom,
+    hunspell,
     tibble,
     tidyselect,
     purrr,
@@ -21,7 +22,8 @@ Imports:
     fs,
     readtext,
     collapse,
-    tidyr
+    tidyr,
+    splitstackshape
 URL: https://github.com/timmarchand/dtagger,
     https://timmarchand.github.io/dtagger/
 BugReports: https://github.com/timmarchand/dtagger/issues

@@ -45,7 +45,7 @@
 #' * d-score - same as z-score, but with the sign of negative dimension features reversed
 #' * biber_mean and biber_sd for each feature, based on Biber 1988
 #' * closest matching text type for each input, based on Biber 1989
-#' @importFrom tidyr hoist
+#' @importFrom tidyr hoist separate
 #' @importFrom tidyr nest
 #' @export
 #' @references
