@@ -52,7 +52,9 @@ tbl <-   tbl %>%
   tibble() %>%
     distinct()
 
-  if(change_to == "alt_01" | change_to == "typo" ){tbl <- tbl %>%
+if(is.null(change_to)){return(tbl)}
+
+if(change_to == "alt_01" | change_to == "typo" ){tbl <- tbl %>%
     mutate(change_to = .data[[change_to]], .before = typo)}
 
 return(tbl)
