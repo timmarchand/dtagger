@@ -66,7 +66,9 @@
 
 
 <dt>tokenize</dt>
-<dd><p>a logical, to tokenize the text first or not</p></dd>
+<dd><p>a logical, to tokenize the text first or not. If <code>TRUE</code>, a very basic
+tokenizer is used to split the string on whitespaces and punctuation
+(but not word internal apostrophes, at marks and hyphens).</p></dd>
 
 
 <dt>separated</dt>
@@ -104,14 +106,14 @@ In case of <code>separated = TRUE</code>, the right tokens are separated into ri
 <span class="r-out co"><span class="r-pr">#&gt;</span>    case token_id left3 left2 left1 match right1 right2 right3 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1        2 <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    The   dog   barked loudly ,      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     2       25 spot  for   the   dog   and    it     quickly</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     2       23 spot  for   the   dog   and    it     quickly</span>
 <span class="r-in"><span><span class="fu">quick_conc</span><span class="op">(</span><span class="va">x</span>, index <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">8</span>,<span class="fl">12</span><span class="op">)</span>, tokenize <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    case token_id left                                match  right               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1        4 NA NA The dog barked                loudly ,  alerting the nei…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     2        8 barked loudly ,  alerting           the    neighbors of potent…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     3       12 alerting the neighbors of potential danger .  A nearby park    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    case token_id left                              match     right              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1        4 NA NA The dog barked              loudly    , alerting the nei…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     2        8 barked loudly , alerting the      neighbors of potential dange…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     3       12 the neighbors of potential danger .         A nearby park seem…</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
