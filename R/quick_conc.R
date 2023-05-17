@@ -3,7 +3,10 @@
 #' @param x a character vector of tokenized strings, or a single string
 #' @param index a character vector of regex pattern to match, or a numeric vector to use as index of matches
 #' @param n an integer, to specify the number of context tokens either side of the matched node
-#' @param tokenize a logical, to tokenize the text first or not
+#' @param tokenize a logical, to tokenize the text first or not. If `TRUE`, a very basic
+#' tokenizer is used to split the string on whitespaces and punctuation
+#' (but not word internal apostrophes, at marks and hyphens).
+#'
 #' @param separated a logical, to separate the context tokens or not
 #' @return A tibble containing:
 #' * case - a case number for the match found.
@@ -16,6 +19,7 @@
 #' @rawNamespace import(data.table, except = c(first,last,between, transpose))
 #' @importFrom data.table data.table shift
 #' @importFrom tidyselect all_of
+#' @importFrom stringr str_extract_all
 #' @import tibble
 #' @import dplyr
 #' @export
@@ -31,7 +35,7 @@
 #' quick_conc(x, index = c(4,8,12), tokenize = TRUE)
 #'
 quick_conc <- function(x, index, n = 5, tokenize = FALSE, separated = FALSE){
-      if(tokenize){x <-  base::unlist(base::strsplit(x, "\\s|(?=[?!,.])", perl = TRUE))}
+      if(tokenize){x <-  base::unlist(str_extract_all(x ,"[A-z'@\\-]+|\\S"))}
        DT <- data.table::data.table(x)
         data.table::setnames(DT, "x", "match")
         DT[, token_id := .I]

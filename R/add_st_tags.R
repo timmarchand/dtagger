@@ -21,11 +21,11 @@
 #'
 #' `tokenizer = "horizontal"` to force the `udpipe_annotate` function to tokenize on tokens
 #'  separated by white spaces. This will combine words and trailing punctuation marks, unless
-#'  they have been spearated by white space previously.
+#'  they have been separated by white space previously.
 #'
 #' `tokenizer = "vertical"` to force the `udpipe_annotate` function to tokenize on tokens separated by
 #' new line breaks.  This can be useful if you want the tokenizer to recognise multi-word
-#' entities as a single token, or avoid separating hyphenated words.
+#' entities as a single token, or avoid separating hyphenated words etc.
 #'
 #' @return If `skip_parse` is `FALSE`, the function returns a tibble with the full udpipe model when parsing.
 #' If `st_hesitation` is `TRUE` (experimental), the function returns a character vector of tokenized and tagged

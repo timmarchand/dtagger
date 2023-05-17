@@ -13,7 +13,9 @@ quick_conc(x, index, n = 5, tokenize = FALSE, separated = FALSE)
 
 \item{n}{an integer, to specify the number of context tokens either side of the matched node}
 
-\item{tokenize}{a logical, to tokenize the text first or not}
+\item{tokenize}{a logical, to tokenize the text first or not. If \code{TRUE}, a very basic
+tokenizer is used to split the string on whitespaces and punctuation
+(but not word internal apostrophes, at marks and hyphens).}
 
 \item{separated}{a logical, to separate the context tokens or not}
 }
