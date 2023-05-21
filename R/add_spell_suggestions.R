@@ -34,28 +34,29 @@
 #'
 #' @export
 
-add_spell_suggestions <- function(tbl, x = "text", window = 5, dict = "en_US" , change_to = NULL){
-
-  dict <- {{dict}}
-  n <- window
-
-tbl <-   tbl %>%
-    mutate(typo = map(.data[[x]], ~hunspell::hunspell(.x, dict = dict) %>% unlist, .progress = "(1/3) Finding typos"),
-           alt = map(typo,
-                  ~hunspell::hunspell_suggest(.x, dict = dict) %>%
-                    map_chr(~paste(.x, collapse = ",")), .progress = "(2/3) Generating suggestions")) %>%
-    unnest(c(typo,alt), keep_empty = TRUE) %>%
-  mutate(conc = map2(.x = text, .y =  typo,  ~quick_conc(.x, .y, tokenize = TRUE, n = n), .progress = "(3/3) Finding context"), .before = text ) %>%
-  unnest(conc) %>%
-  select(-c(case, token_id, text)) %>%
-  splitstackshape::cSplit("alt",",", type.convert = FALSE) %>%
-  tibble() %>%
-    distinct()
-
-if(is.null(change_to)){return(tbl)}
-
-if(change_to == "alt_01" | change_to == "typo" ){tbl <- tbl %>%
-    mutate(change_to = .data[[change_to]], .before = typo)}
-
-return(tbl)
+add_spell_suggestions <- function (tbl, x = "text", window = 5, dict = "en_US", change_to = NULL)
+{
+    dict <- {
+        {
+            dict
+        }
+    }
+    n <- window
+    tbl <- tbl %>% mutate(typo = map(.data[[x]], ~hunspell::hunspell(.x,
+        dict = dict) %>% unlist, .progress = "(1/3) Finding typos"),
+        alt = map(typo, ~hunspell::hunspell_suggest(.x, dict = dict) %>%
+            map_chr(~paste(.x, collapse = ",")), .progress = "(2/3) Generating suggestions")) %>%
+        unnest(c(typo, alt), keep_empty = TRUE) %>%
+      mutate(typo_check = str_c("\\b",typo,"\\b")) %>%
+      mutate(conc = map2(.x = text,
+        .y = typo_check, ~quick_conc(.x, .y, tokenize = TRUE, n = n),
+        .progress = "(3/3) Finding context"), .before = text) %>%
+        unnest(conc) %>% select(-c(case, token_id, text, typo_check)) %>%
+        splitstackshape::cSplit("alt", ",", type.convert = FALSE) %>%
+        tibble() %>% distinct()
+    if (change_to == "alt_01" | change_to == "typo") {
+        tbl <- tbl %>% mutate(change_to = .data[[change_to]],
+            .before = typo)
+    }
+    return(tbl)
 }

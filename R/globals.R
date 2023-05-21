@@ -25,7 +25,7 @@ c(".","...", "<<-", "andc1", "andc2", "andc3", "andc4","alt", "aov", "be_main1",
 "that_obj1", "that_sub1", "that_sub2", "that_sub3", "that_subj1",
 "that_subj2", "that_subj3", "that_vc1", "that_vc2", "that_vc3",
 "that_vc4", "that_vc5", "time_adv1", "time_adv2", "to_prep",
-"token", "tokenized",  "token_id", "Tukey", "typo", "udmodel", "unnest", "value", "wh_clauses",
+"token", "tokenized",  "token_id", "Tukey", "typo","typo_check", "udmodel", "unnest", "value", "wh_clauses",
 "wh_obj1", "wh_questions", "what_subj1", "what_subj2", "what_subj3",
 "wordcount", "xpos", "zscore")
 
