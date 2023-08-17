@@ -4,7 +4,7 @@
 \alias{find_non_ascii}
 \title{Find Non-ASCII Characters in Text}
 \usage{
-find_non_ascii(tbl, id = NULL, text = "text", sort_by_chr = FALSE)
+find_non_ascii(tbl, id = NULL, text = "text", sort_by_chr = FALSE, ...)
 }
 \arguments{
 \item{tbl}{A data frame that contains the text data.}
@@ -14,6 +14,9 @@ find_non_ascii(tbl, id = NULL, text = "text", sort_by_chr = FALSE)
 \item{text}{A character string indicating the name of the text column in \code{tbl} (default is "text").}
 
 \item{sort_by_chr}{A logical indicating whether to sort the results by the non-ASCII characters (default is FALSE).}
+
+\item{...}{Arguments to pass on to \code{quick_conc()}. For example, you can extend the
+resulting search window witb the argument \code{n = 10},}
 }
 \value{
 A tibble with identified non-ASCII characters. Each row represents an instance of a non-ASCII

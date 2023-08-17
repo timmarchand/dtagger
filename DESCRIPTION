@@ -23,7 +23,8 @@ Imports:
     readtext,
     collapse,
     tidyr,
-    splitstackshape
+    splitstackshape,
+    tokenizers
 URL: https://github.com/timmarchand/dtagger,
     https://timmarchand.github.io/dtagger/
 BugReports: https://github.com/timmarchand/dtagger/issues
